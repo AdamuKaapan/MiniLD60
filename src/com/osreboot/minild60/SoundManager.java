@@ -21,7 +21,7 @@ public class SoundManager {
 		SoundStore.get().poll(0);
 	}
 	
-	public Texture getResource(TextureSeries seriesArg, int indexArg){
+	public static Texture getResource(TextureSeries seriesArg, int indexArg){
 		switch(seriesArg){
 		case MENU: return menuLoader.getResource(indexArg);
 		default: return null;
