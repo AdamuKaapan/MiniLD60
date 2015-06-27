@@ -13,7 +13,7 @@ import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class Player {
-	public static final float radius = 64f;
+	public static final float radius = 32f;
 	public static final float movementSpeed = 256f;
 
 	private float angle;
