@@ -45,21 +45,25 @@ public class Player {
 			yTrans /= len;
 		}
 
-//		Game.cameraX -= xTrans * delta * movementSpeed;
-//		Game.cameraY -= yTrans * delta * movementSpeed;
+		 Game.cameraX -= xTrans * delta * movementSpeed;
+		 Game.cameraY -= yTrans * delta * movementSpeed;
 
-		angle = (float) Math.toDegrees(Math.atan((HvlCursor.getCursorY() - (Display.getWidth() / 2))
-				/ (HvlCursor.getCursorX() - (Display.getWidth() / 2))));
+		float w = (float) Display.getWidth() / 2;
+		float h = (float) Display.getHeight() / 2;
+
+		angle = (float) Math.toDegrees(Math.atan((h - HvlCursor.getCursorY())
+				/ (w - HvlCursor.getCursorX())));
 		if (HvlCursor.getCursorX() < Display.getWidth() / 2) {
 			angle += 180;
 		}
-		
-		System.out.println(angle);
 	}
 
 	public void draw(float delta) {
-		HvlPainter2D.hvlRotate(Display.getWidth() / 2, Display.getHeight() / 2, angle);
-		HvlPainter2D.hvlDrawQuad(Display.getWidth() / 2 - radius, Display.getHeight() / 2 - radius, 2 * radius, 2 * radius, TextureManager.getResource(TextureSeries.UI, 0), Color.red);
+		HvlPainter2D.hvlRotate(Display.getWidth() / 2, Display.getHeight() / 2,
+				angle);
+		HvlPainter2D.hvlDrawQuad(Display.getWidth() / 2 - radius,
+				Display.getHeight() / 2 - radius, 2 * radius, 2 * radius,
+				TextureManager.getResource(TextureSeries.UI, 1), Color.red);
 		HvlPainter2D.hvlResetRotation();
 	}
 }
