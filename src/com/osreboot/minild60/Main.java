@@ -1,10 +1,13 @@
 package com.osreboot.minild60;
 
+import com.osreboot.minild60.backend.Player;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
 
 public class Main extends HvlTemplate2DBasic {
 
+	Player pTest;
+	
 	public static void main(String[] args){
 		new Main();
 	}
@@ -14,12 +17,13 @@ public class Main extends HvlTemplate2DBasic {
 	}
 
 	@Override
-	public void initialize(){
-		
+	public void initialize() {
+		pTest = new Player(1280 / 2, 720 / 2);
 	}
 
 	@Override
-	public void update(float delta){
-		
+	public void update(float delta) {
+		pTest.update(delta);
+		pTest.draw(delta);
 	}
 }
