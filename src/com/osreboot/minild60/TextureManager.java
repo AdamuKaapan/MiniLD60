@@ -14,9 +14,10 @@ public class TextureManager {
 	
 	public static void initialize(){
 		uiLoader.loadResource("White");
+		uiLoader.loadResource("TempArrow");
 	}
 	
-	public Texture getResource(TextureSeries seriesArg, int indexArg){
+	public static Texture getResource(TextureSeries seriesArg, int indexArg){
 		switch(seriesArg){
 		case UI: return uiLoader.getResource(indexArg);
 		default: return null;

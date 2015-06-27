@@ -1,20 +1,24 @@
 package com.osreboot.minild60.backend;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
+
 import static org.lwjgl.opengl.GL11.*;
 
+import com.osreboot.minild60.Game;
+import com.osreboot.minild60.TextureManager;
+import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.painter.HvlCursor;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class Player {
 	public static final float radius = 64f;
 	public static final float movementSpeed = 256f;
 
-	private float x, y;
 	private float angle;
 
-	public Player(float x, float y) {
-		this.x = x;
-		this.y = y;
+	public Player() {
 		this.angle = 0;
 	}
 
@@ -41,23 +45,21 @@ public class Player {
 			yTrans /= len;
 		}
 
-		x += xTrans * delta * movementSpeed;
-		y += yTrans * delta * movementSpeed;
+//		Game.cameraX -= xTrans * delta * movementSpeed;
+//		Game.cameraY -= yTrans * delta * movementSpeed;
 
-		angle = (float) Math.toDegrees(Math.atan((HvlCursor.getCursorY() - y)
-				/ (HvlCursor.getCursorX() - x)));
-		if (HvlCursor.getCursorX() < x) {
+		angle = (float) Math.toDegrees(Math.atan((HvlCursor.getCursorY() - (Display.getWidth() / 2))
+				/ (HvlCursor.getCursorX() - (Display.getWidth() / 2))));
+		if (HvlCursor.getCursorX() < Display.getWidth() / 2) {
 			angle += 180;
 		}
+		
+		System.out.println(angle);
 	}
 
 	public void draw(float delta) {
-		glBegin(GL_LINES);
-		glColor4f(1, 0, 0, 1);
-		glVertex2f(x, y);
-		glColor4f(1, 0, 0, 1);
-		glVertex2f(x + ((float) Math.cos(Math.toRadians(angle)) * 64f), y
-				+ ((float) Math.sin(Math.toRadians(angle)) * 64f));
-		glEnd();
+		HvlPainter2D.hvlRotate(Display.getWidth() / 2, Display.getHeight() / 2, angle);
+		HvlPainter2D.hvlDrawQuad(Display.getWidth() / 2 - radius, Display.getHeight() / 2 - radius, 2 * radius, 2 * radius, TextureManager.getResource(TextureSeries.UI, 0), Color.red);
+		HvlPainter2D.hvlResetRotation();
 	}
 }
