@@ -18,13 +18,15 @@ public class MenuManager {
 
 	private static HvlFontPainter2D font;
 	
-	private static HvlMenu main, game;
-	private static HvlArrangerBox mainArranger;
-	private static HvlLabel mainTitle;
-	private static HvlTextButton mainPlay, mainTutorial, mainOptions, mainCredits;
+	private static HvlMenu main, game, achievements;
+	private static HvlArrangerBox mainArranger, achievementArranger;
+	private static HvlLabel mainTitle, achievementTitle;
+	private static HvlTextButton mainPlay, mainAchievements, mainTutorial, mainOptions, mainCredits,
+	achievementBack;
 	
 	public static void initialize(){
 		font = new HvlFontPainter2D(TextureManager.getResource(TextureSeries.UI, 2), HvlFontUtil.DEFAULT, 2048, 2048, 192, 256, 10);
+		
 		
 		/*MAIN MENU*/
 		main = new HvlMenu(){
@@ -34,11 +36,14 @@ public class MenuManager {
 				super.draw(delta);
 			}
 		};
+		
 		mainArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
 		mainArranger.setAlign(0.5f);
 		main.add(mainArranger);
-		mainTitle = new HvlLabel(0, 0, font, "welcome to death", Color.red, 0.25f);
+		
+		mainTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
 		mainArranger.add(mainTitle);
+		
 		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
 			@Override
 			public void onTriggered(){
@@ -48,7 +53,44 @@ public class MenuManager {
 		};
 		mainPlay.setTextScale(0.4f);
 		mainArranger.add(mainPlay);
+		
+		mainAchievements = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "achievements"){
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(achievements);
+			}
+		};
+		mainAchievements.setTextScale(0.4f);
+		mainArranger.add(mainAchievements);
 		/*END MAIN MENU*/
+		
+		
+		/*ACHIEVEMENTS*/
+		achievements = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				super.draw(delta);
+			}
+		};
+		
+		achievementArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		achievementArranger.setAlign(0.5f);
+		achievements.add(achievementArranger);
+		
+		achievementTitle = new HvlLabel(0, 0, font, "achievements", Color.red, 0.25f);
+		achievementArranger.add(achievementTitle);
+		
+		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(main);
+			}
+		};
+		achievementBack.setTextScale(0.4f);
+		achievementArranger.add(achievementBack);
+		/*END ACHIEVEMENTS*/
+		
 		
 		/*IN-GAME*/
 		game = new HvlMenu(){
