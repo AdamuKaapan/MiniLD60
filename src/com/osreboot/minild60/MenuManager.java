@@ -18,7 +18,7 @@ public class MenuManager {
 
 	private static HvlFontPainter2D font;
 	
-	private static HvlMenu main;
+	private static HvlMenu main, game;
 	private static HvlArrangerBox mainArranger;
 	private static HvlLabel mainTitle;
 	private static HvlTextButton mainPlay, mainTutorial, mainOptions, mainCredits;
@@ -39,12 +39,25 @@ public class MenuManager {
 		main.add(mainArranger);
 		mainTitle = new HvlLabel(0, 0, font, "welcome to death", Color.red, 0.25f);
 		mainArranger.add(mainTitle);
-		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play");
+		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(game);
+				Game.initialize();
+			}
+		};
 		mainPlay.setTextScale(0.4f);
-		mainPlay.setxAlign(0.5f);
-		mainPlay.setyAlign(0.5f);
 		mainArranger.add(mainPlay);
 		/*END MAIN MENU*/
+		
+		/*IN-GAME*/
+		game = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				Game.update(delta);
+			}
+		};
+		/*END IN-GAME*/
 		
 		HvlMenu.setCurrent(main);
 	}
