@@ -4,8 +4,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import com.osreboot.minild60.Game;
 import com.osreboot.minild60.TextureManager;
 import com.osreboot.minild60.TextureManager.TextureSeries;
