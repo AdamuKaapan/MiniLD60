@@ -11,7 +11,7 @@ import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 public class Game {
 	public static float cameraX, cameraY;
 
-	private static HvlLayeredTileMap map;
+	public static HvlLayeredTileMap map;
 
 	private static Player player;
 

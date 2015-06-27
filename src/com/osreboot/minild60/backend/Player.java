@@ -43,11 +43,16 @@ public class Player {
 			yTrans /= len;
 		}
 
-		 Game.cameraX -= xTrans * delta * movementSpeed;
-		 Game.cameraY -= yTrans * delta * movementSpeed;
-
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
+		
+		if (isCollidedOnRight())
+			xTrans = Math.min(xTrans, 0);
+		if (isCollidedOnBottom())
+			yTrans = Math.min(yTrans, 0);
+		
+		Game.cameraX -= xTrans * delta * movementSpeed;
+		Game.cameraY -= yTrans * delta * movementSpeed;
 
 		angle = (float) Math.toDegrees(Math.atan((h - HvlCursor.getCursorY())
 				/ (w - HvlCursor.getCursorX())));
@@ -63,5 +68,31 @@ public class Player {
 				Display.getHeight() / 2 - radius, 2 * radius, 2 * radius,
 				TextureManager.getResource(TextureSeries.UI, 1), Color.red);
 		HvlPainter2D.hvlResetRotation();
+	}
+	
+	public boolean isCollidedOnRight() {
+		float w = (float) Display.getWidth() / 2;
+		float h = (float) Display.getHeight() / 2;
+		float shiftedX = w - Game.cameraX - radius;
+		float shiftedY = h - Game.cameraY;
+		int tileX = (int) (shiftedX / Game.map.getTileWidth());
+		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+		
+		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+		
+		return Game.map.getLayer(1).getTile(tileX + 1, tileY) != null;
+	}
+	
+	public boolean isCollidedOnBottom() {
+		float w = (float) Display.getWidth() / 2;
+		float h = (float) Display.getHeight() / 2;
+		float shiftedX = w - Game.cameraX;
+		float shiftedY = h - Game.cameraY - radius;
+		int tileX = (int) (shiftedX / Game.map.getTileWidth());
+		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+		
+		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+		
+		return Game.map.getLayer(1).getTile(tileX, tileY + 1) != null;
 	}
 }
