@@ -18,6 +18,7 @@ public class TextureManager {
 		uiLoader.loadResource("White");
 		uiLoader.loadResource("TempArrow");
 		uiLoader.loadResource("Font");
+		uiLoader.loadResource("Equalizer");
 		
 		playLoader.loadResource("TestTilesheet");
 	}
