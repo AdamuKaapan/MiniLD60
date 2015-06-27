@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlFontUtil;
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
@@ -18,11 +19,12 @@ public class MenuManager {
 
 	private static HvlFontPainter2D font;
 	
-	private static HvlMenu main, game, achievements;
-	private static HvlArrangerBox mainArranger, achievementArranger;
-	private static HvlLabel mainTitle, achievementTitle;
-	private static HvlTextButton mainPlay, mainAchievements, mainTutorial, mainOptions, mainCredits,
-	achievementBack;
+	private static HvlMenu main, game, achievements, options;
+	private static HvlArrangerBox mainArranger, achievementArranger, optionsArranger;
+	private static HvlLabel mainTitle, achievementTitle, optionsTitle;
+	private static HvlTextButton mainPlay, mainAchievements, mainTutorial, mainOptions, mainCredits, mainQuit,
+	achievementBack,
+	optionsSave, optionsBack;
 	
 	public static void initialize(){
 		font = new HvlFontPainter2D(TextureManager.getResource(TextureSeries.UI, 2), HvlFontUtil.DEFAULT, 2048, 2048, 192, 256, 10);
@@ -62,6 +64,25 @@ public class MenuManager {
 		};
 		mainAchievements.setTextScale(0.4f);
 		mainArranger.add(mainAchievements);
+		
+		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "options"){
+			@Override
+			public void onTriggered(){
+				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
+				HvlMenu.setCurrent(options);
+			}
+		};
+		mainOptions.setTextScale(0.4f);
+		mainArranger.add(mainOptions);
+		
+		mainQuit = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+			@Override
+			public void onTriggered(){
+				System.exit(0);
+			}
+		};
+		mainQuit.setTextScale(0.4f);
+		mainArranger.add(mainQuit);
 		/*END MAIN MENU*/
 		
 		
@@ -90,6 +111,44 @@ public class MenuManager {
 		achievementBack.setTextScale(0.4f);
 		achievementArranger.add(achievementBack);
 		/*END ACHIEVEMENTS*/
+		
+		
+		/*OPTIONS*/
+		options = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				super.draw(delta);
+			}
+		};
+		
+		optionsArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		optionsArranger.setAlign(0.5f);
+		options.add(optionsArranger);
+		
+		optionsTitle = new HvlLabel(0, 0, font, "options", Color.red, 0.25f);
+		optionsArranger.add(optionsTitle);
+		
+		
+		
+		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
+			@Override
+			public void onTriggered(){
+				HvlConfigUtil.saveStaticConfig(OptionsConfig.class, "res\\options.txt");
+			}
+		};
+		optionsSave.setTextScale(0.4f);
+		optionsArranger.add(optionsSave);
+		
+		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(main);
+			}
+		};
+		optionsBack.setTextScale(0.4f);
+		optionsArranger.add(optionsBack);
+		/*END OPTIONS*/
 		
 		
 		/*IN-GAME*/
