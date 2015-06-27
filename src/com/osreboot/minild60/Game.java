@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.newdawn.slick.Color;
+
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.minild60.backend.Player;
+import com.osreboot.ridhvl.HvlTextureUtil;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
 public class Game {
@@ -49,5 +53,6 @@ public class Game {
 		map.draw(delta);
 		player.update(delta);
 		player.draw(delta);
+		HvlPainter2D.hvlDrawQuad(cameraX + 256, cameraY + 256, map.getTileWidth(), map.getTileHeight(), HvlTextureUtil.getColoredRect((int)map.getTileWidth(), (int)map.getTileHeight(), Color.red));
 	}
 }

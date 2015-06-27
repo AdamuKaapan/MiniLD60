@@ -46,13 +46,17 @@ public class Player {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
 		
-		if (isCollidedOnRight())
-			xTrans = Math.min(xTrans, 0);
-		if (isCollidedOnBottom())
-			yTrans = Math.min(yTrans, 0);
-		
 		Game.cameraX -= xTrans * delta * movementSpeed;
 		Game.cameraY -= yTrans * delta * movementSpeed;
+		
+		if (isCollidedOnRight() && xTrans > 0)
+			Game.cameraX += xTrans * delta * movementSpeed;
+		if (isCollidedOnBottom() && yTrans > 0)
+			Game.cameraY += yTrans * delta * movementSpeed;
+		if (isCollidedOnLeft() && xTrans < 0)
+			Game.cameraX += xTrans * delta * movementSpeed;
+		if (isCollidedOnTop() && yTrans < 0)
+			Game.cameraY += yTrans * delta * movementSpeed;
 
 		angle = (float) Math.toDegrees(Math.atan((h - HvlCursor.getCursorY())
 				/ (w - HvlCursor.getCursorX())));
@@ -73,7 +77,7 @@ public class Player {
 	public boolean isCollidedOnRight() {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
-		float shiftedX = w - Game.cameraX - radius;
+		float shiftedX = w - Game.cameraX - radius * 0.75f;
 		float shiftedY = h - Game.cameraY;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
@@ -87,12 +91,38 @@ public class Player {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
 		float shiftedX = w - Game.cameraX;
-		float shiftedY = h - Game.cameraY - radius;
+		float shiftedY = h - Game.cameraY - radius * 0.75f;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
 		
 		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
 		
 		return Game.map.getLayer(1).getTile(tileX, tileY + 1) != null;
+	}
+	
+	public boolean isCollidedOnLeft() {
+		float w = (float) Display.getWidth() / 2;
+		float h = (float) Display.getHeight() / 2;
+		float shiftedX = w - Game.cameraX + radius * 0.75f;
+		float shiftedY = h - Game.cameraY;
+		int tileX = (int) (shiftedX / Game.map.getTileWidth());
+		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+		
+		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+		
+		return Game.map.getLayer(1).getTile(tileX - 1, tileY) != null;
+	}
+	
+	public boolean isCollidedOnTop() {
+		float w = (float) Display.getWidth() / 2;
+		float h = (float) Display.getHeight() / 2;
+		float shiftedX = w - Game.cameraX;
+		float shiftedY = h - Game.cameraY + radius * 0.75f;
+		int tileX = (int) (shiftedX / Game.map.getTileWidth());
+		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+		
+		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+		
+		return Game.map.getLayer(1).getTile(tileX, tileY - 1) != null;
 	}
 }
