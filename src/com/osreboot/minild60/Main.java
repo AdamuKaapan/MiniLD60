@@ -19,10 +19,13 @@ public class Main extends HvlTemplate2DBasic {
 	@Override
 	public void initialize() {
 		pTest = new Player(1280 / 2, 720 / 2);
+		TextureManager.initialize();
+		SoundManager.initialize();
 	}
 
 	@Override
 	public void update(float delta) {
+		SoundManager.update();
 		pTest.update(delta);
 		pTest.draw(delta);
 	}
