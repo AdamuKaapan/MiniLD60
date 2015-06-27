@@ -15,6 +15,7 @@ public class TextureManager {
 	public static void initialize(){
 		uiLoader.loadResource("White");
 		uiLoader.loadResource("TempArrow");
+		uiLoader.loadResource("Font");
 	}
 	
 	public static Texture getResource(TextureSeries seriesArg, int indexArg){
