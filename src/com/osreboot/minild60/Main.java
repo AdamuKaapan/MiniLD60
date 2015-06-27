@@ -18,10 +18,12 @@ public class Main extends HvlTemplate2DBasic {
 	public void initialize() {
 		TextureManager.initialize();
 		SoundManager.initialize();
+		Game.initialize();
 	}
 
 	@Override
 	public void update(float delta) {
 		SoundManager.update();
+		Game.update(delta);
 	}
 }
