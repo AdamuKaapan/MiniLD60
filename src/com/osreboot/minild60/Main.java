@@ -1,7 +1,7 @@
 package com.osreboot.minild60;
 
-import com.osreboot.minild60.backend.Player;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
 
 public class Main extends HvlTemplate2DBasic {
@@ -18,12 +18,14 @@ public class Main extends HvlTemplate2DBasic {
 	public void initialize() {
 		TextureManager.initialize();
 		SoundManager.initialize();
+		MenuManager.initialize();
 		Game.initialize();
 	}
 
 	@Override
 	public void update(float delta) {
 		SoundManager.update();
+		HvlMenu.updateMenus(delta);
 		Game.update(delta);
 	}
 }
