@@ -1,5 +1,6 @@
 package com.osreboot.minild60;
 
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
@@ -13,7 +14,7 @@ public class Main extends HvlTemplate2DBasic {
 	public Main(){
 		super(60, 1280, 720, "Mini Ludum Dare 60 - Celebrate Ludum Dare", new HvlDisplayModeDefault());//TODO icon and change title
 	}
-
+	
 	@Override
 	public void initialize() {
 		TextureManager.initialize();
