@@ -29,8 +29,6 @@ public class AchievementManager
 		addAchievement(new Achievement(null, "Hey!", "Meh", false));
 		
 		HvlConfigUtil.loadStaticConfig(AchievementManager.class, "res\\achievements");
-		
-		System.out.println(getAchievement("Hey!").isUnlocked());
 	}
 	
 	private static void addAchievement(Achievement acc)
