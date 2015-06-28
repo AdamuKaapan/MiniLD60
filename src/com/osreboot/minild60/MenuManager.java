@@ -60,12 +60,7 @@ public class MenuManager {
 		mainTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
 		mainArranger.add(mainTitle);
 		
-		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
-			@Override
-			public void draw(float delta){
-				drawEqualizerBar(this);
-				super.draw(delta);
-			}
+		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 0), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
 			@Override
 			public void onTriggered(){
 				HvlMenu.setCurrent(game);
@@ -118,20 +113,20 @@ public class MenuManager {
 		levelArranger.setAlign(0.5f);
 		levels.add(levelArranger);
 		
-		levelTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
+		levelTitle = new HvlLabel(0, 0, font, "level select", Color.red, 0.25f);
 		levelArranger.add(levelTitle);
 		
-		levelList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/4*3, 
-				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/4*3, SliderDirection.VERTICAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64))), 
+		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/4*3, 
+				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/4*3, SliderDirection.VERTICAL, 32, 32, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64))), 
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
-				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), Display.getHeight()/8*5, 20);
+				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 2)), 256, 2);
 		for(Level level : Level.levels){
 			levelList.addItem(Level.levels.indexOf(level));
 		}
 		levelArranger.add(levelList);
 		
-		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
 			@Override
 			public void onTriggered(){
 				Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());

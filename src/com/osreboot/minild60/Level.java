@@ -56,6 +56,21 @@ public class Level {
 		levels = new ArrayList<>();
 		
 		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
 	}
 	
 	private HvlLayeredTileMap map;
