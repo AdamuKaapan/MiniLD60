@@ -15,6 +15,8 @@ public class Game {
 	public static void reset() {
 		cameraX = (Display.getWidth() / 2) - (currentLevel.getStartX() * map.getTileWidth() - 32);
 		cameraY = (Display.getHeight() / 2) - (currentLevel.getStartY() * map.getTileHeight() - 32);
+		cameraX = (Display.getWidth() / 2) - (currentLevel.getStartX() * map.getTileWidth()) + Player.RADIUS;//TODO ask why player.radius was here
+		cameraY = (Display.getHeight() / 2) - (currentLevel.getStartY() * map.getTileHeight()) + Player.RADIUS;
 		player = new Player();
 	}
 

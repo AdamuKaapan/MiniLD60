@@ -15,8 +15,8 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
 
-	private static final float RADIUS = 32f;
-	public static final float MOVEMENT_SPEED = 64;//was 256
+	public static final float RADIUS = 32f;
+	public static final float MOVEMENT_SPEED = 256;
 
 	private float angle;
 
@@ -37,10 +37,10 @@ public class Player {
 		xTrans *= delta * MOVEMENT_SPEED;
 		yTrans *= delta * MOVEMENT_SPEED;
 
-		if(isBlockNear(RADIUS, (RADIUS/2)) || isBlockNear(RADIUS, -(RADIUS/2))) xTrans = Math.min(xTrans, 0);
-		if(isBlockNear((RADIUS/2), RADIUS) || isBlockNear(-(RADIUS/2), RADIUS)) yTrans = Math.min(yTrans, 0);
-		if(isBlockNear(-RADIUS, (RADIUS/2)) || isBlockNear(-RADIUS, -(RADIUS/2))) xTrans = Math.max(xTrans, 0);
-		if(isBlockNear((RADIUS/2), -RADIUS) || isBlockNear(-(RADIUS/2), -RADIUS)) yTrans = Math.max(yTrans, 0);
+		if(isBlockNear(RADIUS + xTrans, (RADIUS*0.99f)) || isBlockNear(RADIUS + xTrans, -(RADIUS*0.99f))) xTrans = Math.min(xTrans, 0);//TODO fix pixels left after collision
+		if(isBlockNear((RADIUS*0.99f), RADIUS + yTrans) || isBlockNear(-(RADIUS*0.99f), RADIUS + yTrans)) yTrans = Math.min(yTrans, 0);
+		if(isBlockNear(-RADIUS + xTrans, (RADIUS*0.99f)) || isBlockNear(-RADIUS + xTrans, -(RADIUS*0.99f))) xTrans = Math.max(xTrans, 0);
+		if(isBlockNear((RADIUS*0.99f), -RADIUS + yTrans) || isBlockNear(-(RADIUS*0.99f), -RADIUS + yTrans)) yTrans = Math.max(yTrans, 0);
 		
 		Game.cameraX -= xTrans;
 		Game.cameraY -= yTrans;
