@@ -19,7 +19,7 @@ public class AchievementManager
 	
 	public static boolean unlockeds[];
 	
-	public static void initialize()
+	static
 	{
 		icons = new Texture[0];
 		titles = new String[0];

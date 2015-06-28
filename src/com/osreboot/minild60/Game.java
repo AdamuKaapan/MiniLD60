@@ -1,49 +1,28 @@
 package com.osreboot.minild60;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.lwjgl.opengl.Display;
 
-import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
 public class Game {
 	public static float cameraX, cameraY;
 
 	public static HvlLayeredTileMap map;
+	public static Level currentLevel;
 
 	private static Player player;
 
 	public static void reset() {
+		cameraX = 0;
+		cameraY = 0;
 		player = new Player();
 	}
 
 	public static void initialize() {
 		reset();
-		
-		AchievementManager.initialize();
 
-		try {
-			String path = "res/TestLevel.map";
-			StringBuilder sb = new StringBuilder();
-			BufferedReader read = new BufferedReader(new FileReader(path));
-
-			String line;
-			while ((line = read.readLine()) != null) {
-				sb.append(line);
-			}
-
-			read.close();
-
-			map = HvlLayeredTileMap.load(sb.toString(),
-					TextureManager.getResource(TextureSeries.PLAY, 0), 0, 0,
-					Player.radius * 2, Player.radius * 2);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+		currentLevel = Level.levels.get(0);
+		map = currentLevel.getMap();
 	}
 
 	public static void update(float delta) {
