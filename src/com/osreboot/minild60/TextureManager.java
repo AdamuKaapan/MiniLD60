@@ -21,6 +21,7 @@ public class TextureManager {
 		uiLoader.loadResource("Equalizer");
 		
 		playLoader.loadResource("TestTilesheet");
+		playLoader.loadResource("Enemy");
 	}
 	
 	public static Texture getResource(TextureSeries seriesArg, int indexArg){

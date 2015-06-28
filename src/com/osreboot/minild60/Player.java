@@ -86,7 +86,7 @@ public class Player {
 			int pTileX = (int) (shiftedX / Game.map.getTileWidth());
 			int pTileY = (int) (shiftedY / Game.map.getTileHeight());
 
-			System.out.println("Player: " + pTileX + ", " + pTileY);
+//			System.out.println("Player: " + pTileX + ", " + pTileY);
 
 			float distance = (float) Math.sqrt(Math.pow(tileY - h, 2) + Math.pow(tileX - w, 2));
 			float xDiff = (tileX - w) / distance, yDiff = (tileY - h) / distance;
@@ -98,7 +98,7 @@ public class Player {
 			
 			while (Math.sqrt(Math.pow(yPos - h, 2) + Math.pow(xPos - w, 2)) < distance)
 			{
-				System.out.println(Math.sqrt(Math.pow(yPos - h, 2) + Math.pow(xPos - w, 2)));
+//				System.out.println(Math.sqrt(Math.pow(yPos - h, 2) + Math.pow(xPos - w, 2)));
 				
 				xPos += xDiff;
 				yPos += yDiff;
@@ -116,7 +116,7 @@ public class Player {
 						continue;
 					}
 					
-					System.out.println("Collision!" + someTileX + ", " + someTileY);
+//					System.out.println("Collision!" + someTileX + ", " + someTileY);
 					break;
 				}
 			}

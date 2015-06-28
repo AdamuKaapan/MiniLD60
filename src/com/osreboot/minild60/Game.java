@@ -9,6 +9,8 @@ public class Game {
 
 	public static HvlLayeredTileMap map;
 	public static Level currentLevel;
+	
+	public static Enemy tEnemy;
 
 	private static Player player;
 
@@ -24,6 +26,7 @@ public class Game {
 				- (currentLevel.getStartY() * map.getTileHeight())
 				+ Player.RADIUS;
 		player = new Player();
+		tEnemy = new Enemy(512, 128);
 	}
 
 	public static void initialize() {
@@ -44,5 +47,7 @@ public class Game {
 		map.draw(delta);
 		player.update(delta);
 		player.draw(delta);
+		tEnemy.update(delta);
+		tEnemy.draw(delta);
 	}
 }
