@@ -25,5 +25,6 @@ public class Main extends HvlTemplate2DBasic {
 	public void update(float delta) {
 		SoundManager.update();
 		HvlMenu.updateMenus(delta);
+		MenuManager.update(delta);
 	}
 }
