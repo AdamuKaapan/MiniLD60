@@ -1,5 +1,9 @@
 package com.osreboot.minild60;
 
+import static org.lwjgl.opengl.GL11.*;
+
+import org.lwjgl.opengl.Display;
+
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
