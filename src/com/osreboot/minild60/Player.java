@@ -1,12 +1,12 @@
 package com.osreboot.minild60;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
-
 import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
+
+import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
@@ -74,12 +74,18 @@ public class Player {
 				TextureManager.getResource(TextureSeries.UI, 1), Color.red);
 		HvlPainter2D.hvlResetRotation();
 
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBegin(GL_LINES);
-		glColor4f(1, 0, 0, 1);
-		glVertex2f(0, 0);
-		glVertex2f((Display.getWidth() / 2), (Display.getHeight() / 2));
-		glEnd();
+		for (WallSpeakerTile tile : Game.currentLevel.wallSpeakers)
+		{
+			float tileX = Game.map.getX() + (tile.x * Game.map.getLayer(1).getTileWidth()) + (Game.map.getTileWidth() / 2);
+			float tileY = Game.map.getY() + (tile.y * Game.map.getLayer(1).getTileHeight()) + (Game.map.getTileHeight() / 2);
+			
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBegin(GL_LINES);
+			glColor4f(1, 0, 0, 1);
+			glVertex2f(tileX, tileY);
+			glVertex2f((Display.getWidth() / 2), (Display.getHeight() / 2));
+			glEnd();
+		}
 	}
 
 	public boolean isCollidedOnRight() {
