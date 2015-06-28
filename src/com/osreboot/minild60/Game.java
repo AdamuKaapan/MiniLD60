@@ -13,16 +13,16 @@ public class Game {
 	private static Player player;
 
 	public static void reset() {
-		cameraX = 0;
-		cameraY = 0;
+		cameraX = (Display.getWidth() / 2) - (currentLevel.getStartX() * map.getTileWidth()) - Player.radius;
+		cameraY = (Display.getHeight() / 2) - (currentLevel.getStartY() * map.getTileHeight()) - Player.radius;
 		player = new Player();
 	}
 
 	public static void initialize() {
-		reset();
-
 		currentLevel = Level.levels.get(0);
 		map = currentLevel.getMap();
+		
+		reset();
 	}
 
 	public static void update(float delta) {

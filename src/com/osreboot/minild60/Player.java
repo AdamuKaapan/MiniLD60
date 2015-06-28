@@ -80,6 +80,8 @@ public class Player {
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
 
+		if (tileX + 1 > Game.map.getLayer(1).getMapWidth() - 1) return true;
+		
 		return Game.map.getLayer(1).getTile(tileX + 1, tileY) != null;
 	}
 
@@ -90,6 +92,8 @@ public class Player {
 		float shiftedY = h - Game.cameraY - radius * 0.75f;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+
+		if (tileY + 1 > Game.map.getLayer(1).getMapHeight() - 1) return true;
 
 		return Game.map.getLayer(1).getTile(tileX, tileY + 1) != null;
 	}
@@ -102,6 +106,8 @@ public class Player {
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
 
+		if (tileX < 1) return true;
+		
 		return Game.map.getLayer(1).getTile(tileX - 1, tileY) != null;
 	}
 
@@ -112,6 +118,7 @@ public class Player {
 		float shiftedY = h - Game.cameraY + radius * 0.75f;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
+		if (tileY < 1) return true;
 
 		return Game.map.getLayer(1).getTile(tileX, tileY - 1) != null;
 	}

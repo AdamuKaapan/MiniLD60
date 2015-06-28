@@ -1,9 +1,5 @@
 package com.osreboot.minild60;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.newdawn.slick.opengl.Texture;
 
 import com.osreboot.ridhvl.config.HvlConfigIgnore;

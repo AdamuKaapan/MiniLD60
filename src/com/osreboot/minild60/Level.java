@@ -16,13 +16,14 @@ public class Level {
 	{
 		levels = new ArrayList<>();
 		
-		levels.add(new Level("res\\TestLevel.map", 0));
+		levels.add(new Level("res\\TestLevel.map", 0, 7, 11));
 	}
 	
 	private HvlLayeredTileMap map;
 	private int requiredAchievements;
+	private int startX, startY;
 	
-	public Level(String path, int requiredAchievements)
+	public Level(String path, int requiredAchievements, int startX, int startY)
 	{
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -43,6 +44,8 @@ public class Level {
 			return;
 		}
 		this.requiredAchievements = requiredAchievements;
+		this.startX = startX;
+		this.startY = startY;
 	}
 
 	public HvlLayeredTileMap getMap() {
@@ -59,5 +62,21 @@ public class Level {
 
 	public void setRequiredAchievements(int requiredAchievements) {
 		this.requiredAchievements = requiredAchievements;
+	}
+
+	public int getStartX() {
+		return startX;
+	}
+
+	public void setStartX(int startX) {
+		this.startX = startX;
+	}
+
+	public int getStartY() {
+		return startY;
+	}
+
+	public void setStartY(int startY) {
+		this.startY = startY;
 	}
 }
