@@ -50,4 +50,24 @@ public class Game {
 		tEnemy.update(delta);
 		tEnemy.draw(delta);
 	}
+	
+	public static int getTileX(float xPos)
+	{
+		return (int) ((xPos - map.getX()) / map.getTileWidth());
+	}
+	
+	public static int getTileY(float yPos)
+	{
+		return (int) ((yPos - map.getY()) / map.getTileHeight());
+	}
+	
+	public static float getWorldX(int xTile)
+	{
+		return map.getX() + (xTile * map.getTileWidth());
+	}
+	
+	public static float getWorldY(int yTile)
+	{
+		return map.getY() + (yTile * map.getTileHeight());
+	}
 }
