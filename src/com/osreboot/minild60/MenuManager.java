@@ -68,7 +68,8 @@ public class MenuManager {
 			}
 			@Override
 			public void onTriggered(){
-				HvlMenu.setCurrent(levels);
+				HvlMenu.setCurrent(game);
+				Game.initialize();
 			}
 		};
 		mainPlay.setTextScale(0.4f);

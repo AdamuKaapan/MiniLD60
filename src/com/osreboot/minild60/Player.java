@@ -73,10 +73,6 @@ public class Player {
 
 			float w = (float) Display.getWidth() / 2;
 			float h = (float) Display.getHeight() / 2;
-			float shiftedX = w - Game.map.getX();
-			float shiftedY = h - Game.map.getY();
-			int pTileX = (int) (shiftedX / Game.map.getTileWidth());
-			int pTileY = (int) (shiftedY / Game.map.getTileHeight());
 
 			float intersectionX = 0;
 			float intersectionY = 0;
@@ -89,8 +85,8 @@ public class Player {
 				float xPoint = lerp(tileX, w, f/distance);
 				float yPoint = lerp(tileY, h, f/distance);
 				
-				int newX = ((int)xPoint/(int)Game.map.getTileWidth());
-				int newY = ((int)yPoint/(int)Game.map.getTileHeight());
+				int newX = Game.getTileX(xPoint);
+				int newY = Game.getTileY(yPoint);
 				
 				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(newX, newY) != null && newX != tileX && newY != tileY){
 					intersects = true;
@@ -103,8 +99,8 @@ public class Player {
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glBegin(GL_LINES);
 				glColor4f(intersects ? 1 : 0, intersects ? 0 : 1, 0, 1);
-				glVertex2f(newX * (int)Game.map.getTileWidth(), newY * (int)Game.map.getTileHeight());
-				glVertex2f(newX * (int)Game.map.getTileWidth() + 5, newY * (int)Game.map.getTileHeight() + 5);
+				glVertex2f(Game.getWorldX(newX), Game.getWorldY(newY));
+				glVertex2f(Game.getWorldX(newX) + 5, Game.getWorldY(newY) + 5);
 				glEnd();
 			}
 			
