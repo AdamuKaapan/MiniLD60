@@ -5,12 +5,12 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.ControlManager.Action;
+import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
+import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
-import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
 
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
@@ -25,12 +25,8 @@ public class Player {
 	}
 
 	public void update(float delta) {
-		float xTrans = (ControlManager.isActionTriggering(Action.MOVELEFT) ? -1
-				: 0)
-				+ (ControlManager.isActionTriggering(Action.MOVERIGHT) ? 1 : 0);
-		float yTrans = (ControlManager.isActionTriggering(Action.MOVEUP) ? -1
-				: 0)
-				+ (ControlManager.isActionTriggering(Action.MOVEDOWN) ? 1 : 0);
+		float xTrans = (ControlManager.isActionTriggering(Action.MOVELEFT) ? -1 : 0) + (ControlManager.isActionTriggering(Action.MOVERIGHT) ? 1 : 0);
+		float yTrans = (ControlManager.isActionTriggering(Action.MOVEUP) ? -1 : 0) + (ControlManager.isActionTriggering(Action.MOVEDOWN) ? 1 : 0);
 
 		float len = (float) Math
 				.sqrt(Math.pow(xTrans, 2) + Math.pow(yTrans, 2));
@@ -72,22 +68,47 @@ public class Player {
 		HvlPainter2D.hvlResetRotation();
 
 		for (WallSpeakerTile tile : Game.currentLevel.wallSpeakers) {
-			float tileX = Game.map.getX()
-					+ (tile.x * Game.map.getLayer(1).getTileWidth())
-					+ (Game.map.getTileWidth() / 2);
-			float tileY = Game.map.getY()
-					+ (tile.y * Game.map.getLayer(1).getTileHeight())
-					+ (Game.map.getTileHeight() / 2);
+			float tileX = Game.map.getX() + (tile.x * Game.map.getTileWidth()) + (Game.map.getTileWidth() / 2);
+			float tileY = Game.map.getY() + (tile.y * Game.map.getTileHeight()) + (Game.map.getTileHeight() / 2);
 
 			float w = (float) Display.getWidth() / 2;
 			float h = (float) Display.getHeight() / 2;
-			float shiftedX = w - Game.cameraX;
-			float shiftedY = h - Game.cameraY;
+			float shiftedX = w - Game.map.getX();
+			float shiftedY = h - Game.map.getY();
 			int pTileX = (int) (shiftedX / Game.map.getTileWidth());
 			int pTileY = (int) (shiftedY / Game.map.getTileHeight());
 
-			System.out.println("Player: " + pTileX + ", " + pTileY);
-
+			float intersectionX = 0;
+			float intersectionY = 0;
+			boolean intersects = false;
+			
+			
+			float distance = HvlMath.distance(tileX, tileY, w, h);
+			//System.out.println(distance);
+			for(float f = 0; f < distance; f++){
+				float xPoint = lerp(tileX, w, f/distance);
+				float yPoint = lerp(tileY, h, f/distance);
+				
+				int newX = ((int)xPoint/(int)Game.map.getTileWidth());
+				int newY = ((int)yPoint/(int)Game.map.getTileHeight());
+				
+				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(newX, newY) != null && newX != tileX && newY != tileY){
+					intersects = true;
+					intersectionX = xPoint;
+					intersectionY = yPoint;
+					//System.out.println("Triggered " + f);
+					//break;
+				}
+				
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glBegin(GL_LINES);
+				glColor4f(intersects ? 1 : 0, intersects ? 0 : 1, 0, 1);
+				glVertex2f(newX * (int)Game.map.getTileWidth(), newY * (int)Game.map.getTileHeight());
+				glVertex2f(newX * (int)Game.map.getTileWidth() + 5, newY * (int)Game.map.getTileHeight() + 5);
+				glEnd();
+			}
+			
+			/*
 			float distance = (float) Math.sqrt(Math.pow(tileY - h, 2) + Math.pow(tileX - w, 2));
 			float xDiff = (tileX - w) / distance, yDiff = (tileY - h) / distance;
 			xDiff *= 4;
@@ -119,18 +140,22 @@ public class Player {
 					System.out.println("Collision!" + someTileX + ", " + someTileY);
 					break;
 				}
-			}
+			}*/
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBegin(GL_LINES);
 			glColor4f(1, 0, 0, 1);
 			glVertex2f(tileX, tileY);
-			glVertex2f((Display.getWidth() / 2), (Display.getHeight() / 2));
+			glVertex2f(intersects ? intersectionX : (Display.getWidth() / 2), intersects ? intersectionY : (Display.getHeight() / 2));
 			glEnd();
 		}
 	}
 
-	public boolean isBlockNear(float xMod, float yMod) {
+	private float lerp(float i1, float i2, float lerp){
+		return i1 + lerp * (i2 - i1);
+	}
+	
+	private boolean isBlockNear(float xMod, float yMod) {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
 		float shiftedX = w - Game.cameraX + xMod;

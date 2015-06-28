@@ -1,17 +1,22 @@
 package com.osreboot.minild60;
 
+import java.util.LinkedList;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlFontUtil;
+import com.osreboot.ridhvl.HvlTextureUtil;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
-import com.osreboot.ridhvl.menu.component.HvlSlider;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
+import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
+import com.osreboot.ridhvl.menu.component.HvlListBox;
+import com.osreboot.ridhvl.menu.component.HvlSlider;
 import com.osreboot.ridhvl.menu.component.HvlSlider.SliderDirection;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
@@ -24,14 +29,16 @@ public class MenuManager {
 
 	private static HvlFontPainter2D font;
 	
-	private static HvlMenu main, game, achievements, options;
-	private static HvlArrangerBox mainArranger, achievementArranger, optionsArranger;
-	private static HvlLabel mainTitle, achievementTitle, 
+	private static HvlMenu main, levels, game, achievements, options;
+	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger;
+	private static HvlLabel mainTitle, achievementTitle, levelTitle, 
 	optionsTitle, optionsVolumeIndicator;
 	private static HvlTextButton mainPlay, mainAchievements, mainOptions, mainQuit,
+	levelPlay,
 	achievementBack,
 	optionsSave, optionsBack;
-	private static HvlSlider optionsVolume;
+	private static HvlSlider optionsVolume, levelScroll;
+	private static HvlListBox levelList;
 	
 	public static void initialize(){
 		font = new HvlFontPainter2D(TextureManager.getResource(TextureSeries.UI, 2), HvlFontUtil.DEFAULT, 2048, 2048, 192, 256, 10);
@@ -61,8 +68,7 @@ public class MenuManager {
 			}
 			@Override
 			public void onTriggered(){
-				HvlMenu.setCurrent(game);
-				Game.initialize();
+				HvlMenu.setCurrent(levels);
 			}
 		};
 		mainPlay.setTextScale(0.4f);
@@ -96,6 +102,45 @@ public class MenuManager {
 		mainQuit.setTextScale(0.4f);
 		mainArranger.add(mainQuit);
 		/*END MAIN MENU*/
+		
+		
+		/*LEVEL SELECT*/
+		levels = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				super.draw(delta);
+			}
+		};
+		
+		levelArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		levelArranger.setAlign(0.5f);
+		levels.add(levelArranger);
+		
+		levelTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
+		levelArranger.add(levelTitle);
+		
+		levelList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/4*3, 
+				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/4*3, SliderDirection.VERTICAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64))), 
+				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), Display.getHeight()/8*5, 20);
+		for(Level level : Level.levels){
+			levelList.addItem(Level.levels.indexOf(level));
+		}
+		levelArranger.add(levelList);
+		
+		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+			@Override
+			public void onTriggered(){
+				Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
+				HvlMenu.setCurrent(game);
+				Game.initialize();
+			}
+		};
+		levelPlay.setTextScale(0.4f);
+		levelArranger.add(levelPlay); 
+		/*END LEVEL SELECT*/
 		
 		
 		/*ACHIEVEMENTS*/
