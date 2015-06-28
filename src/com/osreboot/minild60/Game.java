@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.lwjgl.opengl.Display;
 
 import com.osreboot.minild60.TextureManager.TextureSeries;
-import com.osreboot.minild60.backend.Player;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
 public class Game {
@@ -51,7 +50,6 @@ public class Game {
 		map.setX(cameraX);
 		map.setY(cameraY);
 		map.setCutOff(true);
-		System.out.println(cameraX);
 		map.setxLeft(0);
 		map.setxRight(Display.getWidth());
 		map.setyTop(0);

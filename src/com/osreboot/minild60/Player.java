@@ -1,11 +1,9 @@
-package com.osreboot.minild60.backend;
+package com.osreboot.minild60;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.minild60.Game;
-import com.osreboot.minild60.TextureManager;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
