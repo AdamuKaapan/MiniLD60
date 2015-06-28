@@ -1,11 +1,9 @@
-package com.osreboot.minild60.backend;
+package com.osreboot.minild60;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.minild60.Game;
-import com.osreboot.minild60.TextureManager;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
@@ -45,10 +43,10 @@ public class Player {
 
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
-		
+
 		Game.cameraX -= xTrans * delta * movementSpeed;
 		Game.cameraY -= yTrans * delta * movementSpeed;
-		
+
 		if (isCollidedOnRight() && xTrans > 0)
 			Game.cameraX += xTrans * delta * movementSpeed;
 		if (isCollidedOnBottom() && yTrans > 0)
@@ -73,7 +71,7 @@ public class Player {
 				TextureManager.getResource(TextureSeries.UI, 1), Color.red);
 		HvlPainter2D.hvlResetRotation();
 	}
-	
+
 	public boolean isCollidedOnRight() {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
@@ -81,12 +79,12 @@ public class Player {
 		float shiftedY = h - Game.cameraY;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
-		
-		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+
+		if (tileX + 1 > Game.map.getLayer(1).getMapWidth() - 1) return true;
 		
 		return Game.map.getLayer(1).getTile(tileX + 1, tileY) != null;
 	}
-	
+
 	public boolean isCollidedOnBottom() {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
@@ -94,12 +92,12 @@ public class Player {
 		float shiftedY = h - Game.cameraY - radius * 0.75f;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
-		
-		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
-		
+
+		if (tileY + 1 > Game.map.getLayer(1).getMapHeight() - 1) return true;
+
 		return Game.map.getLayer(1).getTile(tileX, tileY + 1) != null;
 	}
-	
+
 	public boolean isCollidedOnLeft() {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
@@ -107,12 +105,12 @@ public class Player {
 		float shiftedY = h - Game.cameraY;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
-		
-		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
+
+		if (tileX < 1) return true;
 		
 		return Game.map.getLayer(1).getTile(tileX - 1, tileY) != null;
 	}
-	
+
 	public boolean isCollidedOnTop() {
 		float w = (float) Display.getWidth() / 2;
 		float h = (float) Display.getHeight() / 2;
@@ -120,9 +118,8 @@ public class Player {
 		float shiftedY = h - Game.cameraY + radius * 0.75f;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
-		
-		if (tileX >= Game.map.getLayer(1).getMapWidth() || tileY >= Game.map.getLayer(1).getMapHeight()) return true;
-		
+		if (tileY < 1) return true;
+
 		return Game.map.getLayer(1).getTile(tileX, tileY - 1) != null;
 	}
 }

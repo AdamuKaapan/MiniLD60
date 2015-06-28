@@ -9,7 +9,7 @@ public class SoundManager {
 
 	private static HvlTextureLoader menuLoader = new HvlTextureLoader(10);
 	
-	public enum TextureSeries{
+	public enum SoundSeries{
 		MENU
 	}
 	
@@ -21,7 +21,7 @@ public class SoundManager {
 		SoundStore.get().poll(0);
 	}
 	
-	public static Texture getResource(TextureSeries seriesArg, int indexArg){
+	public static Texture getResource(SoundSeries seriesArg, int indexArg){
 		switch(seriesArg){
 		case MENU: return menuLoader.getResource(indexArg);
 		default: return null;
