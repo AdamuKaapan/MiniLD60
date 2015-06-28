@@ -49,6 +49,8 @@ public class Level {
 	public static final int wallSpeakerTile = 62;
 	public static final int mobileSpeakerTile = 61;
 	
+	public static final float TILE_SIZE = 64;
+	
 	static
 	{
 		levels = new ArrayList<>();
@@ -76,9 +78,7 @@ public class Level {
 
 			read.close();
 
-			map = HvlLayeredTileMap.load(sb.toString(),
-					TextureManager.getResource(TextureSeries.PLAY, 0), 0, 0,
-					Player.radius * 2, Player.radius * 2);
+			map = HvlLayeredTileMap.load(sb.toString(), TextureManager.getResource(TextureSeries.PLAY, 0), 0, 0, TILE_SIZE, TILE_SIZE);
 			
 			spawnTiles = new LinkedList<>();
 			wallSpeakers = new LinkedList<>();
