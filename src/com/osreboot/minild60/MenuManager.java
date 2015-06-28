@@ -6,10 +6,13 @@ import org.newdawn.slick.Color;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlSlider;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
+import com.osreboot.ridhvl.menu.component.HvlSlider.SliderDirection;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.menu.component.collection.HvlTiledRectDrawable;
@@ -23,10 +26,12 @@ public class MenuManager {
 	
 	private static HvlMenu main, game, achievements, options;
 	private static HvlArrangerBox mainArranger, achievementArranger, optionsArranger;
-	private static HvlLabel mainTitle, achievementTitle, optionsTitle;
-	private static HvlTextButton mainPlay, mainAchievements, mainTutorial, mainOptions, mainCredits, mainQuit,
+	private static HvlLabel mainTitle, achievementTitle, 
+	optionsTitle, optionsVolumeIndicator;
+	private static HvlTextButton mainPlay, mainAchievements, mainOptions, mainQuit,
 	achievementBack,
 	optionsSave, optionsBack;
+	private static HvlSlider optionsVolume;
 	
 	public static void initialize(){
 		font = new HvlFontPainter2D(TextureManager.getResource(TextureSeries.UI, 2), HvlFontUtil.DEFAULT, 2048, 2048, 192, 256, 10);
@@ -50,6 +55,11 @@ public class MenuManager {
 		
 		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
 			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
+			@Override
 			public void onTriggered(){
 				HvlMenu.setCurrent(game);
 				Game.initialize();
@@ -70,7 +80,7 @@ public class MenuManager {
 		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "options"){
 			@Override
 			public void onTriggered(){
-				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
+				loadOptions();
 				HvlMenu.setCurrent(options);
 			}
 		};
@@ -131,12 +141,24 @@ public class MenuManager {
 		optionsTitle = new HvlLabel(0, 0, font, "options", Color.red, 0.25f);
 		optionsArranger.add(optionsTitle);
 		
-		//TODO volume slider etc
+		optionsVolumeIndicator = new HvlLabel(0, 0, font, "volume ", Color.red, 0.25f){
+			@Override
+			public void draw(float delta){
+				setText("volume " + (int)(optionsVolume.getValue()*100));
+				super.draw(delta);
+			}
+		};
+		optionsArranger.add(optionsVolumeIndicator);
+		
+		optionsVolume = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)));
+		optionsVolume.setSnapInterval(0.01f);
+		optionsVolume.setValue(OptionsConfig.volume);
+		optionsArranger.add(optionsVolume);
 		
 		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
 			@Override
 			public void onTriggered(){
-				HvlConfigUtil.saveStaticConfig(OptionsConfig.class, "res\\options.txt");
+				saveOptions();
 			}
 		};
 		optionsSave.setTextScale(0.4f);
@@ -145,6 +167,7 @@ public class MenuManager {
 		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
 			@Override
 			public void onTriggered(){
+				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
 				HvlMenu.setCurrent(main);
 			}
 		};
@@ -163,6 +186,27 @@ public class MenuManager {
 		/*END IN-GAME*/
 		
 		HvlMenu.setCurrent(main);
+	}
+	
+	
+	private static float total = 0;
+	public static void update(float delta){
+		total += delta;
+	}
+	
+	public static void drawEqualizerBar(HvlComponent component){
+		HvlPainter2D.hvlDrawQuad(component.getX(), component.getY(), component.getWidth(), component.getHeight(), TextureManager.getResource(TextureSeries.UI, 0), new Color(0.1f, 0.1f, 0));
+		HvlPainter2D.hvlDrawQuad(component.getX(), component.getY(), component.getWidth()*Math.max((float)Math.sin((total + (component.getY()/(float)Display.getHeight()))*2), 0), component.getHeight(), TextureManager.getResource(TextureSeries.UI, 0), Color.yellow);
+	}
+	
+	private static void loadOptions(){
+		HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
+		optionsVolume.setValue(OptionsConfig.volume);
+	}
+	
+	private static void saveOptions(){
+		OptionsConfig.volume = optionsVolume.getValue();
+		HvlConfigUtil.saveStaticConfig(OptionsConfig.class, "res\\options.txt");
 	}
 	
 }
