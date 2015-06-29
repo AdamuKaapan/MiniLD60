@@ -20,6 +20,11 @@ public class Game {
 	private static Player player;
 
 	public static void reset() {
+		for (SpawnTile tile : currentLevel.spawnTiles)
+		{
+			tile.hasSpawned = false;
+		}
+		
 		cameraX = (Display.getWidth() / 2)
 				- (currentLevel.getStartX() * map.getTileWidth() - 32);
 		cameraY = (Display.getHeight() / 2)
@@ -52,6 +57,7 @@ public class Game {
 			{
 				for (int i = 0; i < 3; i++)
 				{
+					if (enemies.size() < 1)
 					enemies.add(new Enemy(Game.getWorldX(t.x + HvlMath.randomIntBetween(-2, 3)), Game.getWorldY(t.y) + HvlMath.randomIntBetween(-2, 3)));
 				}
 				t.hasSpawned = true;
