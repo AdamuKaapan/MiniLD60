@@ -27,6 +27,8 @@ public class Player {
 	private float angle;
 
 	private boolean isDead;
+	private boolean isReflecting;
+	private float attackIntensity;
 
 	public Player() {
 		this.angle = 0;
@@ -88,6 +90,9 @@ public class Player {
 	}
 
 	public void draw(float delta) {
+		isReflecting = false;
+		attackIntensity = 0.0f;
+		
 		if (!isDead) {
 			HvlPainter2D.hvlRotate(Display.getWidth() / 2,
 					Display.getHeight() / 2, angle);
@@ -143,6 +148,9 @@ public class Player {
 					diff %= Math.toRadians(360);
 
 					if (diff < Math.toRadians(30) || diff > Math.toRadians(330)) {
+						isReflecting = true;
+						attackIntensity = 1.0f;
+						
 						for (int i = 0; i < Game.enemies.size(); i++) {
 							Enemy e = Game.enemies.get(i);
 							float eX = Game.cameraX + e.getRelX();
@@ -179,6 +187,8 @@ public class Player {
 									
 									ps.spawnAllParticles();
 									Game.deathParticles.put(ps, 0f);
+									
+									AchievementManager.setUnlocked("Hey!", true);
 								}
 							}
 						}
@@ -251,5 +261,13 @@ public class Player {
 
 	public float getAngle() {
 		return angle;
+	}
+
+	public boolean isReflecting() {
+		return isReflecting;
+	}
+
+	public float getAttackIntensity() {
+		return attackIntensity;
 	}
 }

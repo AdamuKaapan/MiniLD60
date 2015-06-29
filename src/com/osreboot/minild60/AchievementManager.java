@@ -3,6 +3,7 @@ package com.osreboot.minild60;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import com.osreboot.minild60.TextureManager.TextureSeries;
@@ -15,7 +16,7 @@ public class AchievementManager
 	private static Queue<String> displayAchievements;
 	private static float currentDisplayTime;
 	
-	public static float DISPLAYTIME = 5.0f;
+	public static float DISPLAYTIME = 3.0f;
 	
 	@HvlConfigIgnore
 	public static Texture[] icons;
@@ -35,6 +36,7 @@ public class AchievementManager
 		displayAchievements = new LinkedList<>();
 		
 		addAchievement(new Achievement(null, "Hey!", "Meh", false));
+		addAchievement(new Achievement(null, "Blargh!", "Meh", false));
 		
 		HvlConfigUtil.loadStaticConfig(AchievementManager.class, "res\\achievements");
 	}
@@ -79,6 +81,11 @@ public class AchievementManager
 			if (!titles[i].equals(name)) continue;
 			
 			unlockeds[i] = val;
+			
+			if (val)
+			{
+				displayAchievements.add(titles[i].toLowerCase());
+			}
 		}
 	}
 	
@@ -107,9 +114,10 @@ public class AchievementManager
 	}
 
  	public static void draw(float delta) {
-// 		if (displayAchievements.isEmpty()) return;
+ 		if (displayAchievements.isEmpty()) return;
  		
  		HvlPainter2D.hvlDrawQuad(0, 0, 512, 128, TextureManager.getResource(TextureSeries.UI, 6));
+ 		MenuManager.font.hvlDrawWord(displayAchievements.peek(), 16, 16, 0.35f, Color.red);
  		
  		currentDisplayTime += delta;
  		
