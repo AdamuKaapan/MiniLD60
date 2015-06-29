@@ -21,6 +21,7 @@ public class TextureManager {
 		uiLoader.loadResource("Equalizer");
 		uiLoader.loadResource("Slider");
 		uiLoader.loadResource("Bar");
+		uiLoader.loadResource("Achievement");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");

@@ -144,10 +144,12 @@ public class Game {
 		shockwaveShader.sendFloat("time", Main.getTotalTime());
 		shockwaveShader.sendFloat("playerX", Display.getWidth()/2);
 		shockwaveShader.sendFloat("playerY", Display.getHeight()/2);
-		shockwaveShader.sendFloat("targetX", (Display.getWidth()/2) + (Math.cos(Math.toRadians(Player.getAngle())) * Player.KILLDISTANCE));
+		shockwaveShader.sendFloat("targetX", (Display.getWidth()/2) + ((float)Math.cos(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
 		
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), shockwaveFrame);
 		HvlShader.setCurrentShader(null);
+		
+		AchievementManager.draw(delta);
 	}
 	
 	public static int getTileX(float xPos)

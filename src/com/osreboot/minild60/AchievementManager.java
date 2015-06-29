@@ -1,12 +1,22 @@
 package com.osreboot.minild60;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.newdawn.slick.opengl.Texture;
 
+import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.config.HvlConfigIgnore;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class AchievementManager
 {
+	private static Queue<String> displayAchievements;
+	private static float currentDisplayTime;
+	
+	public static float DISPLAYTIME = 5.0f;
+	
 	@HvlConfigIgnore
 	public static Texture[] icons;
 	
@@ -21,6 +31,8 @@ public class AchievementManager
 		titles = new String[0];
 		descriptions = new String[0];
 		unlockeds = new boolean[0];
+		
+		displayAchievements = new LinkedList<>();
 		
 		addAchievement(new Achievement(null, "Hey!", "Meh", false));
 		
@@ -46,6 +58,18 @@ public class AchievementManager
 		}
 		
 		return null;
+	}
+	
+	public static int getNumberUnlocked()
+	{
+		int count = 0;
+		
+		for (boolean b : unlockeds)
+		{
+			if (b) count++;
+		}
+		
+		return count;
 	}
 	
 	public static void setUnlocked(String name, boolean val)
@@ -81,4 +105,18 @@ public class AchievementManager
 		descriptions = newDescs;
 		unlockeds = newUnlock;
 	}
+
+ 	public static void draw(float delta) {
+// 		if (displayAchievements.isEmpty()) return;
+ 		
+ 		HvlPainter2D.hvlDrawQuad(0, 0, 512, 128, TextureManager.getResource(TextureSeries.UI, 6));
+ 		
+ 		currentDisplayTime += delta;
+ 		
+ 		if (currentDisplayTime >= DISPLAYTIME)
+ 		{
+ 			currentDisplayTime = 0;
+ 			displayAchievements.poll();
+ 		}
+ 	}
 }
