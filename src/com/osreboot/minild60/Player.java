@@ -15,8 +15,9 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
 
-	public static final float RADIUS = 30f;
+	public static final float RADIUS = 16f;
 	public static final float MOVEMENT_SPEED = 256;
+	public static final float LASER_ACCURACY = 48f;
 
 	private float angle;
 
@@ -78,7 +79,7 @@ public class Player {
 			
 			float distance = HvlMath.distance(Game.getWorldX(tile.x), Game.getWorldY(tile.y), playerX, playerY);
 			//System.out.println(distance);
-			for(float f = 0; f < distance; f += 5){
+			for(float f = 0; f < distance; f += LASER_ACCURACY){
 				float xPoint = lerp(Game.getWorldX(tile.x), playerX, f/distance);
 				float yPoint = lerp(Game.getWorldY(tile.y), playerY, f/distance);
 				
