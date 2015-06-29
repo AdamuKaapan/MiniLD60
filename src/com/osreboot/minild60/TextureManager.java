@@ -28,6 +28,7 @@ public class TextureManager {
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
 		playLoader.loadResource("Particle");
+		playLoader.loadResource("Record");
 	}
 	
 	public static Texture getResource(TextureSeries seriesArg, int indexArg){
