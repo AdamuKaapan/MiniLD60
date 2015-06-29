@@ -35,7 +35,7 @@ void main(){
 				vec2( gl_TexCoord[0].x*1280, (1.0 - gl_TexCoord[0].y)*720 )
 				);
 			if(fragDist < playerSpill) offset2 += ((fragDist/playerSpill)/(targetDist/5)) * 
-			max(min(sin(-time*16 + (lineDist/5)), 1), 0);
+			max(min(sin(-time*16 + (lineDist/5)), 1), 0) * (1 - (lineDist/targetDist));
 	}
 	offset2 *= intensity * 0.5;
 	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset2/8) + (offset/128)));

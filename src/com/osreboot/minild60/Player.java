@@ -14,7 +14,7 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 
 public class Player {
-	public static final boolean DEBUG_LINES = false;
+	public static final boolean DEBUG_LINES = true;
 
 	public static final int COLLIDABLE_LAYER = 1;
 
