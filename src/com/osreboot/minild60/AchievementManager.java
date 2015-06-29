@@ -16,7 +16,8 @@ public class AchievementManager
 	private static Queue<String> displayAchievements;
 	private static float currentDisplayTime;
 	
-	public static float DISPLAYTIME = 5.0f;
+	@HvlConfigIgnore
+	public static final float DISPLAYTIME = 5.0f;
 	
 	@HvlConfigIgnore
 	public static Texture[] icons;
