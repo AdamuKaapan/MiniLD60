@@ -18,6 +18,8 @@ public class Player {
 	public static final float RADIUS = 30f;
 	public static final float MOVEMENT_SPEED = 200;
 	public static final float LASER_ACCURACY = 48f;
+	
+	public static final float KILLANGLE = 45;
 
 	private float angle;
 
@@ -96,6 +98,54 @@ public class Player {
 			glVertex2f(Game.getWorldX(tile.x), Game.getWorldY(tile.y));
 			glVertex2f(intersects ? intersectionX : playerX, intersects ? intersectionY : playerY);
 			glEnd();
+			
+			if (!intersects)
+			{
+				float angleToSpeaker = (float)Math.atan2(playerY - Game.getWorldY(tile.y), playerX - Game.getWorldX(tile.x)) + (float)Math.PI;
+				
+				float diff = (angleToSpeaker - (float)Math.toRadians(angle));
+				diff %= Math.toRadians(360);
+				
+				if (diff < Math.toRadians(30) || diff > Math.toRadians(330))
+				{
+					for (int i = 0; i < Game.enemies.size(); i++)
+					{
+						Enemy e = Game.enemies.get(i);
+						float eX = Game.cameraX + e.getRelX();
+						float eY = Game.cameraY + e.getRelY();
+						float enemyDiff = (float) Math.atan2(eY - playerY, eX - playerX) - (float)Math.toRadians(angle);
+						
+						if (Math.abs(Math.toDegrees(enemyDiff)) < KILLANGLE)
+						{
+							Game.enemies.remove(i--);
+							System.out.println("DEATH!");
+						}
+						
+						System.out.println(Math.toDegrees(enemyDiff));
+					}
+					
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBegin(GL_LINES);
+					glColor4f(0, 1, 0, 1);
+					glVertex2f(playerX, playerY);
+					glVertex2f(playerX + ((float)Math.cos(Math.toRadians(angle)) * 256f), playerY + ((float)Math.sin(Math.toRadians(angle)) * 256f));
+					glEnd();
+					
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBegin(GL_LINES);
+					glColor4f(0, 0, 1, 1);
+					glVertex2f(playerX, playerY);
+					glVertex2f(playerX + ((float)Math.cos(Math.toRadians(angle + KILLANGLE)) * 256f), playerY + ((float)Math.sin(Math.toRadians(angle + KILLANGLE)) * 256f));
+					glEnd();
+					
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBegin(GL_LINES);
+					glColor4f(0, 0, 1, 1);
+					glVertex2f(playerX, playerY);
+					glVertex2f(playerX + ((float)Math.cos(Math.toRadians(angle - KILLANGLE)) * 256f), playerY + ((float)Math.sin(Math.toRadians(angle - KILLANGLE)) * 256f));
+					glEnd();
+				}
+			}
 		}
 	}
 

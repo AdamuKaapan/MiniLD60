@@ -77,4 +77,12 @@ public class Enemy {
 		
 		return Game.map.getLayer(Player.COLLIDABLE_LAYER).getTile(tileX, tileY) != null;
 	}
+
+	public float getRelX() {
+		return relX;
+	}
+
+	public float getRelY() {
+		return relY;
+	}
 }
