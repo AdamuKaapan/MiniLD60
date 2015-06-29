@@ -33,5 +33,6 @@ public class Main extends HvlTemplate2DBasic {
 		SoundManager.update();
 		HvlMenu.updateMenus(delta);
 		MenuManager.update(delta);
+		MenuManager.postUpdate(delta);
 	}
 }
