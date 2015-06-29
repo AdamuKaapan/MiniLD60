@@ -165,7 +165,8 @@ public class MenuManager {
 		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/2, levelSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
-				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 2)), 256, 2);
+				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)), 64, 5);
+		levelList.setTextScale(0.25f);
 		for(Level level : Level.levels){
 			levelList.addItem(Level.levels.indexOf(level));
 		}
@@ -293,7 +294,7 @@ public class MenuManager {
 		
 		optionsArranger.add(new HvlSpacer(0, 0, Display.getWidth(), (Display.getHeight()/16) + 32));
 		
-		optionsLasers = new HvlCheckbox(Display.getWidth()/8*7, Display.getHeight()/8*5, 32, 32, false, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11))){
+		optionsLasers = new HvlCheckbox(Display.getWidth()/8*7, Display.getHeight()/8*5, 32, 32, false, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10))){
 			@Override
 			public void draw(float delta){
 				font.hvlDrawWord("show laser .shader bugs(", super.getX() - Display.getWidth()/8*6, super.getY() - Display.getHeight()/64, 0.2f, Color.red);
