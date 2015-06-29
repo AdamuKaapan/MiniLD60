@@ -50,7 +50,10 @@ public class Game {
 			
 			if (Game.getWorldX(t.x) >= 0 && Game.getWorldX(t.x) <= Display.getWidth() && Game.getWorldY(t.y) >= 0 && Game.getWorldY(t.y) <= Display.getHeight())
 			{
-				enemies.add(new Enemy(Game.getWorldX(t.x), Game.getWorldY(t.y)));
+				for (int i = 0; i < 2; i++)
+				{
+					enemies.add(new Enemy(Game.getWorldX(t.x + HvlMath.randomIntBetween(-2, 3)), Game.getWorldY(t.y) + HvlMath.randomIntBetween(-2, 3)));
+				}
 				t.hasSpawned = true;
 			}
 		}
