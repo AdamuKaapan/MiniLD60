@@ -7,7 +7,7 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class Enemy {
-	public static final float radius = 10f;
+	public static final float radius = 12f;
 	public static final float movementSpeed = 128f;
 	
 	private float relX, relY;
@@ -53,8 +53,13 @@ public class Enemy {
 	}
 	
 	public void draw(float delta)
-	{		
+	{
+		float xC = (float) Display.getWidth() / 2;
+		float yC = (float) Display.getHeight() / 2;
+		
+		HvlPainter2D.hvlRotate(Game.cameraX + relX, Game.cameraY + relY, (float) Math.toDegrees(Math.atan2(Game.cameraY + relY - yC, Game.cameraX + relX - xC)));
 		HvlPainter2D.hvlDrawQuad(Game.cameraX + relX - radius, Game.cameraY + relY - radius, radius * 2, radius * 2, TextureManager.getResource(TextureSeries.PLAY, 1));
+		HvlPainter2D.hvlResetRotation();
 	}
 	
 	public boolean isBlockNear(float xMod, float yMod) {
