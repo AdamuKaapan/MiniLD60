@@ -108,7 +108,7 @@ public class Player {
 					ta.setY(-ta.getSpawnRadius());
 					ta.spawnAllParticles();
 					Game.confetti.put(ta, 0f);
-					SoundManager.getResource(SoundSeries.SFX, 0);
+					SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound, false);
 				}
 			}
 		}
