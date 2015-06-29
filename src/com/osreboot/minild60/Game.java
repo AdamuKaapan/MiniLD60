@@ -1,7 +1,12 @@
 package com.osreboot.minild60;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.lwjgl.opengl.Display;
 
+import com.osreboot.minild60.Level.SpawnTile;
+import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
 public class Game {
@@ -10,7 +15,7 @@ public class Game {
 	public static HvlLayeredTileMap map;
 	public static Level currentLevel;
 	
-	public static Enemy tEnemy;
+	public static List<Enemy> enemies;
 
 	private static Player player;
 
@@ -25,8 +30,10 @@ public class Game {
 		cameraY = (Display.getHeight() / 2)
 				- (currentLevel.getStartY() * map.getTileHeight())
 				+ Player.RADIUS;
+		map.setX(cameraX);
+		map.setY(cameraY);
 		player = new Player();
-		tEnemy = new Enemy(512, 128);
+		enemies = new LinkedList<>();
 	}
 
 	public static void initialize() {
@@ -37,6 +44,17 @@ public class Game {
 	}
 
 	public static void update(float delta) {
+		for (SpawnTile t : currentLevel.spawnTiles)
+		{
+			if (t.hasSpawned) continue;
+			
+			if (Game.getWorldX(t.x) >= 0 && Game.getWorldX(t.x) <= Display.getWidth() && Game.getWorldY(t.y) >= 0 && Game.getWorldY(t.y) <= Display.getHeight())
+			{
+				enemies.add(new Enemy(Game.getWorldX(t.x), Game.getWorldY(t.y)));
+				t.hasSpawned = true;
+			}
+		}
+		
 		map.setX(cameraX);
 		map.setY(cameraY);
 		map.setCutOff(true);
@@ -47,8 +65,11 @@ public class Game {
 		map.draw(delta);
 		player.update(delta);
 		player.draw(delta);
-		tEnemy.update(delta);
-		tEnemy.draw(delta);
+		for (Enemy e : enemies)
+		{
+			e.update(delta);
+			e.draw(delta);
+		}
 	}
 	
 	public static int getTileX(float xPos)
