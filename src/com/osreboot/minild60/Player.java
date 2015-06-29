@@ -248,4 +248,8 @@ public class Player {
 
 		return Game.map.getLayer(COLLIDABLE_LAYER).getTile(tileX, tileY) != null;
 	}
+
+	public float getAngle() {
+		return angle;
+	}
 }
