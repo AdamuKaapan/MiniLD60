@@ -22,6 +22,8 @@ public class TextureManager {
 		uiLoader.loadResource("Slider");
 		uiLoader.loadResource("Bar");
 		uiLoader.loadResource("Achievement");
+		uiLoader.loadResource("Bar2");
+		uiLoader.loadResource("Slider2");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
