@@ -78,23 +78,17 @@ public class Player {
 			
 			float distance = HvlMath.distance(Game.getWorldX(tile.x), Game.getWorldY(tile.y), playerX, playerY);
 			//System.out.println(distance);
-			for(float f = 0; f < distance; f++){
+			for(float f = 0; f < distance; f += 5){
 				float xPoint = lerp(Game.getWorldX(tile.x), playerX, f/distance);
 				float yPoint = lerp(Game.getWorldY(tile.y), playerY, f/distance);
 				
-				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(Game.getTileX(xPoint), Game.getTileY(yPoint)) != null && Game.getTileX(xPoint) != tile.x && Game.getTileY(yPoint) != tile.y){
+				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(Game.getTileX(xPoint), Game.getTileY(yPoint)) != null && !(Game.getTileX(xPoint) == tile.x && Game.getTileY(yPoint) == tile.y)){
 					intersects = true;
 					intersectionX = xPoint;
 					intersectionY = yPoint;
 					//System.out.println("Triggered " + f);
-					//break;
+					break;
 				}
-				
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glBegin(GL_LINES);
-				glColor4f(intersects ? 1 : 0, intersects ? 0 : 1, 0, 1);
-				glVertex2f(Game.getWorldX(Game.getTileX(xPoint)) + 5, Game.getWorldY(Game.getTileY(yPoint)) + 5);
-				glEnd();
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
