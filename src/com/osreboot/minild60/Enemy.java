@@ -50,15 +50,13 @@ public class Enemy {
 	}
 	
 	public void draw(float delta)
-	{
+	{		
 		HvlPainter2D.hvlDrawQuad(Game.cameraX + relX - radius, Game.cameraY + relY - radius, radius * 2, radius * 2, TextureManager.getResource(TextureSeries.PLAY, 1));
 	}
 	
 	public boolean isBlockNear(float xMod, float yMod) {
-		float w = relX;
-		float h = relY;
-		float shiftedX = w + xMod;
-		float shiftedY = h + yMod;
+		float shiftedX = relX + xMod;
+		float shiftedY = relY + yMod;
 		int tileX = (int) (shiftedX / Game.map.getTileWidth());
 		int tileY = (int) (shiftedY / Game.map.getTileHeight());
 

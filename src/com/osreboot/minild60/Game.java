@@ -63,11 +63,11 @@ public class Game {
 	
 	public static float getWorldX(int xTile)
 	{
-		return map.getX() + (xTile * map.getTileWidth());
+		return map.getX() + (xTile * map.getTileWidth()) + (map.getTileWidth() / 2);
 	}
 	
 	public static float getWorldY(int yTile)
 	{
-		return map.getY() + (yTile * map.getTileHeight());
+		return map.getY() + (yTile * map.getTileHeight() + (map.getTileHeight() / 2));
 	}
 }
