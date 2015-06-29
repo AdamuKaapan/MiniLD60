@@ -1,0 +1,27 @@
+uniform sampler2D texture1;
+uniform int xcoords[10];
+uniform int ycoords[10];
+uniform float time;
+uniform float playerX;
+uniform float playerY;
+uniform float targetX;
+uniform float targetY;
+float range = 200.0;
+
+void main(){
+	float offset = 0;
+	for(int i = 0; i < 10; i++){
+		if(!(xcoords[i] == 0 && ycoords[i] == 0)){
+			float dist = distance( vec2(float(xcoords[i]),float(ycoords[i])), vec2(gl_TexCoord[0].x*1280,(1.0 - gl_TexCoord[0].y)*720) );
+			if(dist < range){
+				offset = 
+				min(1.0, 
+				(offset +
+				((1 - (dist/range))*max(sin((-time*16 + (dist/5.0))), 0))
+				));
+			}
+		}
+	}
+	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset/32)));
+	gl_FragColor = color;
+}
