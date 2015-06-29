@@ -10,5 +10,5 @@ void main(){
 		}else{
 			if(color1.b > 0.9) gl_FragColor = vec4(1.0, 1.0, 0, color1.a); else gl_FragColor = vec4(0.1, 0.1, 0, color1.a);
 		}
-	}
+	}else gl_FragColor = vec4(0, 0, 0, 0);
 }
