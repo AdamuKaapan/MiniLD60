@@ -16,7 +16,7 @@ public class AchievementManager
 	private static Queue<String> displayAchievements;
 	private static float currentDisplayTime;
 	
-	public static float DISPLAYTIME = 3.0f;
+	public static float DISPLAYTIME = 5.0f;
 	
 	@HvlConfigIgnore
 	public static Texture[] icons;
@@ -80,12 +80,14 @@ public class AchievementManager
 		{
 			if (!titles[i].equals(name)) continue;
 			
-			unlockeds[i] = val;
-			
-			if (val)
+			if (val && !unlockeds[i])
 			{
 				displayAchievements.add(titles[i].toLowerCase());
 			}
+			
+			unlockeds[i] = val;
+			
+			HvlConfigUtil.saveStaticConfig(AchievementManager.class, "res\\achievements");
 		}
 	}
 	

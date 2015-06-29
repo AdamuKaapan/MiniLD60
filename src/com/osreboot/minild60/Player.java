@@ -189,6 +189,7 @@ public class Player {
 									Game.deathParticles.put(ps, 0f);
 									
 									AchievementManager.setUnlocked("Hey!", true);
+									AchievementManager.setUnlocked("Blargh!", true);
 								}
 							}
 						}
