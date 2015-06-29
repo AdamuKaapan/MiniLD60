@@ -35,15 +35,16 @@ public class MenuManager {
 
 	public static HvlFontPainter2D font;
 
-	private static HvlMenu main, levels, game, achievements, options, paused;
-	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger;
-	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, 
+	public static HvlMenu main, levels, game, achievements, options, paused, win;
+	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger, winArranger;
+	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, winTitle, 
 	optionsTitle, optionsVolumeIndicator, optionsSoundIndicator;
 	private static HvlTextButton mainPlay, mainAchievements, mainOptions, mainQuit,
 	levelPlay, levelBack,
 	achievementBack,
 	optionsSave, optionsBack,
-	pausedResume, pausedQuit;
+	pausedResume, pausedQuit,
+	winQuit;
 	private static HvlSlider optionsVolume, optionsSound;
 	private static HvlListBox levelList;
 	private static HvlCheckbox optionsLasers;
@@ -399,6 +400,41 @@ public class MenuManager {
 		};
 		/*END IN-GAME*/
 
+		
+		/*WIN*/
+		win = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				drawBackground();
+				super.draw(delta);
+			}
+		};
+
+		winArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		winArranger.setAlign(0.5f);
+		win.add(winArranger);
+
+		winTitle = new HvlLabel(0, 0, font, "level cleared!", Color.red, 0.25f);
+		winArranger.add(winTitle);
+
+		winArranger.add(getBlankSpace());
+		winQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "level select"){
+			@Override
+			public void draw(float delta){
+				preDrawButtonFeatures(this, delta);
+				super.draw(delta);
+				postDrawButtonFeatures(this, delta);
+			}
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(levels);
+			}
+		};
+		winQuit.setTextScale(0.3f);
+		winArranger.add(winQuit);
+		/*END WIN*/
+		
+		
 		HvlMenu.setCurrent(main);
 	}
 
