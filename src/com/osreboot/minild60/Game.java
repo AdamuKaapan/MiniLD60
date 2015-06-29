@@ -146,7 +146,7 @@ public class Game {
 		shockwaveShader.sendFloat("playerY", (Display.getHeight()/2) + ((float)Math.sin(Math.toRadians(Game.player.getAngle())) * 35));
 		shockwaveShader.sendFloat("targetX", (Display.getWidth()/2) + ((float)Math.cos(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
 		shockwaveShader.sendFloat("targetY", (Display.getHeight()/2) + ((float)Math.sin(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
-		shockwaveShader.sendFloat("intensity", Game.player.getAttackIntensity());
+		shockwaveShader.sendFloat("intensity", Game.player.getAttackIntensity()*2);
 		
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), shockwaveFrame);
 		HvlShader.setCurrentShader(null);
