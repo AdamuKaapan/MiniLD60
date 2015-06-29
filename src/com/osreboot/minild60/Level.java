@@ -21,6 +21,7 @@ public class Level {
 		}
 
 		public int x, y;
+		public boolean hasSpawned;
 	}
 	
 	public static class WallSpeakerTile
