@@ -211,7 +211,7 @@ public class Player {
 							}
 						}
 
-						if(DEBUG_LINES || !OptionsConfig.linesVisible){
+						if(DEBUG_LINES || OptionsConfig.linesVisible){
 							glBindTexture(GL_TEXTURE_2D, 0);
 							glBegin(GL_LINES);
 							glColor4f(0, 1, 0, getAttackIntensity());

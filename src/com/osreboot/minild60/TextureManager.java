@@ -27,6 +27,8 @@ public class TextureManager {
 		uiLoader.loadResource("Select");
 		uiLoader.loadResource("Checked");//10
 		uiLoader.loadResource("Unchecked");
+		uiLoader.loadResource("List");
+		uiLoader.loadResource("ListChecked");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
