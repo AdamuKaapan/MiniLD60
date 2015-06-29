@@ -91,6 +91,25 @@ public class Player {
 				Game.reset();
 			}
 		}
+		
+		for (int i = 0; i < Game.records.size(); i++)
+		{
+			Record r = Game.records.get(i);
+			
+			if (HvlMath.distance(cX, cY, Game.cameraX + r.getRelX(), Game.cameraY + r.getRelY()) <= RADIUS + Record.radius)
+			{
+				Game.records.remove(i--);
+				
+				for (int j = 0; j < 10; j++)
+				{
+					HvlRadialParticleSystem ta = Game.makeConfetti();
+					ta.setX(Display.getWidth() * j / 10);
+					ta.setY(-ta.getSpawnRadius());
+					ta.spawnAllParticles();
+					Game.confetti.put(ta, 0f);
+				}
+			}
+		}
 	}
 
 	public void draw(float delta) {

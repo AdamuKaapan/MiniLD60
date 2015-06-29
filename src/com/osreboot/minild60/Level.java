@@ -34,10 +34,21 @@ public class Level {
 		public int x, y;
 	}
 	
+	public static class RecordTile
+	{
+		public RecordTile(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public int x, y;
+	}
+	
 	public static List<Level> levels;
 	
 	public static final int enemySpawnerTile = 63;
 	public static final int wallSpeakerTile = 62;
+	public static final int recordTile = 61;
 	
 	public static final float TILE_SIZE = 64;
 	
@@ -68,6 +79,7 @@ public class Level {
 	private int startX, startY;
 	public List<SpawnTile> spawnTiles;
 	public List<WallSpeakerTile> wallSpeakers;
+	public List<RecordTile> recordTiles;	
 	
 	public Level(String path, int requiredAchievements, int startX, int startY)
 	{
@@ -86,6 +98,7 @@ public class Level {
 			
 			spawnTiles = new LinkedList<>();
 			wallSpeakers = new LinkedList<>();
+			recordTiles = new LinkedList<>();
 			for (int x = 0; x < map.getLayer(1).getMapWidth(); x++)
 			{
 				for (int y = 0; y < map.getLayer(1).getMapHeight(); y++)
@@ -103,6 +116,12 @@ public class Level {
 					
 					if (sTile.getTile() == wallSpeakerTile)
 						wallSpeakers.add(new WallSpeakerTile(x, y));
+					
+					if (sTile.getTile() == recordTile)
+					{
+						recordTiles.add(new RecordTile(x, y));
+						map.getLayer(1).setTile(x, y, null);
+					}
 				}
 			}
 		} catch (IOException e) {

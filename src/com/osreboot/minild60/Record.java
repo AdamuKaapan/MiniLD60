@@ -18,4 +18,12 @@ public class Record {
 	{
 		HvlPainter2D.hvlDrawQuad(Game.cameraX + relX - radius, Game.cameraY + relY - radius, radius * 2, radius * 2, TextureManager.getResource(TextureSeries.PLAY, 3));
 	}
+
+	public float getRelX() {
+		return relX;
+	}
+
+	public float getRelY() {
+		return relY;
+	}
 }
