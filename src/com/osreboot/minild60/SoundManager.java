@@ -9,14 +9,16 @@ public class SoundManager {
 
 	private static HvlSoundLoader menuLoader = new HvlSoundLoader(10);
 	private static HvlSoundLoader songLoader = new HvlSoundLoader(10);
+	private static HvlSoundLoader sfxLoader = new HvlSoundLoader(10);
 	
 	public enum SoundSeries{
 		MENU,
-		SONG
+		SONG,
+		SFX
 	}
 	
 	public static void initialize(){
-		
+		sfxLoader.loadResource("Record pick up");
 	}
 	
 	public static void update(){
@@ -35,6 +37,7 @@ public class SoundManager {
 	public static Audio getResource(SoundSeries seriesArg, int indexArg){
 		switch(seriesArg){
 		case MENU: return menuLoader.getResource(indexArg);
+		case SONG: return songLoader.getResource(indexArg);
 		default: return null;
 		}
 	}
