@@ -108,6 +108,8 @@ public class Game {
 			e.update(delta);
 			e.draw(delta);
 		}
+		
+		AchievementManager.draw(delta);
 	}
 	
 	public static int getTileX(float xPos)

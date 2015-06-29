@@ -190,10 +190,10 @@ public class Player {
 						glVertex2f(
 								playerX
 										+ ((float) Math.cos(Math
-												.toRadians(angle)) * 256f),
+												.toRadians(angle)) * KILLDISTANCE),
 								playerY
 										+ ((float) Math.sin(Math
-												.toRadians(angle)) * 256f));
+												.toRadians(angle)) * KILLDISTANCE));
 						glEnd();
 
 						glBindTexture(GL_TEXTURE_2D, 0);
@@ -203,10 +203,10 @@ public class Player {
 						glVertex2f(
 								playerX
 										+ ((float) Math.cos(Math
-												.toRadians(angle + KILLANGLE)) * 256f),
+												.toRadians(angle + KILLANGLE)) * KILLDISTANCE),
 								playerY
 										+ ((float) Math.sin(Math
-												.toRadians(angle + KILLANGLE)) * 256f));
+												.toRadians(angle + KILLANGLE)) * KILLDISTANCE));
 						glEnd();
 
 						glBindTexture(GL_TEXTURE_2D, 0);
@@ -216,10 +216,10 @@ public class Player {
 						glVertex2f(
 								playerX
 										+ ((float) Math.cos(Math
-												.toRadians(angle - KILLANGLE)) * 256f),
+												.toRadians(angle - KILLANGLE)) * KILLDISTANCE),
 								playerY
 										+ ((float) Math.sin(Math
-												.toRadians(angle - KILLANGLE)) * 256f));
+												.toRadians(angle - KILLANGLE)) * KILLDISTANCE));
 						glEnd();
 					}
 				}
