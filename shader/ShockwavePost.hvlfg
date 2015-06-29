@@ -6,6 +6,7 @@ uniform float playerX;
 uniform float playerY;
 uniform float targetX;
 uniform float targetY;
+uniform float intensity;
 float range = 200.0;
 
 void main(){
@@ -22,6 +23,19 @@ void main(){
 			}
 		}
 	}
-	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset/32)));
+	
+	float offset2 = 0;
+	float lineDist = distance( vec2(playerX, playerY), vec2(gl_TexCoord[0].x*1280,(1.0 - gl_TexCoord[0].y)*720) );
+	float targetDist = distance( vec2(playerX, playerY), vec2(targetX, targetY) );
+	float fragDist = 0;
+	for(float i = 0; i < targetDist; i += 5){
+		fragDist = distance(
+				vec2( mix(playerX, targetX, i/targetDist), mix(playerY, targetY, i/targetDist) ),
+				vec2( gl_TexCoord[0].x*1280, (1.0 - gl_TexCoord[0].y)*720 )
+				);
+			if(fragDist < 50) offset2 += ((fragDist/50)/(targetDist/5));
+	}
+	
+	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset2/32) + (offset/32)));
 	gl_FragColor = color;
 }

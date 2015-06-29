@@ -143,8 +143,10 @@ public class Game {
 		shockwaveShader.sendIntArray("ycoords", speakerCoordsY);
 		shockwaveShader.sendFloat("time", Main.getTotalTime());
 		shockwaveShader.sendFloat("playerX", Display.getWidth()/2);
-		shockwaveShader.sendFloat("playerY", Display.getHeight()/2);
+		shockwaveShader.sendFloat("playerY", (Display.getHeight()/2) + (Game.player.RADIUS));
 		shockwaveShader.sendFloat("targetX", (Display.getWidth()/2) + ((float)Math.cos(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
+		shockwaveShader.sendFloat("targetY", (Display.getHeight()/2) + ((float)Math.sin(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
+		shockwaveShader.sendFloat("intensity", 1);
 		
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), shockwaveFrame);
 		HvlShader.setCurrentShader(null);
