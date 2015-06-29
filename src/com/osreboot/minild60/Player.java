@@ -11,6 +11,7 @@ import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
+import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
@@ -161,6 +162,23 @@ public class Player {
 								e.setHealth(e.getHealth() - Math.max(damage, 0));
 								if (e.getHealth() <= 0) {
 									Game.enemies.remove(i--);
+									
+									float angle = (float) Math.atan2(Game.cameraY + e.getRelY() - playerY, Game.cameraX + e.getRelX() - playerX);
+									HvlRadialParticleSystem ps = Game.makeDeathParticles();
+									float min = 256;
+									float max = 384;
+									float pX = (float) Math.cos(angle);
+									float pY = (float) Math.sin(angle);
+									
+									ps.setMinXVel(min * pX);
+									ps.setMinYVel(min * pY);
+									ps.setMaxXVel(max * pX);
+									ps.setMaxYVel(max * pY);
+									ps.setX(Game.cameraX + e.getRelX());
+									ps.setY(Game.cameraY + e.getRelY());
+									
+									ps.spawnAllParticles();
+									Game.deathParticles.put(ps, 0f);
 								}
 							}
 						}
