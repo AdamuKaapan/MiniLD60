@@ -14,6 +14,8 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 
 public class Player {
+	public static final boolean DEBUG_LINES = false;
+
 	public static final int COLLIDABLE_LAYER = 1;
 
 	public static final float RADIUS = 20f;
@@ -76,10 +78,10 @@ public class Player {
 		angle = (float) Math.toDegrees(Math.atan2((Display.getHeight() / 2)
 				- HvlCursor.getCursorY(),
 				(Display.getWidth() / 2) - HvlCursor.getCursorX())) - 180;
-		
+
 		float cX = (float) Display.getWidth() / 2;
 		float cY = (float) Display.getHeight() / 2;
-		
+
 		for (Enemy e : Game.enemies)
 		{
 			if (HvlMath.distance(cX, cY, Game.cameraX + e.getRelX(), Game.cameraY + e.getRelY()) <= RADIUS + Enemy.radius)
@@ -94,7 +96,7 @@ public class Player {
 	public void draw(float delta) {
 		isReflecting = false;
 		attackIntensity = 0.0f;
-		
+
 		if (!isDead) {
 			HvlPainter2D.hvlRotate(Display.getWidth() / 2,
 					Display.getHeight() / 2, angle);
@@ -123,7 +125,7 @@ public class Player {
 					if (Game.map.getLayer(COLLIDABLE_LAYER).getTile(
 							Game.getTileX(xPoint), Game.getTileY(yPoint)) != null
 							&& !(Game.getTileX(xPoint) == tile.x && Game
-									.getTileY(yPoint) == tile.y)) {
+							.getTileY(yPoint) == tile.y)) {
 						intersects = true;
 						intersectionX = xPoint;
 						intersectionY = yPoint;
@@ -131,13 +133,15 @@ public class Player {
 					}
 				}
 
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glBegin(GL_LINES);
-				glColor4f(1, 0, 0, 1);
-				glVertex2f(Game.getWorldX(tile.x), Game.getWorldY(tile.y));
-				glVertex2f(intersects ? intersectionX : playerX,
-						intersects ? intersectionY : playerY);
-				glEnd();
+				if(DEBUG_LINES){
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBegin(GL_LINES);
+					glColor4f(1, 0, 0, 1);
+					glVertex2f(Game.getWorldX(tile.x), Game.getWorldY(tile.y));
+					glVertex2f(intersects ? intersectionX : playerX,
+							intersects ? intersectionY : playerY);
+					glEnd();
+				}
 
 				if (!intersects) {
 					float angleToSpeaker = (float) Math.atan2(
@@ -154,7 +158,6 @@ public class Player {
 							diff = 360 - SPEAKERANGLEKILL;
 						isReflecting = true;
 						attackIntensity = Math.max(0, (distance / SPEAKERKILL) * ((float)Math.toDegrees(diff) / SPEAKERANGLEKILL));
-						
 						for (int i = 0; i < Game.enemies.size(); i++) {
 							Enemy e = Game.enemies.get(i);
 							float eX = Game.cameraX + e.getRelX();
@@ -174,68 +177,70 @@ public class Player {
 								e.setHealth(e.getHealth() - Math.max(damage, 0));
 								if (e.getHealth() <= 0) {
 									Game.enemies.remove(i--);
-									
+
 									float angle = (float) Math.atan2(Game.cameraY + e.getRelY() - playerY, Game.cameraX + e.getRelX() - playerX);
 									HvlRadialParticleSystem ps = Game.makeDeathParticles();
 									float min = 256;
 									float max = 384;
 									float pX = (float) Math.cos(angle);
 									float pY = (float) Math.sin(angle);
-									
+
 									ps.setMinXVel(min * pX);
 									ps.setMinYVel(min * pY);
 									ps.setMaxXVel(max * pX);
 									ps.setMaxYVel(max * pY);
 									ps.setX(Game.cameraX + e.getRelX());
 									ps.setY(Game.cameraY + e.getRelY());
-									
+
 									ps.spawnAllParticles();
 									Game.deathParticles.put(ps, 0f);
-									
+
 									AchievementManager.setUnlocked("Hey!", true);
 									AchievementManager.setUnlocked("Blargh!", true);
 								}
 							}
 						}
 
-						glBindTexture(GL_TEXTURE_2D, 0);
-						glBegin(GL_LINES);
-						glColor4f(0, 1, 0, 1);
-						glVertex2f(playerX, playerY);
-						glVertex2f(
-								playerX
-										+ ((float) Math.cos(Math
-												.toRadians(angle)) * KILLDISTANCE),
-								playerY
-										+ ((float) Math.sin(Math
-												.toRadians(angle)) * KILLDISTANCE));
-						glEnd();
+						if(DEBUG_LINES){
+							glBindTexture(GL_TEXTURE_2D, 0);
+							glBegin(GL_LINES);
+							glColor4f(0, 1, 0, 1);
+							glVertex2f(playerX, playerY);
+							glVertex2f(
+									playerX
+									+ ((float) Math.cos(Math
+											.toRadians(angle)) * KILLDISTANCE),
+											playerY
+											+ ((float) Math.sin(Math
+													.toRadians(angle)) * KILLDISTANCE));
+							glEnd();
 
-						glBindTexture(GL_TEXTURE_2D, 0);
-						glBegin(GL_LINES);
-						glColor4f(0, 0, 1, 1);
-						glVertex2f(playerX, playerY);
-						glVertex2f(
-								playerX
-										+ ((float) Math.cos(Math
-												.toRadians(angle + KILLANGLE)) * KILLDISTANCE),
-								playerY
-										+ ((float) Math.sin(Math
-												.toRadians(angle + KILLANGLE)) * KILLDISTANCE));
-						glEnd();
+							glBindTexture(GL_TEXTURE_2D, 0);
+							glBegin(GL_LINES);
+							glColor4f(0, 0, 1, 1);
+							glVertex2f(playerX, playerY);
+							glVertex2f(
+									playerX
+									+ ((float) Math.cos(Math
+											.toRadians(angle + KILLANGLE)) * KILLDISTANCE),
+											playerY
+											+ ((float) Math.sin(Math
+													.toRadians(angle + KILLANGLE)) * KILLDISTANCE));
+							glEnd();
 
-						glBindTexture(GL_TEXTURE_2D, 0);
-						glBegin(GL_LINES);
-						glColor4f(0, 0, 1, 1);
-						glVertex2f(playerX, playerY);
-						glVertex2f(
-								playerX
-										+ ((float) Math.cos(Math
-												.toRadians(angle - KILLANGLE)) * KILLDISTANCE),
-								playerY
-										+ ((float) Math.sin(Math
-												.toRadians(angle - KILLANGLE)) * KILLDISTANCE));
-						glEnd();
+							glBindTexture(GL_TEXTURE_2D, 0);
+							glBegin(GL_LINES);
+							glColor4f(0, 0, 1, 1);
+							glVertex2f(playerX, playerY);
+							glVertex2f(
+									playerX
+									+ ((float) Math.cos(Math
+											.toRadians(angle - KILLANGLE)) * KILLDISTANCE),
+											playerY
+											+ ((float) Math.sin(Math
+													.toRadians(angle - KILLANGLE)) * KILLDISTANCE));
+							glEnd();
+						}
 					}
 				}
 			}
