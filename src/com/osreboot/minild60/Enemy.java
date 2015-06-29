@@ -13,12 +13,14 @@ public class Enemy {
 	private float relX, relY;
 	
 	private float offset;
+	private float health;
 	
 	public Enemy(float x, float y)
 	{
 		this.relX = x - Game.cameraX;
 		this.relY = y - Game.cameraY;
 		offset = (float)(Math.random()*Math.PI*4);
+		health = 1.0f;
 	}
 	
 	public void update(float delta)
@@ -76,5 +78,21 @@ public class Enemy {
 			return true;
 		
 		return Game.map.getLayer(Player.COLLIDABLE_LAYER).getTile(tileX, tileY) != null;
+	}
+
+	public float getRelX() {
+		return relX;
+	}
+
+	public float getRelY() {
+		return relY;
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
 	}
 }
