@@ -22,7 +22,7 @@ public class Player {
 
 	public static final float KILLANGLE = 45;
 	public static final float KILLDISTANCE = 256;
-	public static final float DAMAGERATE = 0.5f;
+	public static final float DAMAGERATE = 0.65f;
 
 	private float angle;
 

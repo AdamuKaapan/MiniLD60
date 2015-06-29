@@ -34,21 +34,10 @@ public class Level {
 		public int x, y;
 	}
 	
-	public static class MobileSpeakerTile
-	{
-		public MobileSpeakerTile(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		public int x, y;
-	}
-	
 	public static List<Level> levels;
 	
 	public static final int enemySpawnerTile = 63;
 	public static final int wallSpeakerTile = 62;
-	public static final int mobileSpeakerTile = 61;
 	
 	public static final float TILE_SIZE = 64;
 	
@@ -79,7 +68,6 @@ public class Level {
 	private int startX, startY;
 	public List<SpawnTile> spawnTiles;
 	public List<WallSpeakerTile> wallSpeakers;
-	public List<MobileSpeakerTile> mobileSpeakers;
 	
 	public Level(String path, int requiredAchievements, int startX, int startY)
 	{
@@ -98,7 +86,6 @@ public class Level {
 			
 			spawnTiles = new LinkedList<>();
 			wallSpeakers = new LinkedList<>();
-			mobileSpeakers = new LinkedList<>();
 			for (int x = 0; x < map.getLayer(1).getMapWidth(); x++)
 			{
 				for (int y = 0; y < map.getLayer(1).getMapHeight(); y++)
@@ -116,9 +103,6 @@ public class Level {
 					
 					if (sTile.getTile() == wallSpeakerTile)
 						wallSpeakers.add(new WallSpeakerTile(x, y));
-					
-					if (sTile.getTile() == mobileSpeakerTile)
-						mobileSpeakers.add(new MobileSpeakerTile(x, y));
 				}
 			}
 		} catch (IOException e) {
