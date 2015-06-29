@@ -26,7 +26,7 @@ public class Player {
 	public static final float KILLDISTANCE = 256;
 	public static final float SPEAKERKILL = 512;
 	public static final float SPEAKERANGLEKILL = 30;
-	public static final float DAMAGERATE = 0.65f;
+	public static final float DAMAGERATE = 3.0f;
 
 	private float angle;
 
