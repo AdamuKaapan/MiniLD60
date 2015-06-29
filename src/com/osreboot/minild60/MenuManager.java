@@ -37,13 +37,13 @@ public class MenuManager {
 	private static HvlMenu main, levels, game, achievements, options, paused;
 	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger;
 	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, 
-	optionsTitle, optionsVolumeIndicator;
+	optionsTitle, optionsVolumeIndicator, optionsSoundIndicator;
 	private static HvlTextButton mainPlay, mainAchievements, mainOptions, mainQuit,
-	levelPlay,
+	levelPlay, levelBack,
 	achievementBack,
 	optionsSave, optionsBack,
 	pausedResume, pausedQuit;
-	private static HvlSlider optionsVolume;
+	private static HvlSlider optionsVolume, optionsSound;
 	private static HvlListBox levelList;
 
 	private static HvlRenderFrame textFrame, barFrame;
@@ -155,12 +155,12 @@ public class MenuManager {
 		levelTitle = new HvlLabel(0, 0, font, "level select", Color.red, 0.25f);
 		levelArranger.add(levelTitle);
 
-		HvlSlider levelSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/8*5, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
+		HvlSlider levelSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/2, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
 		levelSlider.setHandleStartOffset(64);
 		levelSlider.setHandleEndOffset(64);
 		
 		levelArranger.add(getBlankSpace());
-		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/8*5, levelSlider,
+		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/2, levelSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 2)), 256, 2);
@@ -186,6 +186,22 @@ public class MenuManager {
 		};
 		levelPlay.setTextScale(0.3f);
 		levelArranger.add(levelPlay);
+		
+		levelArranger.add(getBlankSpace());
+		levelBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+			@Override
+			public void draw(float delta){
+				preDrawButtonFeatures(this, delta);
+				super.draw(delta);
+				postDrawButtonFeatures(this, delta);
+			}
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(main);
+			}
+		};
+		levelBack.setTextScale(0.3f);
+		levelArranger.add(levelBack);
 		/*END LEVEL SELECT*/
 
 
@@ -240,20 +256,39 @@ public class MenuManager {
 		optionsArranger.add(optionsTitle);
 
 		optionsArranger.add(getBlankSpace());
-		optionsVolumeIndicator = new HvlLabel(0, 0, font, "volume ", Color.red, 0.25f){
+		optionsVolumeIndicator = new HvlLabel(0, 0, font, "music volume ", Color.red, 0.25f){
 			@Override
 			public void draw(float delta){
-				setText("volume " + (int)(optionsVolume.getValue()*100));
+				setText("music volume " + (int)(optionsVolume.getValue()*100));
 				super.draw(delta);
 			}
 		};
 		optionsArranger.add(optionsVolumeIndicator);
 
-		optionsVolume = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), getButton());
+		optionsVolume = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 64, 64, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 8)));
+		optionsVolume.setHandleStartOffset(64);
+		optionsVolume.setHandleEndOffset(64);
 		optionsVolume.setSnapInterval(0.01f);
 		optionsVolume.setValue(OptionsConfig.volume);
 		optionsArranger.add(optionsVolume);
 
+		optionsArranger.add(getBlankSpace());
+		optionsSoundIndicator = new HvlLabel(0, 0, font, "effects volume ", Color.red, 0.25f){
+			@Override
+			public void draw(float delta){
+				setText("effects volume " + (int)(optionsSound.getValue()*100));
+				super.draw(delta);
+			}
+		};
+		optionsArranger.add(optionsSoundIndicator);
+
+		optionsSound = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 64, 64, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 8)));
+		optionsSound.setHandleStartOffset(64);
+		optionsSound.setHandleEndOffset(64);
+		optionsSound.setSnapInterval(0.01f);
+		optionsSound.setValue(OptionsConfig.sound);
+		optionsArranger.add(optionsSound);
+		
 		optionsArranger.add(getBlankSpace());
 		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
 			@Override

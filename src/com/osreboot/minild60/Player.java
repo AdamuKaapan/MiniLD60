@@ -14,7 +14,7 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 
 public class Player {
-	public static final boolean DEBUG_LINES = true;
+	public static final boolean DEBUG_LINES = false;
 
 	public static final int COLLIDABLE_LAYER = 1;
 
@@ -22,11 +22,11 @@ public class Player {
 	public static final float MOVEMENT_SPEED = 200;
 	public static final float LASER_ACCURACY = 48f;
 
-	public static final float KILLANGLE = 45;
+	public static final float KILLANGLE = 60;
 	public static final float KILLDISTANCE = 256;
 	public static final float SPEAKERKILL = 512;
 	public static final float SPEAKERANGLEKILL = 30;
-	public static final float DAMAGERATE = 3.0f;
+	public static final float DAMAGERATE = 5.0f;
 
 	private float angle;
 
@@ -86,7 +86,7 @@ public class Player {
 		{
 			if (HvlMath.distance(cX, cY, Game.cameraX + e.getRelX(), Game.cameraY + e.getRelY()) <= RADIUS + Enemy.radius)
 			{
-				System.out.println("DEATH!");
+				//System.out.println("DEATH!");
 				isDead = true;
 				Game.reset();
 			}
@@ -159,7 +159,7 @@ public class Player {
 						
 						isReflecting = true;
 						attackIntensity = Math.max(0, ((SPEAKERKILL - distance) / SPEAKERKILL) * ((float)(SPEAKERANGLEKILL - Math.toDegrees(Math.abs(diff))) / SPEAKERANGLEKILL));
-						System.out.println(Math.toDegrees(diff));
+						//System.out.println(Math.toDegrees(diff));
 						for (int i = 0; i < Game.enemies.size(); i++) {
 							Enemy e = Game.enemies.get(i);
 							float eX = Game.cameraX + e.getRelX();
