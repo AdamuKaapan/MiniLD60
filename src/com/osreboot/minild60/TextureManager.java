@@ -19,6 +19,8 @@ public class TextureManager {
 		uiLoader.loadResource("TempArrow");
 		uiLoader.loadResource("Font");
 		uiLoader.loadResource("Equalizer");
+		uiLoader.loadResource("Slider");
+		uiLoader.loadResource("Bar");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");

@@ -156,9 +156,12 @@ public class MenuManager {
 		levelTitle = new HvlLabel(0, 0, font, "level select", Color.red, 0.25f);
 		levelArranger.add(levelTitle);
 
+		HvlSlider levelSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/8*5, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
+		levelSlider.setHandleStartOffset(64);
+		levelSlider.setHandleEndOffset(64);
+		
 		levelArranger.add(getBlankSpace());
-		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/8*5, 
-				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/8*5, SliderDirection.VERTICAL, 32, 32, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), getButton()), 
+		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/8*5, levelSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 2)), 256, 2);
