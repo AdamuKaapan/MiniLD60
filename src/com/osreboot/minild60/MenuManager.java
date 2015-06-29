@@ -32,7 +32,7 @@ import com.osreboot.ridhvl.painter.shader.HvlShader;
 
 public class MenuManager {
 
-	private static HvlFontPainter2D font;
+	public static HvlFontPainter2D font;
 
 	private static HvlMenu main, levels, game, achievements, options, paused;
 	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger;
