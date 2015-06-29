@@ -98,6 +98,7 @@ public class Level {
 			
 			spawnTiles = new LinkedList<>();
 			wallSpeakers = new LinkedList<>();
+			recordTiles = new LinkedList<>();
 			for (int x = 0; x < map.getLayer(1).getMapWidth(); x++)
 			{
 				for (int y = 0; y < map.getLayer(1).getMapHeight(); y++)

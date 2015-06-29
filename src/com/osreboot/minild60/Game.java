@@ -16,6 +16,7 @@ import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTextureUtil;
+import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
 import com.osreboot.ridhvl.painter.shader.HvlShader;
@@ -41,6 +42,8 @@ public class Game {
 	private static int[] speakerCoordsY = new int[10];
 	
 	public static void reset() {
+		records = new LinkedList<>();
+		
 		speakerCoordsX = new int[10];
 		speakerCoordsY = new int[10];
 		for (SpawnTile tile : currentLevel.spawnTiles)
@@ -163,6 +166,11 @@ public class Game {
 		HvlShader.setCurrentShader(null);
 		
 		AchievementManager.draw(delta);
+		
+		if (records.isEmpty())
+		{
+			HvlMenu.setCurrent(MenuManager.main);
+		}
 	}
 	
 	public static int getTileX(float xPos)

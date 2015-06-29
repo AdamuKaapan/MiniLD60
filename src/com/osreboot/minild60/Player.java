@@ -92,11 +92,13 @@ public class Player {
 			}
 		}
 		
-		for (Record r : Game.records)
+		for (int i = 0; i < Game.records.size(); i++)
 		{
+			Record r = Game.records.get(i);
+			
 			if (HvlMath.distance(cX, cY, Game.cameraX + r.getRelX(), Game.cameraY + r.getRelY()) <= RADIUS + Record.radius)
 			{
-				
+				Game.records.remove(i--);
 			}
 		}
 	}

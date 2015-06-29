@@ -35,7 +35,7 @@ public class MenuManager {
 
 	public static HvlFontPainter2D font;
 
-	private static HvlMenu main, levels, game, achievements, options, paused;
+	public static HvlMenu main, levels, game, achievements, options, paused;
 	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger;
 	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, 
 	optionsTitle, optionsVolumeIndicator, optionsSoundIndicator;
