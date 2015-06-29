@@ -16,12 +16,14 @@ import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
 
-	public static final float RADIUS = 30f;
+	public static final float RADIUS = 20f;
 	public static final float MOVEMENT_SPEED = 200;
 	public static final float LASER_ACCURACY = 48f;
 
 	public static final float KILLANGLE = 45;
 	public static final float KILLDISTANCE = 256;
+	public static final float SPEAKERKILL = 512;
+	public static final float SPEAKERANGLEKILL = 30;
 	public static final float DAMAGERATE = 0.65f;
 
 	private float angle;
@@ -147,9 +149,9 @@ public class Player {
 							.toRadians(angle));
 					diff %= Math.toRadians(360);
 
-					if (diff < Math.toRadians(30) || diff > Math.toRadians(330)) {
+					if (diff < Math.toRadians(SPEAKERANGLEKILL) || diff > Math.toRadians(360 - SPEAKERANGLEKILL)) {
 						isReflecting = true;
-						attackIntensity = 1.0f;
+						attackIntensity = Math.max(0, (distance / SPEAKERKILL) * ((float)Math.toDegrees(diff) / SPEAKERANGLEKILL));
 						
 						for (int i = 0; i < Game.enemies.size(); i++) {
 							Enemy e = Game.enemies.get(i);
@@ -166,7 +168,7 @@ public class Player {
 										.distance(playerX, playerY, eX, eY)) + 1;
 								float damage = DAMAGERATE
 										* angleDamageMultiplier
-										* distanceDamageMultiplier * delta;
+										* distanceDamageMultiplier * attackIntensity * delta;
 								e.setHealth(e.getHealth() - Math.max(damage, 0));
 								if (e.getHealth() <= 0) {
 									Game.enemies.remove(i--);
