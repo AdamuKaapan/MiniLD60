@@ -25,7 +25,7 @@ public class Player {
 	public static final float KILLANGLE = 60;
 	public static final float KILLDISTANCE = 256;
 	public static final float SPEAKERKILL = 512;
-	public static final float SPEAKERANGLEKILL = 30;
+	public static final float SPEAKERANGLEKILL = 60;
 	public static final float DAMAGERATE = 5.0f;
 
 	private float angle;
@@ -203,10 +203,10 @@ public class Player {
 							}
 						}
 
-						if(DEBUG_LINES){
+						if(DEBUG_LINES || !OptionsConfig.linesVisible){
 							glBindTexture(GL_TEXTURE_2D, 0);
 							glBegin(GL_LINES);
-							glColor4f(0, 1, 0, 1);
+							glColor4f(0, 1, 0, getAttackIntensity());
 							glVertex2f(playerX, playerY);
 							glVertex2f(
 									playerX
@@ -216,7 +216,8 @@ public class Player {
 											+ ((float) Math.sin(Math
 													.toRadians(angle)) * KILLDISTANCE));
 							glEnd();
-
+						}
+						if(DEBUG_LINES){
 							glBindTexture(GL_TEXTURE_2D, 0);
 							glBegin(GL_LINES);
 							glColor4f(0, 0, 1, 1);

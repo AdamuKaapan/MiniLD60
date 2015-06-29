@@ -17,6 +17,7 @@ import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
+import com.osreboot.ridhvl.menu.component.HvlCheckbox;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.menu.component.HvlListBox;
 import com.osreboot.ridhvl.menu.component.HvlSlider;
@@ -45,7 +46,8 @@ public class MenuManager {
 	pausedResume, pausedQuit;
 	private static HvlSlider optionsVolume, optionsSound;
 	private static HvlListBox levelList;
-
+	private static HvlCheckbox optionsLasers;
+	
 	private static HvlRenderFrame textFrame, barFrame;
 	private static HvlShader textPost;
 
@@ -73,7 +75,7 @@ public class MenuManager {
 		mainArranger.add(mainTitle);
 
 		mainArranger.add(getBlankSpace());
-		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "play"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -89,7 +91,7 @@ public class MenuManager {
 		mainArranger.add(mainPlay);
 
 		mainArranger.add(getBlankSpace());
-		mainAchievements = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "achievements"){
+		mainAchievements = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "achievements"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -105,7 +107,7 @@ public class MenuManager {
 		mainArranger.add(mainAchievements);
 
 		mainArranger.add(getBlankSpace());
-		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "options"){
+		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "options"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -122,7 +124,7 @@ public class MenuManager {
 		mainArranger.add(mainOptions);
 
 		mainArranger.add(getBlankSpace());
-		mainQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+		mainQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "quit"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -170,7 +172,7 @@ public class MenuManager {
 		levelArranger.add(levelList);
 
 		levelArranger.add(getBlankSpace());
-		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "play"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -188,7 +190,7 @@ public class MenuManager {
 		levelArranger.add(levelPlay);
 		
 		levelArranger.add(getBlankSpace());
-		levelBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+		levelBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "back"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -222,7 +224,7 @@ public class MenuManager {
 		achievementArranger.add(achievementTitle);
 
 		achievementArranger.add(getBlankSpace());
-		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "back"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -289,8 +291,20 @@ public class MenuManager {
 		optionsSound.setValue(OptionsConfig.sound);
 		optionsArranger.add(optionsSound);
 		
+		optionsArranger.add(new HvlSpacer(0, 0, Display.getWidth(), (Display.getHeight()/16) + 32));
+		
+		optionsLasers = new HvlCheckbox(Display.getWidth()/8*7, Display.getHeight()/8*5, 32, 32, false, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11))){
+			@Override
+			public void draw(float delta){
+				font.hvlDrawWord("show laser .shader bugs(", super.getX() - Display.getWidth()/8*6, super.getY() - Display.getHeight()/64, 0.2f, Color.red);
+				super.draw(delta);
+			}
+		};
+		optionsLasers.setChecked(OptionsConfig.linesVisible);
+		options.add(optionsLasers);
+		
 		optionsArranger.add(getBlankSpace());
-		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
+		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "save"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -306,7 +320,7 @@ public class MenuManager {
 		optionsArranger.add(optionsSave);
 
 		optionsArranger.add(getBlankSpace());
-		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "back"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -341,7 +355,7 @@ public class MenuManager {
 		pausedArranger.add(pausedTitle);
 
 		pausedArranger.add(getBlankSpace());
-		pausedResume = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "resume"){
+		pausedResume = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "resume"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -357,7 +371,7 @@ public class MenuManager {
 		pausedArranger.add(pausedResume);
 
 		pausedArranger.add(getBlankSpace());
-		pausedQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+		pausedQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "quit"){
 			@Override
 			public void draw(float delta){
 				preDrawButtonFeatures(this, delta);
@@ -444,10 +458,14 @@ public class MenuManager {
 	private static void loadOptions(){
 		HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
 		optionsVolume.setValue(OptionsConfig.volume);
+		optionsSound.setValue(OptionsConfig.sound);
+		optionsLasers.setChecked(OptionsConfig.linesVisible);
 	}
 
 	private static void saveOptions(){
 		OptionsConfig.volume = optionsVolume.getValue();
+		OptionsConfig.sound = optionsSound.getValue();
+		OptionsConfig.linesVisible = optionsLasers.getChecked();
 		HvlConfigUtil.saveStaticConfig(OptionsConfig.class, "res\\options.txt");
 	}
 

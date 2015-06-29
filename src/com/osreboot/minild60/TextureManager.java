@@ -6,7 +6,7 @@ import com.osreboot.ridhvl.loader.HvlTextureLoader;
 
 public class TextureManager {
 
-	private static HvlTextureLoader uiLoader = new HvlTextureLoader(10);
+	private static HvlTextureLoader uiLoader = new HvlTextureLoader(20);
 	private static HvlTextureLoader playLoader = new HvlTextureLoader(10);
 	
 	public enum TextureSeries{
@@ -24,6 +24,9 @@ public class TextureManager {
 		uiLoader.loadResource("Achievement");
 		uiLoader.loadResource("Bar2");
 		uiLoader.loadResource("Slider2");
+		uiLoader.loadResource("Select");
+		uiLoader.loadResource("Checked");//10
+		uiLoader.loadResource("Unchecked");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
