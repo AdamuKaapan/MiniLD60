@@ -11,7 +11,7 @@ public class Main extends HvlTemplate2DBasic {
 	}
 	
 	public Main(){
-		super(60, 1280, 720, "Mini Ludum Dare 60 - Celebrate Ludum Dare", new HvlDisplayModeDefault());//TODO icon and change title
+		super(60, 1280, 720, "Audiovisual Extermination by Wub Alliance", new HvlDisplayModeDefault());//TODO icon and change title
 	}
 	
 	private static float totalTime = 0;
