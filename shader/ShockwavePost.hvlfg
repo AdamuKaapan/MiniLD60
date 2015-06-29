@@ -8,6 +8,7 @@ uniform float targetX;
 uniform float targetY;
 uniform float intensity;
 float range = 200.0;
+float playerSpill = 25;
 
 void main(){
 	float offset = 0;
@@ -33,9 +34,10 @@ void main(){
 				vec2( mix(playerX, targetX, i/targetDist), mix(playerY, targetY, i/targetDist) ),
 				vec2( gl_TexCoord[0].x*1280, (1.0 - gl_TexCoord[0].y)*720 )
 				);
-			if(fragDist < 50) offset2 += ((fragDist/50)/(targetDist/5));
+			if(fragDist < playerSpill) offset2 += ((fragDist/playerSpill)/(targetDist/5)) * 
+			max(min(sin(-time*16 + (lineDist/5)), 1), 0);
 	}
-	
-	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset2/32) + (offset/32)));
+	offset2 *= intensity * 0.5;
+	vec4 color = texture2D(texture1, float2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset2/8) + (offset/128)));
 	gl_FragColor = color;
 }
