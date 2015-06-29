@@ -68,27 +68,21 @@ public class Player {
 		HvlPainter2D.hvlResetRotation();
 
 		for (WallSpeakerTile tile : Game.currentLevel.wallSpeakers) {
-			float tileX = Game.map.getX() + (tile.x * Game.map.getTileWidth()) + (Game.map.getTileWidth() / 2);
-			float tileY = Game.map.getY() + (tile.y * Game.map.getTileHeight()) + (Game.map.getTileHeight() / 2);
-
-			float w = (float) Display.getWidth() / 2;
-			float h = (float) Display.getHeight() / 2;
+			float playerX = (float) Display.getWidth() / 2;
+			float playerY = (float) Display.getHeight() / 2;
 
 			float intersectionX = 0;
 			float intersectionY = 0;
 			boolean intersects = false;
 			
 			
-			float distance = HvlMath.distance(tileX, tileY, w, h);
+			float distance = HvlMath.distance(Game.getWorldX(tile.x), Game.getWorldY(tile.y), playerX, playerY);
 			//System.out.println(distance);
 			for(float f = 0; f < distance; f++){
-				float xPoint = lerp(tileX, w, f/distance);
-				float yPoint = lerp(tileY, h, f/distance);
+				float xPoint = lerp(Game.getWorldX(tile.x), playerX, f/distance);
+				float yPoint = lerp(Game.getWorldY(tile.y), playerY, f/distance);
 				
-				int newX = Game.getTileX(xPoint);
-				int newY = Game.getTileY(yPoint);
-				
-				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(newX, newY) != null && newX != tileX && newY != tileY){
+				if(Game.map.getLayer(COLLIDABLE_LAYER).getTile(Game.getTileX(xPoint), Game.getTileY(yPoint)) != null && Game.getTileX(xPoint) != tile.x && Game.getTileY(yPoint) != tile.y){
 					intersects = true;
 					intersectionX = xPoint;
 					intersectionY = yPoint;
@@ -99,52 +93,15 @@ public class Player {
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glBegin(GL_LINES);
 				glColor4f(intersects ? 1 : 0, intersects ? 0 : 1, 0, 1);
-				glVertex2f(Game.getWorldX(newX), Game.getWorldY(newY));
-				glVertex2f(Game.getWorldX(newX) + 5, Game.getWorldY(newY) + 5);
+				glVertex2f(Game.getWorldX(Game.getTileX(xPoint)) + 5, Game.getWorldY(Game.getTileY(yPoint)) + 5);
 				glEnd();
 			}
-			
-			/*
-//			System.out.println("Player: " + pTileX + ", " + pTileY);
-
-			float distance = (float) Math.sqrt(Math.pow(tileY - h, 2) + Math.pow(tileX - w, 2));
-			float xDiff = (tileX - w) / distance, yDiff = (tileY - h) / distance;
-			xDiff *= 4;
-			yDiff *= 4;
-			
-			float xPos = tileX;
-			float yPos = tileY;
-			
-			while (Math.sqrt(Math.pow(yPos - h, 2) + Math.pow(xPos - w, 2)) < distance)
-			{
-//				System.out.println(Math.sqrt(Math.pow(yPos - h, 2) + Math.pow(xPos - w, 2)));
-				
-				xPos += xDiff;
-				yPos += yDiff;
-				
-				float shiftedXPos = xPos - Game.cameraX;
-				float shiftedYPos = yPos - Game.cameraY;
-				
-				int someTileX = (int) (shiftedXPos / Game.map.getTileWidth());
-				int someTileY = (int) (shiftedYPos / Game.map.getTileHeight());
-				
-				if (Game.map.getLayer(COLLIDABLE_LAYER).getTile(someTileX, someTileY) != null)
-				{
-					if (someTileX == tile.x && someTileY == tile.y)
-					{
-						continue;
-					}
-					
-//					System.out.println("Collision!" + someTileX + ", " + someTileY);
-					break;
-				}
-			}*/
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBegin(GL_LINES);
 			glColor4f(1, 0, 0, 1);
-			glVertex2f(tileX, tileY);
-			glVertex2f(intersects ? intersectionX : (Display.getWidth() / 2), intersects ? intersectionY : (Display.getHeight() / 2));
+			glVertex2f(Game.getWorldX(tile.x), Game.getWorldY(tile.y));
+			glVertex2f(intersects ? intersectionX : playerX, intersects ? intersectionY : playerY);
 			glEnd();
 		}
 	}
