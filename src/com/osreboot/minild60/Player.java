@@ -20,6 +20,8 @@ public class Player {
 	public static final float LASER_ACCURACY = 48f;
 	
 	public static final float KILLANGLE = 45;
+	public static final float KILLDISTANCE = 256;
+	public static final float DAMAGERATE = 0.5f;
 
 	private float angle;
 
@@ -117,8 +119,17 @@ public class Player {
 						
 						if (Math.abs(Math.toDegrees(enemyDiff)) < KILLANGLE)
 						{
-							Game.enemies.remove(i--);
-							System.out.println("DEATH!");
+							float angleDamageMultiplier = ((-1.0f/KILLANGLE) * (float) Math.abs(Math.toDegrees(enemyDiff))) + 1;
+							float distanceDamageMultiplier = ((-1.0f/KILLDISTANCE) * (float) HvlMath.distance(playerX, playerY, eX, eY)) + 1;
+							System.out.println(distanceDamageMultiplier);
+							float damage = DAMAGERATE * angleDamageMultiplier * distanceDamageMultiplier * delta;
+							e.setHealth(e.getHealth() - Math.max(damage, 0));
+							System.out.println("Health: " + e.getHealth());
+							if (e.getHealth() <= 0)
+							{
+								Game.enemies.remove(i--);
+//								System.out.println("FATALITY!");
+							}
 						}
 						
 						System.out.println(Math.toDegrees(enemyDiff));
