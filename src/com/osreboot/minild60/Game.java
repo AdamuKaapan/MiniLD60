@@ -31,7 +31,7 @@ public class Game {
 	public static Level currentLevel;
 	
 	public static List<Enemy> enemies;
-	public static Map<HvlRadialParticleSystem, Float> deathParticles;
+	public static Map<HvlRadialParticleSystem, Float> deathParticles, confetti;
 	public static List<Record> records;
 
 	private static Player player;
@@ -70,6 +70,7 @@ public class Game {
 		player = new Player();
 		enemies = new LinkedList<>();
 		deathParticles = new HashMap<>();
+		confetti = new HashMap<>();
 	}
 
 	public static void initialize() {
@@ -119,7 +120,7 @@ public class Game {
 		map.setyTop(0);
 		map.setyBottom(Display.getHeight());
 		map.draw(delta);
-		List<HvlRadialParticleSystem> toRemove = new LinkedList<>();
+		List<HvlRadialParticleSystem> toRemoveD = new LinkedList<>(), toRemoveC = new LinkedList<>();
 		
 		for (Map.Entry<HvlRadialParticleSystem, Float> entry : deathParticles.entrySet())
 		{
@@ -128,14 +129,28 @@ public class Game {
 			entry.getKey().setY(entry.getKey().getY() + (prevCameraY - cameraY));
 			if (entry.getValue() > 3.0f)
 			{
-				toRemove.add(entry.getKey());
+				toRemoveD.add(entry.getKey());
 			}
 			entry.getKey().draw(delta);
 		}
 		
-		for (HvlRadialParticleSystem tr : toRemove)
+		for (Map.Entry<HvlRadialParticleSystem, Float> entry : confetti.entrySet())
+		{
+			entry.setValue(entry.getValue() + delta);
+			if (entry.getValue() > 10.0f)
+			{
+				toRemoveC.add(entry.getKey());
+			}
+			entry.getKey().draw(delta);
+		}
+		
+		for (HvlRadialParticleSystem tr : toRemoveD)
 		{
 			deathParticles.remove(tr);
+		}
+		for (HvlRadialParticleSystem tr : toRemoveC)
+		{
+			confetti.remove(tr);
 		}
 		
 		player.update(delta);
@@ -218,6 +233,36 @@ public class Game {
 //		tr.setMinTimeToSpawn(1.0f);
 //		tr.setMaxTimeToSpawn(1.0f);
 //		tr.setParticlesPerSpawn(5);
+		return tr;
+	}
+	
+	public static HvlRadialParticleSystem makeConfetti()
+	{
+		HvlRadialParticleSystem tr = new HvlRadialParticleSystem(0, 0, 15, 15, HvlTextureUtil.getColoredRect(32, 32, Color.white));
+		tr.setSpawnRadius(256);
+		tr.setMaxParticles(4);
+		tr.setMinScale(0.75f);
+		tr.setMaxScale(1.0f);
+		tr.setxVelDecay(-0.5f);
+		tr.setyVelDecay(0.25f);
+		tr.setScaleDecay(0.0f);
+		tr.setMinXVel(-128);
+		tr.setMaxXVel(128);
+		tr.setMinYVel(64);
+		tr.setMaxYVel(128);
+		tr.setMinRot(0f);
+		tr.setMaxRot(360f);
+		tr.setMinRotVel(45f);
+		tr.setMaxRotVel(360f);
+		tr.setRotVelDecay(0f);
+		tr.setMinLifetime(5f);
+		tr.setMaxLifetime(8f);
+		tr.setStartColorOne(Color.black);
+		tr.setStartColorTwo(Color.white);
+		tr.setEndColorOne(Color.black);
+		tr.setEndColorTwo(Color.white);
+		tr.setColorCoordinated(false);
+		tr.setParticlesPerSpawn(0);
 		return tr;
 	}
 }

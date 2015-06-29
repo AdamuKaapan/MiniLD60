@@ -99,6 +99,15 @@ public class Player {
 			if (HvlMath.distance(cX, cY, Game.cameraX + r.getRelX(), Game.cameraY + r.getRelY()) <= RADIUS + Record.radius)
 			{
 				Game.records.remove(i--);
+				
+				for (int j = 0; j < 10; j++)
+				{
+					HvlRadialParticleSystem ta = Game.makeConfetti();
+					ta.setX(Display.getWidth() * j / 10);
+					ta.setY(-ta.getSpawnRadius());
+					ta.spawnAllParticles();
+					Game.confetti.put(ta, 0f);
+				}
 			}
 		}
 	}
