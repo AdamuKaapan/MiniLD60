@@ -8,7 +8,7 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class Enemy {
 	public static final float radius = 30f;
-	public static final float movementSpeed = 64f;
+	public static final float movementSpeed = 128f;
 	
 	private float relX, relY;
 	
@@ -18,7 +18,7 @@ public class Enemy {
 	{
 		this.relX = x - Game.cameraX;
 		this.relY = y - Game.cameraY;
-		offset = (float)Math.random();
+		offset = (float)(Math.random()*Math.PI*4);
 	}
 	
 	public void update(float delta)
@@ -32,8 +32,8 @@ public class Enemy {
 		xDiff /= d;
 		yDiff /= d;
 		
-		float xTrans = xDiff * delta * movementSpeed * (float)Math.max(Math.cos(offset + Main.getTotalTime()), 0.75f);
-		float yTrans = yDiff * delta * movementSpeed * (float)Math.max(Math.sin(offset + Main.getTotalTime()), 0.75f);
+		float xTrans = xDiff * delta * movementSpeed * (float)Math.max(Math.cos(offset + (Main.getTotalTime()*5)), 0.25f);
+		float yTrans = yDiff * delta * movementSpeed * (float)Math.max(Math.sin(offset + (Main.getTotalTime()*5)), 0.25f);
 		
 		if (isBlockNear(radius + xTrans, (radius * 0.99f))
 				|| isBlockNear(radius + xTrans, -(radius * 0.99f)))
