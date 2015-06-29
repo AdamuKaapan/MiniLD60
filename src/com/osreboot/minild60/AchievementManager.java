@@ -48,6 +48,18 @@ public class AchievementManager
 		return null;
 	}
 	
+	public static int getNumberUnlocked()
+	{
+		int count = 0;
+		
+		for (boolean b : unlockeds)
+		{
+			if (b) count++;
+		}
+		
+		return count;
+	}
+	
 	public static void setUnlocked(String name, boolean val)
 	{
 		for (int i = 0; i < titles.length; i++)
