@@ -58,7 +58,7 @@ public class MenuManager {
 		mainArranger.setAlign(0.5f);
 		main.add(mainArranger);
 		
-		mainTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
+		mainTitle = new HvlLabel(0, 0, font, "audiovisual extermination", Color.red, 0.25f);
 		mainArranger.add(mainTitle);
 		
 		mainArranger.add(getBlankSpace());
