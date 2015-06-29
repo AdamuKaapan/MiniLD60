@@ -1,5 +1,7 @@
 package com.osreboot.minild60;
 
+import org.lwjgl.opengl.GL11;
+
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
@@ -22,6 +24,7 @@ public class Main extends HvlTemplate2DBasic {
 	
 	@Override
 	public void initialize() {
+		System.out.println(GL11.glGetString(GL11.GL_VERSION));
 		TextureManager.initialize();
 		SoundManager.initialize();
 		MenuManager.initialize();
