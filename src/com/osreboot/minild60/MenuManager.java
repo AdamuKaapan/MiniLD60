@@ -37,7 +37,7 @@ public class MenuManager {
 	levelPlay,
 	achievementBack,
 	optionsSave, optionsBack;
-	private static HvlSlider optionsVolume, levelScroll;
+	private static HvlSlider optionsVolume;
 	private static HvlListBox levelList;
 	
 	public static void initialize(){
@@ -63,8 +63,7 @@ public class MenuManager {
 		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 0), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
 			@Override
 			public void onTriggered(){
-				HvlMenu.setCurrent(game);
-				Game.initialize();
+				HvlMenu.setCurrent(levels);
 			}
 		};
 		mainPlay.setTextScale(0.4f);
@@ -135,7 +134,7 @@ public class MenuManager {
 			}
 		};
 		levelPlay.setTextScale(0.4f);
-		levelArranger.add(levelPlay); 
+		levelArranger.add(levelPlay);
 		/*END LEVEL SELECT*/
 		
 		

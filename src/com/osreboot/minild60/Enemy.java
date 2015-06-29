@@ -12,10 +12,13 @@ public class Enemy {
 	
 	private float relX, relY;
 	
+	private float offset;
+	
 	public Enemy(float x, float y)
 	{
 		this.relX = x - Game.cameraX;
 		this.relY = y - Game.cameraY;
+		offset = (float)Math.random();
 	}
 	
 	public void update(float delta)
@@ -29,8 +32,8 @@ public class Enemy {
 		xDiff /= d;
 		yDiff /= d;
 		
-		float xTrans = xDiff * delta * movementSpeed;
-		float yTrans = yDiff * delta * movementSpeed;
+		float xTrans = xDiff * delta * movementSpeed * (float)Math.max(Math.cos(offset + Main.getTotalTime()), 0.75f);
+		float yTrans = yDiff * delta * movementSpeed * (float)Math.max(Math.sin(offset + Main.getTotalTime()), 0.75f);
 		
 		if (isBlockNear(radius + xTrans, (radius * 0.99f))
 				|| isBlockNear(radius + xTrans, -(radius * 0.99f)))

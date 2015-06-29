@@ -78,7 +78,6 @@ public class Player {
 			
 			
 			float distance = HvlMath.distance(Game.getWorldX(tile.x), Game.getWorldY(tile.y), playerX, playerY);
-			//System.out.println(distance);
 			for(float f = 0; f < distance; f += LASER_ACCURACY){
 				float xPoint = lerp(Game.getWorldX(tile.x), playerX, f/distance);
 				float yPoint = lerp(Game.getWorldY(tile.y), playerY, f/distance);
@@ -87,7 +86,6 @@ public class Player {
 					intersects = true;
 					intersectionX = xPoint;
 					intersectionY = yPoint;
-					//System.out.println("Triggered " + f);
 					break;
 				}
 			}
