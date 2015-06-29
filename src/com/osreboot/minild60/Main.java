@@ -14,6 +14,12 @@ public class Main extends HvlTemplate2DBasic {
 		super(60, 1280, 720, "Mini Ludum Dare 60 - Celebrate Ludum Dare", new HvlDisplayModeDefault());//TODO icon and change title
 	}
 	
+	private static float totalTime = 0;
+	
+	public static float getTotalTime(){
+		return totalTime;
+	}
+	
 	@Override
 	public void initialize() {
 		TextureManager.initialize();
@@ -23,6 +29,7 @@ public class Main extends HvlTemplate2DBasic {
 
 	@Override
 	public void update(float delta) {
+		totalTime += delta;
 		SoundManager.update();
 		HvlMenu.updateMenus(delta);
 		MenuManager.update(delta);
