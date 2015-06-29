@@ -1,5 +1,7 @@
 package com.osreboot.minild60;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,8 +11,12 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.Level.SpawnTile;
+import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTextureUtil;
+import com.osreboot.ridhvl.painter.HvlRenderFrame;
+import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
+import com.osreboot.ridhvl.painter.shader.HvlShader;
 import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
@@ -26,7 +32,14 @@ public class Game {
 
 	private static Player player;
 
+	private static HvlRenderFrame shockwaveFrame;
+	private static HvlShader shockwaveShader;
+	private static int[] speakerCoordsX = new int[10];
+	private static int[] speakerCoordsY = new int[10];
+	
 	public static void reset() {
+		speakerCoordsX = new int[10];
+		speakerCoordsY = new int[10];
 		for (SpawnTile tile : currentLevel.spawnTiles)
 		{
 			tile.hasSpawned = false;
@@ -50,15 +63,29 @@ public class Game {
 	}
 
 	public static void initialize() {
+		shockwaveShader = new HvlShader(HvlShader.VERTEX_DEFAULT, HvlShader.PATH_SHADER_DEFAULT + "ShockwavePost" + HvlShader.SUFFIX_FRAGMENT);
+		shockwaveFrame = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		currentLevel = Level.levels.get(0);
 		map = currentLevel.getMap();
 
 		reset();
 	}
 
-	public static void update(float delta) {
+	public static void update(float delta){
+		
+		HvlRenderFrame.setCurrentRenderFrame(shockwaveFrame);
 		prevCameraX = cameraX;
 		prevCameraY = cameraY;
+		
+		for(WallSpeakerTile tile : currentLevel.wallSpeakers){
+			//if(getWorldX(tile.x) > 0 && getWorldX(tile.x) < HvlDisplay.getDisplayMode().getCoordinateWidth() &&
+					//getWorldX(tile.y) > 0 && getWorldY(tile.y) < HvlDisplay.getDisplayMode().getCoordinateHeight()){
+				if(currentLevel.wallSpeakers.indexOf(tile) < 10){
+					speakerCoordsX[currentLevel.wallSpeakers.indexOf(tile)] = (int)getWorldX(tile.x);
+					speakerCoordsY[currentLevel.wallSpeakers.indexOf(tile)] = (int)getWorldY(tile.y);
+				}
+			//}
+		}
 		
 		for (SpawnTile t : currentLevel.spawnTiles)
 		{
@@ -108,6 +135,19 @@ public class Game {
 			e.update(delta);
 			e.draw(delta);
 		}
+		HvlRenderFrame.setCurrentRenderFrame(null);
+		
+		HvlShader.setCurrentShader(shockwaveShader);
+		shockwaveShader.sendIntArray("xcoords", speakerCoordsX);
+		shockwaveShader.sendIntArray("ycoords", speakerCoordsY);
+		shockwaveShader.sendIntArray("ycoords", speakerCoordsY);
+		shockwaveShader.sendFloat("time", Main.getTotalTime());
+		shockwaveShader.sendFloat("playerX", Display.getWidth()/2);
+		shockwaveShader.sendFloat("playerY", Display.getHeight()/2);
+		shockwaveShader.sendFloat("targetX", (Display.getWidth()/2) + ((float)Math.cos(Math.toRadians(Game.player.getAngle())) * Player.KILLDISTANCE));
+		
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), shockwaveFrame);
+		HvlShader.setCurrentShader(null);
 		
 		AchievementManager.draw(delta);
 	}
