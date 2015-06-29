@@ -30,6 +30,7 @@ public class TextureManager {
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
+		playLoader.loadResource("Particle");
 	}
 	
 	public static Texture getResource(TextureSeries seriesArg, int indexArg){

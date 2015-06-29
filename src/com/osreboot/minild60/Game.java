@@ -12,6 +12,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.Level.SpawnTile;
 import com.osreboot.minild60.Level.WallSpeakerTile;
+import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTextureUtil;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
@@ -176,7 +177,7 @@ public class Game {
 	
 	public static HvlRadialParticleSystem makeDeathParticles()
 	{
-		HvlRadialParticleSystem tr = new HvlRadialParticleSystem(0, 0, 12, 12, HvlTextureUtil.getColoredRect(32, 32, Color.white));
+		HvlRadialParticleSystem tr = new HvlRadialParticleSystem(0, 0, 20, 20, TextureManager.getResource(TextureSeries.PLAY, 2));
 		tr.setSpawnRadius(Enemy.radius);
 		tr.setMaxParticles(256);
 		tr.setMinScale(0.75f);
