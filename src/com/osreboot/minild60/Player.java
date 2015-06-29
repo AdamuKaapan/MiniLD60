@@ -91,6 +91,14 @@ public class Player {
 				Game.reset();
 			}
 		}
+		
+		for (Record r : Game.records)
+		{
+			if (HvlMath.distance(cX, cY, Game.cameraX + r.getRelX(), Game.cameraY + r.getRelY()) <= RADIUS + Record.radius)
+			{
+				
+			}
+		}
 	}
 
 	public void draw(float delta) {

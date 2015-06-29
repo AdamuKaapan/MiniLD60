@@ -10,6 +10,7 @@ import java.util.Map;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.minild60.Level.RecordTile;
 import com.osreboot.minild60.Level.SpawnTile;
 import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
@@ -30,6 +31,7 @@ public class Game {
 	
 	public static List<Enemy> enemies;
 	public static Map<HvlRadialParticleSystem, Float> deathParticles;
+	public static List<Record> records;
 
 	private static Player player;
 
@@ -44,6 +46,10 @@ public class Game {
 		for (SpawnTile tile : currentLevel.spawnTiles)
 		{
 			tile.hasSpawned = false;
+		}
+		for (RecordTile tile : currentLevel.recordTiles)
+		{
+			records.add(new Record(getWorldX(tile.x), getWorldY(tile.y)));
 		}
 		
 		cameraX = (Display.getWidth() / 2)
@@ -135,6 +141,10 @@ public class Game {
 		{
 			e.update(delta);
 			e.draw(delta);
+		}
+		for (Record r : records)
+		{
+			r.draw(delta);
 		}
 		HvlRenderFrame.setCurrentRenderFrame(null);
 		
