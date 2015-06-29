@@ -1,10 +1,9 @@
 package com.osreboot.minild60;
 
-import java.util.LinkedList;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.minild60.ControlManager.Action;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlTextureUtil;
@@ -17,6 +16,7 @@ import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.menu.component.HvlListBox;
 import com.osreboot.ridhvl.menu.component.HvlSlider;
+import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.HvlSlider.SliderDirection;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
@@ -29,14 +29,15 @@ public class MenuManager {
 
 	private static HvlFontPainter2D font;
 	
-	private static HvlMenu main, levels, game, achievements, options;
-	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger;
-	private static HvlLabel mainTitle, achievementTitle, levelTitle, 
+	private static HvlMenu main, levels, game, achievements, options, paused;
+	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger;
+	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, 
 	optionsTitle, optionsVolumeIndicator;
 	private static HvlTextButton mainPlay, mainAchievements, mainOptions, mainQuit,
 	levelPlay,
 	achievementBack,
-	optionsSave, optionsBack;
+	optionsSave, optionsBack,
+	pausedResume, pausedQuit;
 	private static HvlSlider optionsVolume;
 	private static HvlListBox levelList;
 	
@@ -48,7 +49,7 @@ public class MenuManager {
 		main = new HvlMenu(){
 			@Override
 			public void draw(float delta){
-				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				drawBackground();
 				super.draw(delta);
 			}
 		};
@@ -60,41 +61,65 @@ public class MenuManager {
 		mainTitle = new HvlLabel(0, 0, font, "name goes here", Color.red, 0.25f);
 		mainArranger.add(mainTitle);
 		
-		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 0), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+		mainArranger.add(getBlankSpace());
+		mainPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				HvlMenu.setCurrent(levels);
 			}
 		};
-		mainPlay.setTextScale(0.4f);
+		mainPlay.setTextScale(0.3f);
 		mainArranger.add(mainPlay);
 		
-		mainAchievements = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "achievements"){
+		mainArranger.add(getBlankSpace());
+		mainAchievements = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "achievements"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				HvlMenu.setCurrent(achievements);
 			}
 		};
-		mainAchievements.setTextScale(0.4f);
+		mainAchievements.setTextScale(0.3f);
 		mainArranger.add(mainAchievements);
 		
-		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "options"){
+		mainArranger.add(getBlankSpace());
+		mainOptions = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "options"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				loadOptions();
 				HvlMenu.setCurrent(options);
 			}
 		};
-		mainOptions.setTextScale(0.4f);
+		mainOptions.setTextScale(0.3f);
 		mainArranger.add(mainOptions);
 		
-		mainQuit = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+		mainArranger.add(getBlankSpace());
+		mainQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				System.exit(0);
 			}
 		};
-		mainQuit.setTextScale(0.4f);
+		mainQuit.setTextScale(0.3f);
 		mainArranger.add(mainQuit);
 		/*END MAIN MENU*/
 		
@@ -103,7 +128,7 @@ public class MenuManager {
 		levels = new HvlMenu(){
 			@Override
 			public void draw(float delta){
-				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				drawBackground();
 				super.draw(delta);
 			}
 		};
@@ -115,8 +140,9 @@ public class MenuManager {
 		levelTitle = new HvlLabel(0, 0, font, "level select", Color.red, 0.25f);
 		levelArranger.add(levelTitle);
 		
-		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/4*3, 
-				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/4*3, SliderDirection.VERTICAL, 32, 32, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64))), 
+		levelArranger.add(getBlankSpace());
+		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/8*5, 
+				new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/8*5, SliderDirection.VERTICAL, 32, 32, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), getButton()), 
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 2)), 256, 2);
@@ -125,7 +151,13 @@ public class MenuManager {
 		}
 		levelArranger.add(levelList);
 		
-		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+		levelArranger.add(getBlankSpace());
+		levelPlay = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "play"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
@@ -133,7 +165,7 @@ public class MenuManager {
 				Game.initialize();
 			}
 		};
-		levelPlay.setTextScale(0.4f);
+		levelPlay.setTextScale(0.3f);
 		levelArranger.add(levelPlay);
 		/*END LEVEL SELECT*/
 		
@@ -142,7 +174,7 @@ public class MenuManager {
 		achievements = new HvlMenu(){
 			@Override
 			public void draw(float delta){
-				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				drawBackground();
 				super.draw(delta);
 			}
 		};
@@ -154,13 +186,19 @@ public class MenuManager {
 		achievementTitle = new HvlLabel(0, 0, font, "achievements", Color.red, 0.25f);
 		achievementArranger.add(achievementTitle);
 		
-		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+		achievementArranger.add(getBlankSpace());
+		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				HvlMenu.setCurrent(main);
 			}
 		};
-		achievementBack.setTextScale(0.4f);
+		achievementBack.setTextScale(0.3f);
 		achievementArranger.add(achievementBack);
 		/*END ACHIEVEMENTS*/
 		
@@ -169,7 +207,7 @@ public class MenuManager {
 		options = new HvlMenu(){
 			@Override
 			public void draw(float delta){
-				HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0));
+				drawBackground();
 				super.draw(delta);
 			}
 		};
@@ -181,6 +219,7 @@ public class MenuManager {
 		optionsTitle = new HvlLabel(0, 0, font, "options", Color.red, 0.25f);
 		optionsArranger.add(optionsTitle);
 		
+		optionsArranger.add(getBlankSpace());
 		optionsVolumeIndicator = new HvlLabel(0, 0, font, "volume ", Color.red, 0.25f){
 			@Override
 			public void draw(float delta){
@@ -190,30 +229,90 @@ public class MenuManager {
 		};
 		optionsArranger.add(optionsVolumeIndicator);
 		
-		optionsVolume = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64)));
+		optionsVolume = new HvlSlider(0, 0, Display.getWidth()/2, Display.getHeight()/8, SliderDirection.HORIZONTAL, 32, 32, 1, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 3)), getButton());
 		optionsVolume.setSnapInterval(0.01f);
 		optionsVolume.setValue(OptionsConfig.volume);
 		optionsArranger.add(optionsVolume);
 		
-		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
+		optionsArranger.add(getBlankSpace());
+		optionsSave = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "save"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				saveOptions();
 			}
 		};
-		optionsSave.setTextScale(0.4f);
+		optionsSave.setTextScale(0.3f);
 		optionsArranger.add(optionsSave);
 		
-		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4, Display.getHeight()/8, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 0)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+		optionsArranger.add(getBlankSpace());
+		optionsBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "back"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
 			@Override
 			public void onTriggered(){
 				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
 				HvlMenu.setCurrent(main);
 			}
 		};
-		optionsBack.setTextScale(0.4f);
+		optionsBack.setTextScale(0.3f);
 		optionsArranger.add(optionsBack);
 		/*END OPTIONS*/
+		
+		
+		/*PAUSED*/
+		paused = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				drawBackground();
+				super.draw(delta);
+			}
+		};
+		
+		pausedArranger = new HvlArrangerBox(0, 0, Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		pausedArranger.setAlign(0.5f);
+		paused.add(pausedArranger);
+		
+		pausedTitle = new HvlLabel(0, 0, font, "paused", Color.red, 0.25f);
+		pausedArranger.add(pausedTitle);
+		
+		pausedArranger.add(getBlankSpace());
+		pausedResume = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "resume"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(game);
+			}
+		};
+		pausedResume.setTextScale(0.3f);
+		pausedArranger.add(pausedResume);
+		
+		pausedArranger.add(getBlankSpace());
+		pausedQuit = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 1)), font, "quit"){
+			@Override
+			public void draw(float delta){
+				drawEqualizerBar(this);
+				super.draw(delta);
+			}
+			@Override
+			public void onTriggered(){
+				HvlMenu.setCurrent(main);
+			}
+		};
+		pausedQuit.setTextScale(0.3f);
+		pausedArranger.add(pausedQuit);
+		/*END PAUSED*/
 		
 		
 		/*IN-GAME*/
@@ -221,6 +320,7 @@ public class MenuManager {
 			@Override
 			public void draw(float delta){
 				Game.update(delta);
+				if(ControlManager.isActionTriggering(Action.PAUSE)) HvlMenu.setCurrent(paused);
 			}
 		};
 		/*END IN-GAME*/
@@ -228,10 +328,21 @@ public class MenuManager {
 		HvlMenu.setCurrent(main);
 	}
 	
+	public static HvlSpacer getBlankSpace(){
+		return new HvlSpacer(0, 0, Display.getWidth(), Display.getHeight()/32);
+	}
+	
+	public static HvlTiledRectDrawable getButton(){
+		return new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64));
+	}
 	
 	private static float total = 0;
 	public static void update(float delta){
 		total += delta;
+	}
+	
+	public static void drawBackground(){
+		HvlPainter2D.hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), TextureManager.getResource(TextureSeries.UI, 0), Color.darkGray);
 	}
 	
 	public static void drawEqualizerBar(HvlComponent component){
