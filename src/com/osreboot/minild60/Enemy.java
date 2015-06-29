@@ -7,7 +7,7 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public class Enemy {
-	public static final float radius = 30f;
+	public static final float radius = 10f;
 	public static final float movementSpeed = 128f;
 	
 	private float relX, relY;

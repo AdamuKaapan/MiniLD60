@@ -15,8 +15,8 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 public class Player {
 	public static final int COLLIDABLE_LAYER = 1;
 
-	public static final float RADIUS = 16f;
-	public static final float MOVEMENT_SPEED = 256;
+	public static final float RADIUS = 30f;
+	public static final float MOVEMENT_SPEED = 200;
 	public static final float LASER_ACCURACY = 48f;
 
 	private float angle;
@@ -65,7 +65,7 @@ public class Player {
 				angle);
 		HvlPainter2D.hvlDrawQuad(Display.getWidth() / 2 - RADIUS,
 				Display.getHeight() / 2 - RADIUS, 2 * RADIUS, 2 * RADIUS,
-				TextureManager.getResource(TextureSeries.UI, 1), Color.red);
+				TextureManager.getResource(TextureSeries.UI, 1), Color.white);
 		HvlPainter2D.hvlResetRotation();
 
 		for (WallSpeakerTile tile : Game.currentLevel.wallSpeakers) {
