@@ -154,10 +154,8 @@ public class Player {
 					diff %= Math.toRadians(360);
 
 					if (diff < Math.toRadians(SPEAKERANGLEKILL) || diff > Math.toRadians(360 - SPEAKERANGLEKILL)) {
-						if (diff > 180)
-							diff = 360 - SPEAKERANGLEKILL;
 						isReflecting = true;
-						attackIntensity = Math.max(0, (distance / SPEAKERKILL) * ((float)Math.toDegrees(diff) / SPEAKERANGLEKILL));
+						attackIntensity = Math.max(0, (distance / SPEAKERKILL) * ((float)Math.toDegrees(Math.abs(diff)) / SPEAKERANGLEKILL));
 						for (int i = 0; i < Game.enemies.size(); i++) {
 							Enemy e = Game.enemies.get(i);
 							float eX = Game.cameraX + e.getRelX();
