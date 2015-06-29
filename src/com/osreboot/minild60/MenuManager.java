@@ -504,6 +504,7 @@ public class MenuManager {
 		OptionsConfig.sound = optionsSound.getValue();
 		OptionsConfig.linesVisible = optionsLasers.getChecked();
 		HvlConfigUtil.saveStaticConfig(OptionsConfig.class, "res\\options.txt");
+		SoundManager.reset();
 	}
 
 }

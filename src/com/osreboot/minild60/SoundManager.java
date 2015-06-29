@@ -16,14 +16,14 @@ public class SoundManager {
 	}
 	
 	public static void initialize(){
-		
+		songLoader.loadResource("JamStepFast");
 	}
 	
 	public static void update(){
 		if(OptionsConfig.volume == 0){
 			if(getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).stop();
 		}else{
-			if(!getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).playAsMusic(1, OptionsConfig.volume, false);
+			if(!getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).playAsSoundEffect(1, OptionsConfig.volume/10, false);
 		}
 		SoundStore.get().poll(0);
 	}
@@ -35,6 +35,7 @@ public class SoundManager {
 	public static Audio getResource(SoundSeries seriesArg, int indexArg){
 		switch(seriesArg){
 		case MENU: return menuLoader.getResource(indexArg);
+		case SONG: return songLoader.getResource(indexArg);
 		default: return null;
 		}
 	}
