@@ -19,13 +19,14 @@ public class SoundManager {
 	
 	public static void initialize(){
 		sfxLoader.loadResource("Record pick up");
+		songLoader.loadResource("JamStepFast");
 	}
 	
 	public static void update(){
 		if(OptionsConfig.volume == 0){
 			if(getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).stop();
 		}else{
-			if(!getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).playAsMusic(1, OptionsConfig.volume, false);
+			if(!getResource(SoundSeries.SONG, 0).isPlaying()) getResource(SoundSeries.SONG, 0).playAsSoundEffect(1, OptionsConfig.volume/10, false);
 		}
 		SoundStore.get().poll(0);
 	}
