@@ -58,15 +58,8 @@ public class Level {
 		
 		levels.add(new Level("res\\Level1", 0, 3, 7));
 		levels.add(new Level("res\\Level2", 0, 3, 3));
-		levels.add(new Level("res\\Dubstep Level Idea 2 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 3 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 2 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 4 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 5 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 6 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 9", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 7 re", 0, 7, 11));
-		levels.add(new Level("res\\Dubstep Level Idea 1 re", 0, 7, 11));
+		levels.add(new Level("res\\Level3", 0, 2, 2));
+		levels.add(new Level("res\\Level4", 0, 2, 2));
 	}
 	
 	private HvlLayeredTileMap map;
