@@ -157,12 +157,23 @@ public class MenuManager {
 
 		levelTitle = new HvlLabel(0, 0, font, "level select", Color.red, 0.25f);
 		levelArranger.add(levelTitle);
+		
+		levelArranger.add(getBlankSpace(Display.getHeight()/64));
+		HvlLabel levelAchCount = new HvlLabel(0, 0, font, "you have ." + "( achievements", Color.red, 0.25f){
+			@Override
+			public void draw(float delta){
+				super.setText(".you have " + AchievementManager.getNumberUnlocked() + " achievements(");
+				super.draw(delta);
+			}
+		};
+		levelAchCount.setScale(0.1f);
+		levelArranger.add(levelAchCount);
 
 		HvlSlider levelSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/2, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
 		levelSlider.setHandleStartOffset(64);
 		levelSlider.setHandleEndOffset(64);
 		
-		levelArranger.add(getBlankSpace());
+		levelArranger.add(getBlankSpace(Display.getHeight()/64));
 		levelList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, levelSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
@@ -480,6 +491,10 @@ public class MenuManager {
 		return new HvlSpacer(0, 0, Display.getWidth(), Display.getHeight()/32);
 	}
 
+	public static HvlSpacer getBlankSpace(float space){
+		return new HvlSpacer(0, 0, Display.getWidth(), space);
+	}
+	
 	public static HvlTextureDrawable getButton(){
 		return new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent));
 		//return new HvlTiledRectDrawable(new HvlTiledRect(TextureManager.getResource(TextureSeries.UI, 3), 0.45f, 0.55f, 0.45f, 0.55f, 0, 0, 0, 0, 64, 64));

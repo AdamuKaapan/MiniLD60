@@ -16,6 +16,7 @@ import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTextureUtil;
+import com.osreboot.ridhvl.display.HvlDisplay;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
@@ -89,13 +90,13 @@ public class Game {
 		prevCameraY = cameraY;
 		
 		for(WallSpeakerTile tile : currentLevel.wallSpeakers){
-			//if(getWorldX(tile.x) > 0 && getWorldX(tile.x) < HvlDisplay.getDisplayMode().getCoordinateWidth() &&
-					//getWorldX(tile.y) > 0 && getWorldY(tile.y) < HvlDisplay.getDisplayMode().getCoordinateHeight()){
+			if(getWorldX(tile.x) > 0 && getWorldX(tile.x) < HvlDisplay.getDisplayMode().getCoordinateWidth() &&
+					getWorldX(tile.y) > 0 && getWorldY(tile.y) < HvlDisplay.getDisplayMode().getCoordinateHeight()){
 				if(currentLevel.wallSpeakers.indexOf(tile) < 10){
 					speakerCoordsX[currentLevel.wallSpeakers.indexOf(tile)] = (int)getWorldX(tile.x);
 					speakerCoordsY[currentLevel.wallSpeakers.indexOf(tile)] = (int)getWorldY(tile.y);
 				}
-			//}
+			}
 		}
 		
 		for (SpawnTile t : currentLevel.spawnTiles)
