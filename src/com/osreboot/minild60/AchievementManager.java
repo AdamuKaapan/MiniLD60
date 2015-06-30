@@ -84,8 +84,6 @@ public class AchievementManager
 //		addAchievement(new Achievement(null, "Beneath The Surface", "Find the secret within discovery", false));
 		addAchievement(new Achievement(null, "Connected Worlds", "Look at every menu in the game", false)); // done
 		
-		HvlConfigUtil.saveStaticConfig(AchievementManager.class, "res\\achievements");
-		
 		HvlConfigUtil.loadStaticConfig(AchievementManager.class, "res\\achievements");
 	}
 	
