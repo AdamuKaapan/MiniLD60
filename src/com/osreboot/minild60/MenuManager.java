@@ -163,13 +163,13 @@ public class MenuManager {
 		levelSlider.setHandleEndOffset(64);
 		
 		levelArranger.add(getBlankSpace());
-		levelList = new HvlListBox(0, 0, 512, Display.getHeight()/2, levelSlider,
+		levelList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, levelSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)), 64, 5);
 		levelList.setTextScale(0.25f);
 		for(Level level : Level.levels){
-			levelList.addItem(Level.levels.indexOf(level));
+			levelList.addItem(Level.levels.indexOf(level) + ".req " + level.getRequiredAchievements() + "(");
 		}
 		levelArranger.add(levelList);
 
@@ -434,6 +434,8 @@ public class MenuManager {
 		winArranger.add(winQuit);
 		/*END WIN*/
 		
+		
+		loadOptions();
 		
 		HvlMenu.setCurrent(main);
 	}
