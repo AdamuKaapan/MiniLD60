@@ -87,9 +87,9 @@ public class Player {
 		{
 			if (HvlMath.distance(cX, cY, Game.cameraX + e.getRelX(), Game.cameraY + e.getRelY()) <= RADIUS + Enemy.radius)
 			{
-				//System.out.println("DEATH!");
 				isDead = true;
 				Game.reset();
+				SoundManager.getResource(SoundSeries.SFX, 1).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.2f, false);
 			}
 		}
 		
@@ -108,7 +108,7 @@ public class Player {
 					ta.setY(-ta.getSpawnRadius());
 					ta.spawnAllParticles();
 					Game.confetti.put(ta, 0f);
-					SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound, false);
+					SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.1f, false);
 				}
 			}
 		}
@@ -218,8 +218,7 @@ public class Player {
 									ps.spawnAllParticles();
 									Game.deathParticles.put(ps, 0f);
 
-									AchievementManager.setUnlocked("Hey!", true);
-									AchievementManager.setUnlocked("Blargh!", true);
+									SoundManager.getResource(SoundSeries.SFX, 2).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.03f, false);
 								}
 							}
 						}
