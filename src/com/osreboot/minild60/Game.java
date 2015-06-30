@@ -27,6 +27,8 @@ import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 public class Game {
 	public static float cameraX, cameraY;
 	public static float prevCameraX, prevCameraY;
+	
+	public static final int ENEMIESPERSPAWNER = 3;
 
 	public static HvlLayeredTileMap map;
 	public static Level currentLevel;
@@ -105,7 +107,7 @@ public class Game {
 			
 			if (Game.getWorldX(t.x) >= 0 && Game.getWorldX(t.x) <= Display.getWidth() && Game.getWorldY(t.y) >= 0 && Game.getWorldY(t.y) <= Display.getHeight())
 			{
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < ENEMIESPERSPAWNER; i++)
 				{
 					enemies.add(new Enemy(Game.getWorldX(t.x + HvlMath.randomIntBetween(-2, 3)), Game.getWorldY(t.y) + HvlMath.randomIntBetween(-2, 3)));
 				}
@@ -181,10 +183,9 @@ public class Game {
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), shockwaveFrame);
 		HvlShader.setCurrentShader(null);
 		
-		AchievementManager.draw(delta);
-		
 		if (records.isEmpty())
 		{
+			AchievementManager.onLevelFinish();
 			HvlMenu.setCurrent(MenuManager.main);
 		}
 	}

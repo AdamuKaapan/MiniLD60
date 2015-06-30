@@ -87,6 +87,7 @@ public class Player {
 		{
 			if (HvlMath.distance(cX, cY, Game.cameraX + e.getRelX(), Game.cameraY + e.getRelY()) <= RADIUS + Enemy.radius)
 			{
+				AchievementManager.setUnlocked("Infection", true);
 				isDead = true;
 				Game.reset();
 				SoundManager.getResource(SoundSeries.SFX, 1).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.2f, false);

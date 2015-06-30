@@ -238,7 +238,11 @@ public class MenuManager {
 		achievementTitle = new HvlLabel(0, 0, font, "achievements", Color.red, 0.25f);
 		achievementArranger.add(achievementTitle);
 		
-		achievementsList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, levelSlider,
+		HvlSlider achievementSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/2, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
+		achievementSlider.setHandleStartOffset(64);
+		achievementSlider.setHandleEndOffset(64);
+		
+		achievementsList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, achievementSlider,
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
 				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)), 64, 5)

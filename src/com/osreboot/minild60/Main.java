@@ -37,5 +37,6 @@ public class Main extends HvlTemplate2DBasic {
 		HvlMenu.updateMenus(delta);
 		MenuManager.update(delta);
 		MenuManager.postUpdate(delta);
+		AchievementManager.draw(delta);
 	}
 }
