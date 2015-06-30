@@ -31,7 +31,7 @@ public class AchievementManager
 	private static float timeSinceMoving;
 	
 	@HvlConfigIgnore
-	public static final float DISPLAYTIME = 5.0f;
+	public static final float DISPLAYTIME = 3.0f;
 	
 	@HvlConfigIgnore
 	public static Texture[] icons;
