@@ -111,7 +111,7 @@ public class Game {
 			{
 				for (int i = 0; i < ENEMIESPERSPAWNER; i++)
 				{
-					enemies.add(new Enemy(Game.getWorldX(t.x + HvlMath.randomIntBetween(-2, 3)), Game.getWorldY(t.y) + HvlMath.randomIntBetween(-2, 3)));
+					enemies.add(new Enemy(Game.getWorldX(t.x), Game.getWorldY(t.y)));
 				}
 				t.hasSpawned = true;
 			}
