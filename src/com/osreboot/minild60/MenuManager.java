@@ -46,8 +46,9 @@ public class MenuManager {
 	pausedResume, pausedQuit,
 	winQuit;
 	private static HvlSlider optionsVolume, optionsSound;
-	private static HvlListBox levelList;
+	private static HvlListBox levelList, achievementsList;
 	private static HvlCheckbox optionsLasers;
+	private static HvlLabel achievementDescriptionLabel;
 	
 	private static HvlRenderFrame textFrame, barFrame;
 	private static HvlShader textPost;
@@ -224,6 +225,32 @@ public class MenuManager {
 
 		achievementTitle = new HvlLabel(0, 0, font, "achievements", Color.red, 0.25f);
 		achievementArranger.add(achievementTitle);
+		
+		achievementsList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, levelSlider,
+				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+				new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+				font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)), 64, 5)
+		{
+			@Override
+			public void onSelectionChanged(int indexArg, Object selArg)
+			{
+				if (selArg == null) return;
+				
+				Achievement ach = (Achievement) selArg;
+				achievementDescriptionLabel.setText(ach.getDescription().toLowerCase());
+			}
+		};
+		achievementsList.setTextScale(0.25f);
+		achievementArranger.add(achievementsList);
+		
+		for (Achievement a : AchievementManager.getUnlockedAchievements())
+		{
+			achievementsList.addItem(a);
+		}
+		
+		achievementDescriptionLabel = new HvlLabel(0, 0, font, "", Color.white);
+		achievementDescriptionLabel.setScale(0.2f);
+		achievementArranger.add(achievementDescriptionLabel);
 
 		achievementArranger.add(getBlankSpace());
 		achievementBack = new HvlTextButton(0, 0, Display.getWidth()/4*3, Display.getHeight()/8, getButton(), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9)), font, "back"){

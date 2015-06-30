@@ -40,4 +40,10 @@ public class Achievement {
 	public void setUnlocked(boolean isUnlocked) {
 		this.isUnlocked = isUnlocked;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return title.toLowerCase();
+	}
 }

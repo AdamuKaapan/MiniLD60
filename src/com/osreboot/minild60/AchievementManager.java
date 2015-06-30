@@ -1,6 +1,8 @@
 package com.osreboot.minild60;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import org.newdawn.slick.Color;
@@ -37,7 +39,7 @@ public class AchievementManager
 		displayAchievements = new LinkedList<>();
 		
 		addAchievement(new Achievement(null, "Hey!", "Meh", false));
-		addAchievement(new Achievement(null, "Blargh!", "Meh", false));
+		addAchievement(new Achievement(null, "Blargh!", "KILL THEM ALLLL!", false));
 		
 		HvlConfigUtil.loadStaticConfig(AchievementManager.class, "res\\achievements");
 	}
@@ -116,6 +118,21 @@ public class AchievementManager
 		unlockeds = newUnlock;
 	}
 
+ 	public static List<Achievement> getUnlockedAchievements()
+ 	{
+ 		List<Achievement> tr = new ArrayList<>();
+ 		
+ 		for (int i = 0; i < unlockeds.length; i++)
+ 		{
+ 			if (unlockeds[i])
+ 			{
+ 				tr.add(getAchievement(titles[i]));
+ 			}
+ 		}
+ 		
+ 		return tr;
+ 	}
+ 	
  	public static void draw(float delta) {
  		if (displayAchievements.isEmpty()) return;
  		
