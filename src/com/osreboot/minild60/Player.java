@@ -73,6 +73,8 @@ public class Player {
 				|| isBlockNear(-(RADIUS * 0.99f), -RADIUS + yTrans))
 			yTrans = Math.max(yTrans, 0);
 
+		AchievementManager.playerMovementUpdate(delta, xTrans, yTrans);
+		
 		Game.cameraX -= xTrans;
 		Game.cameraY -= yTrans;
 
@@ -220,6 +222,9 @@ public class Player {
 									Game.deathParticles.put(ps, 0f);
 
 									SoundManager.getResource(SoundSeries.SFX, 2).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.03f, false);
+								
+									AchievementManager.killedEnemies++;
+									AchievementManager.setUnlocked("Indirect Interaction", true);
 								}
 							}
 						}

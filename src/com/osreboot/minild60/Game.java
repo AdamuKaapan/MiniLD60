@@ -74,6 +74,8 @@ public class Game {
 		enemies = new LinkedList<>();
 		deathParticles = new HashMap<>();
 		confetti = new HashMap<>();
+		
+		AchievementManager.onLevelReset();
 	}
 
 	public static void initialize() {
@@ -188,6 +190,8 @@ public class Game {
 			AchievementManager.onLevelFinish();
 			HvlMenu.setCurrent(MenuManager.main);
 		}
+		
+		AchievementManager.onLevelUpdate(delta);
 	}
 	
 	public static int getTileX(float xPos)

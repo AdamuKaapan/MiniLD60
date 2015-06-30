@@ -85,6 +85,7 @@ public class MenuManager {
 			}
 			@Override
 			public void onTriggered(){
+				AchievementManager.lookedAtLevelSelect = true;
 				HvlMenu.setCurrent(levels);
 			}
 		};
@@ -101,6 +102,38 @@ public class MenuManager {
 			}
 			@Override
 			public void onTriggered(){
+				AchievementManager.lookedAtAchievements = true;
+				achievementArranger.remove(achievementsList);
+				achievementArranger.remove(achievementDescriptionLabel);
+				achievementArranger.remove(achievementBack);
+				
+				HvlSlider achievementSlider = new HvlSlider(0, 0, Display.getWidth()/8, Display.getHeight()/2, SliderDirection.VERTICAL, 64, 64, 0, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))); 
+				achievementSlider.setHandleStartOffset(64);
+				achievementSlider.setHandleEndOffset(64);
+				
+				achievementsList = new HvlListBox(0, 0, Display.getWidth()/4*3, Display.getHeight()/2, achievementSlider,
+						new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+						new HvlButton(0, 0, 0, 0, new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent)),  new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
+						font, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)), 64, 5)
+				{
+					@Override
+					public void onSelectionChanged(int indexArg, Object selArg)
+					{
+						if (selArg == null) return;
+						
+						Achievement ach = (Achievement) selArg;
+						achievementDescriptionLabel.setText(ach.getDescription().toLowerCase());
+					}
+				};
+				achievementsList.setTextScale(0.25f);
+				achievementArranger.add(achievementsList);
+				achievementArranger.add(achievementDescriptionLabel);
+				achievementArranger.add(achievementBack);
+				
+				for (Achievement a : AchievementManager.getUnlockedAchievements())
+				{
+					achievementsList.addItem(a);
+				}
 				HvlMenu.setCurrent(achievements);
 			}
 		};
@@ -117,6 +150,7 @@ public class MenuManager {
 			}
 			@Override
 			public void onTriggered(){
+				AchievementManager.lookedAtOptions = true;
 				loadOptions();
 				HvlMenu.setCurrent(options);
 			}
@@ -533,6 +567,7 @@ public class MenuManager {
 	}
 
 	private static float total = 0;
+	
 	public static void update(float delta){
 		total += delta;
 	}
