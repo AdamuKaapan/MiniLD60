@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.ControlManager.Action;
 import com.osreboot.minild60.Level.WallSpeakerTile;
+import com.osreboot.minild60.SoundManager.SoundSeries;
 import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
@@ -107,6 +108,7 @@ public class Player {
 					ta.setY(-ta.getSpawnRadius());
 					ta.spawnAllParticles();
 					Game.confetti.put(ta, 0f);
+					SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound, false);
 				}
 			}
 		}

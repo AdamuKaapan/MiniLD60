@@ -9,13 +9,16 @@ public class SoundManager {
 
 	private static HvlSoundLoader menuLoader = new HvlSoundLoader(10);
 	private static HvlSoundLoader songLoader = new HvlSoundLoader(10);
+	private static HvlSoundLoader sfxLoader = new HvlSoundLoader(10);
 	
 	public enum SoundSeries{
 		MENU,
-		SONG
+		SONG,
+		SFX
 	}
 	
 	public static void initialize(){
+		sfxLoader.loadResource("Record pick up");
 		songLoader.loadResource("JamStepFast");
 	}
 	
