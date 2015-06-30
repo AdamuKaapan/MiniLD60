@@ -63,7 +63,7 @@ public class Level {
 		levels.add(new Level("res\\Level4", 0, 2, 2));
 		levels.add(new Level("res\\Dubstep Level Idea 2", 0, 13, 14));
 		levels.add(new Level("res\\Dubstep Level Idea 3", 0, 18, 19));
-		levels.add(new Level("res\\Dubstep Level Idea 4", 0, 18, 19));
+		//levels.add(new Level("res\\Dubstep Level Idea 4", 0, 18, 19));`
 		levels.add(new Level("res\\Dubstep Level Idea 5", 0, 18, 19));
 	}
 	
