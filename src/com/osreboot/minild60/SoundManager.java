@@ -19,6 +19,8 @@ public class SoundManager {
 	
 	public static void initialize(){
 		sfxLoader.loadResource("Record pick up");
+		sfxLoader.loadResource("Character death");
+		sfxLoader.loadResource("Bug death");
 		songLoader.loadResource("JamStepFast");
 	}
 	
@@ -39,6 +41,7 @@ public class SoundManager {
 		switch(seriesArg){
 		case MENU: return menuLoader.getResource(indexArg);
 		case SONG: return songLoader.getResource(indexArg);
+		case SFX: return sfxLoader.getResource(indexArg);
 		default: return null;
 		}
 	}
