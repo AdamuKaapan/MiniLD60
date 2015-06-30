@@ -89,6 +89,14 @@ public class Player {
 			{
 				isDead = true;
 				Game.reset();
+				for (int j = -2; j < 10; j++)
+				{
+					HvlRadialParticleSystem ta = Game.makeBlood();
+					ta.setX(Display.getWidth() * j / 10);
+					ta.setY(-ta.getSpawnRadius());
+					ta.spawnAllParticles();
+					Game.confetti.put(ta, 0f);
+				}
 				SoundManager.getResource(SoundSeries.SFX, 1).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.2f, false);
 			}
 		}
@@ -108,8 +116,8 @@ public class Player {
 					ta.setY(-ta.getSpawnRadius());
 					ta.spawnAllParticles();
 					Game.confetti.put(ta, 0f);
-					SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.1f, false);
 				}
+				SoundManager.getResource(SoundSeries.SFX, 0).playAsSoundEffect(1.0f, OptionsConfig.sound * 0.1f, false);
 			}
 		}
 	}
