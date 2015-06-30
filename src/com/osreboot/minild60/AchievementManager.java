@@ -188,7 +188,7 @@ public class AchievementManager
  		if (displayAchievements.isEmpty()) return;
  		
  		HvlPainter2D.hvlDrawQuad(0, 0, 1280, 128, TextureManager.getResource(TextureSeries.UI, 6));
- 		MenuManager.font.hvlDrawWord(displayAchievements.peek(), 16, 16, 0.25f, Color.red);
+ 		MenuManager.font.drawWord(displayAchievements.peek(), 16, 16, 0.25f, Color.red);
  		
  		currentDisplayTime += delta;
  		

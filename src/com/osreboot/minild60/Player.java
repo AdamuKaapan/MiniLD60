@@ -1,6 +1,6 @@
 package com.osreboot.minild60;
 
-import static org.lwjgl.opengl.GL11.*;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -149,9 +149,9 @@ public class Player {
 				float distance = HvlMath.distance(Game.getWorldX(tile.x),
 						Game.getWorldY(tile.y), playerX, playerY);
 				for (float f = 0; f < distance; f += LASER_ACCURACY) {
-					float xPoint = lerp(Game.getWorldX(tile.x), playerX, f
+					float xPoint = HvlMath.lerp(Game.getWorldX(tile.x), playerX, f
 							/ distance);
-					float yPoint = lerp(Game.getWorldY(tile.y), playerY, f
+					float yPoint = HvlMath.lerp(Game.getWorldY(tile.y), playerY, f
 							/ distance);
 
 					if (Game.map.getLayer(COLLIDABLE_LAYER).getTile(
@@ -165,15 +165,7 @@ public class Player {
 					}
 				}
 
-				if(DEBUG_LINES){
-					glBindTexture(GL_TEXTURE_2D, 0);
-					glBegin(GL_LINES);
-					glColor4f(1, 0, 0, 1);
-					glVertex2f(Game.getWorldX(tile.x), Game.getWorldY(tile.y));
-					glVertex2f(intersects ? intersectionX : playerX,
-							intersects ? intersectionY : playerY);
-					glEnd();
-				}
+				if(DEBUG_LINES) hvlDrawLine(Game.getWorldX(tile.x), Game.getWorldY(tile.y), intersects ? intersectionX : playerX, intersects ? intersectionY : playerY, Color.red);
 
 				if (!intersects) {
 					float angleToSpeaker = (float) Math.atan2(
@@ -238,54 +230,32 @@ public class Player {
 						}
 
 						if(DEBUG_LINES || OptionsConfig.linesVisible){
-							glBindTexture(GL_TEXTURE_2D, 0);
-							glBegin(GL_LINES);
-							glColor4f(0, 1, 0, getAttackIntensity());
-							glVertex2f(playerX, playerY);
-							glVertex2f(
-									playerX
+							hvlDrawLine(playerX, playerY, playerX
 									+ ((float) Math.cos(Math
 											.toRadians(angle)) * KILLDISTANCE),
 											playerY
 											+ ((float) Math.sin(Math
-													.toRadians(angle)) * KILLDISTANCE));
-							glEnd();
+													.toRadians(angle)) * KILLDISTANCE), new Color(0, 1, 0, getAttackIntensity()));
 						}
 						if(DEBUG_LINES){
-							glBindTexture(GL_TEXTURE_2D, 0);
-							glBegin(GL_LINES);
-							glColor4f(0, 0, 1, 1);
-							glVertex2f(playerX, playerY);
-							glVertex2f(
-									playerX
+							hvlDrawLine(playerX, playerY, playerX
 									+ ((float) Math.cos(Math
 											.toRadians(angle + KILLANGLE)) * KILLDISTANCE),
 											playerY
 											+ ((float) Math.sin(Math
-													.toRadians(angle + KILLANGLE)) * KILLDISTANCE));
-							glEnd();
+													.toRadians(angle + KILLANGLE)) * KILLDISTANCE), Color.blue);
 
-							glBindTexture(GL_TEXTURE_2D, 0);
-							glBegin(GL_LINES);
-							glColor4f(0, 0, 1, 1);
-							glVertex2f(playerX, playerY);
-							glVertex2f(
-									playerX
+							hvlDrawLine(playerX, playerY, playerX
 									+ ((float) Math.cos(Math
 											.toRadians(angle - KILLANGLE)) * KILLDISTANCE),
 											playerY
 											+ ((float) Math.sin(Math
-													.toRadians(angle - KILLANGLE)) * KILLDISTANCE));
-							glEnd();
+													.toRadians(angle - KILLANGLE)) * KILLDISTANCE), Color.blue);
 						}
 					}
 				}
 			}
 		}
-	}
-
-	private float lerp(float i1, float i2, float lerp) {
-		return i1 + lerp * (i2 - i1);
 	}
 
 	private boolean isBlockNear(float xMod, float yMod) {

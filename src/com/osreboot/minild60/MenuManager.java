@@ -69,7 +69,7 @@ public class MenuManager {
 					HvlPainter2D.hvlDrawQuad(0, 0, 2048, 2048, TextureManager.getResource(TextureSeries.UI, 15));
 				}else if(Main.getTotalTime() >= 1 && Main.getTotalTime() < 3){
 					HvlPainter2D.hvlDrawQuad(0, 0, 2048, 2048, TextureManager.getResource(TextureSeries.UI, 14));
-					font.hvlDrawWord("wuballiance", Display.getWidth()/64*19, Display.getHeight()/32*26, 0.25f, Color.red);
+					font.drawWord("wuballiance", Display.getWidth()/64*19, Display.getHeight()/32*26, 0.25f, Color.red);
 				}else HvlMenu.setCurrent(main);
 				super.draw(delta);
 			}
@@ -394,7 +394,7 @@ public class MenuManager {
 		optionsLasers = new HvlCheckbox(Display.getWidth()/8*7, Display.getHeight()/8*5, 32, 32, false, new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10))){
 			@Override
 			public void draw(float delta){
-				font.hvlDrawWord("show laser .shader bugs(", super.getX() - Display.getWidth()/8*6, super.getY() - Display.getHeight()/64, 0.2f, Color.red);
+				font.drawWord("show laser .shader bugs(", super.getX() - Display.getWidth()/8*6, super.getY() - Display.getHeight()/64, 0.2f, Color.red);
 				super.draw(delta);
 			}
 		};
