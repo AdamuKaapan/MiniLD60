@@ -81,7 +81,7 @@ public class Game {
 	public static void initialize() {
 		shockwaveShader = new HvlShader(HvlShader.VERTEX_DEFAULT, HvlShader.PATH_SHADER_DEFAULT + "ShockwavePost" + HvlShader.SUFFIX_FRAGMENT);
 		shockwaveFrame = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
-		currentLevel = Level.levels.get(0);
+		//currentLevel = Level.levels.get(0);
 		map = currentLevel.getMap();
 
 		reset();
@@ -187,8 +187,8 @@ public class Game {
 		
 		if (records.isEmpty())
 		{
+			HvlMenu.setCurrent(MenuManager.win);
 			AchievementManager.onLevelFinish();
-			HvlMenu.setCurrent(MenuManager.main);
 		}
 		
 		AchievementManager.onLevelUpdate(delta);
@@ -268,6 +268,37 @@ public class Game {
 		tr.setEndColorOne(Color.black);
 		tr.setEndColorTwo(Color.white);
 		tr.setColorCoordinated(false);
+		tr.setParticlesPerSpawn(0);
+		return tr;
+	}
+	
+	public static HvlRadialParticleSystem makeBlood()
+	{
+		HvlRadialParticleSystem tr = new HvlRadialParticleSystem(0, 0, 15, 15, HvlTextureUtil.getColoredRect(32, 32, Color.white));
+		tr.setSpawnRadius(256);
+		tr.setMaxParticles(4);
+		tr.setMinScale(0.75f);
+		tr.setMaxScale(1.0f);
+		tr.setxVelDecay(0);
+		tr.setyVelDecay(1.5f);
+		tr.setScaleDecay(0.0f);
+		tr.setMinXVel(128);
+		tr.setMaxXVel(128);
+		tr.setMinYVel(128);
+		tr.setMaxYVel(256);
+		tr.setBaseHeight(64);
+		tr.setBaseWidth(4);
+		tr.setMinRot(-10);
+		tr.setMaxRot(-10);
+		tr.setMaxRotVel(0);
+		tr.setMinRotVel(0);
+		tr.setRotVelDecay(0f);
+		tr.setMinLifetime(5f);
+		tr.setMaxLifetime(8f);
+		tr.setStartColorOne(Color.red);
+		tr.setStartColorTwo(Color.red);
+		tr.setEndColorOne(Color.red);
+		tr.setEndColorTwo(Color.red);
 		tr.setParticlesPerSpawn(0);
 		return tr;
 	}

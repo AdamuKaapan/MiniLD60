@@ -35,7 +35,7 @@ public class MenuManager {
 
 	public static HvlFontPainter2D font;
 
-	public static HvlMenu main, levels, game, achievements, options, paused, win;
+	public static HvlMenu main, levels, game, achievements, options, paused, win, splash;
 	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger, winArranger;
 	private static HvlLabel mainTitle, achievementTitle, levelTitle, pausedTitle, winTitle, 
 	optionsTitle, optionsVolumeIndicator, optionsSoundIndicator;
@@ -59,6 +59,24 @@ public class MenuManager {
 		barFrame = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		textPost = new HvlShader(HvlShader.VERTEX_DEFAULT, "shader\\BarPost.hvlfg");
 
+		
+		/*SPLASH*/
+		splash = new HvlMenu(){
+			@Override
+			public void draw(float delta){
+				drawBackground();
+				if(Main.getTotalTime() < 1){
+					HvlPainter2D.hvlDrawQuad(0, 0, 2048, 2048, TextureManager.getResource(TextureSeries.UI, 15));
+				}else if(Main.getTotalTime() >= 1 && Main.getTotalTime() < 3){
+					HvlPainter2D.hvlDrawQuad(0, 0, 2048, 2048, TextureManager.getResource(TextureSeries.UI, 14));
+					font.hvlDrawWord("wuballiance", Display.getWidth()/64*19, Display.getHeight()/32*26, 0.25f, Color.red);
+				}else HvlMenu.setCurrent(main);
+				super.draw(delta);
+			}
+		};
+		/*END SPLASH*/
+		
+		
 		/*MAIN MENU*/
 		main = new HvlMenu(){
 			@Override
@@ -232,6 +250,7 @@ public class MenuManager {
 					Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
 					HvlMenu.setCurrent(game);
 					Game.initialize();
+					Game.reset();
 				}
 			}
 		};
@@ -514,7 +533,7 @@ public class MenuManager {
 
 		loadOptions();
 
-		HvlMenu.setCurrent(main);
+		HvlMenu.setCurrent(splash);
 	}
 
 	public static void postUpdate(float delta){

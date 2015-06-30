@@ -29,6 +29,8 @@ public class TextureManager {
 		uiLoader.loadResource("Unchecked");
 		uiLoader.loadResource("List");
 		uiLoader.loadResource("ListChecked");
+		uiLoader.loadResource("WubAllianceSplash");
+		uiLoader.loadResource("WubAllianceSplash2");
 		
 		playLoader.loadResource("TestTilesheet");
 		playLoader.loadResource("Enemy");
