@@ -143,7 +143,7 @@ public class MenuManager {
 						achievementDescriptionLabel.setText(ach.getDescription().toLowerCase());
 					}
 				};
-				achievementsList.setTextScale(0.25f);
+				achievementsList.setTextScale(0.15f);
 				achievementArranger.add(achievementsList);
 				achievementArranger.add(achievementDescriptionLabel);
 				achievementArranger.add(achievementBack);
