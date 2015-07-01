@@ -14,7 +14,6 @@ import com.osreboot.minild60.Level.RecordTile;
 import com.osreboot.minild60.Level.SpawnTile;
 import com.osreboot.minild60.Level.WallSpeakerTile;
 import com.osreboot.minild60.TextureManager.TextureSeries;
-import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTextureUtil;
 import com.osreboot.ridhvl.display.HvlDisplay;
 import com.osreboot.ridhvl.menu.HvlMenu;

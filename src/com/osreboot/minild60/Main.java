@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
-import com.osreboot.ridhvl.template.HvlTemplate2DBasic;
+import com.osreboot.ridhvl.template.HvlTemplate2D;
 
-public class Main extends HvlTemplate2DBasic {
+public class Main extends HvlTemplate2D {
 	
 	public static void main(String[] args){
 		new Main();
