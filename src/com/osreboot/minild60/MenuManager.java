@@ -3,8 +3,6 @@ package com.osreboot.minild60;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.newdawn.slick.Color;
 
 import com.osreboot.minild60.ControlManager.Action;
@@ -27,9 +25,9 @@ import com.osreboot.ridhvl.menu.component.collection.HvlTextButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
+import com.osreboot.ridhvl.painter.HvlShader;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
-import com.osreboot.ridhvl.painter.shader.HvlShader;
 
 public class MenuManager {
 
@@ -539,10 +537,7 @@ public class MenuManager {
 	public static void postUpdate(float delta){
 		if(HvlMenu.getCurrent() != game){
 			HvlShader.setCurrentShader(textPost);
-			textPost.sendTexture("texture2", 2);
-			GL13.glActiveTexture(GL13.GL_TEXTURE2);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, barFrame.getTextureID());
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			textPost.sendRenderFrame("texture2", 2, barFrame);
 
 			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), textFrame);
 

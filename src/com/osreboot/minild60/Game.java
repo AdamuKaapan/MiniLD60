@@ -19,7 +19,7 @@ import com.osreboot.ridhvl.display.HvlDisplay;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
-import com.osreboot.ridhvl.painter.shader.HvlShader;
+import com.osreboot.ridhvl.painter.HvlShader;
 import com.osreboot.ridhvl.particle.collection.HvlRadialParticleSystem;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
 
