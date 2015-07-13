@@ -156,12 +156,11 @@ public class MenuManager {
 				// 13)), 64, 5) {
 				// };
 				// achievementsList.setTextScale(0.15f);
-				achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2)
-						.setScrollBar(achievementSlider).setFont(font)
-						.setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
+				achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
+						.setFont(font).setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
 						.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
-						.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).build();
-
+						.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).setItemHeight(64).setMaxVisibleItems(5).build();
+				
 				achievementArranger.add(achievementsList);
 				achievementArranger.add(achievementDescriptionLabel);
 				achievementArranger.add(achievementBack);
@@ -317,7 +316,7 @@ public class MenuManager {
 			}
 		};
 
-		achievementArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL)
+		achievementArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL).setAlign(0.5f)
 				.build();
 		achievements.add(achievementArranger);
 
@@ -357,7 +356,8 @@ public class MenuManager {
 		achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
 				.setFont(font).setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
 				.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
-				.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).build();
+				.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).setItemHeight(64).setMaxVisibleItems(5).build();
+		
 		achievementArranger.add(achievementsList);
 
 		for (Achievement a : AchievementManager.getUnlockedAchievements()) {
