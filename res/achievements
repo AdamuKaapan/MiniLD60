@@ -1,6 +1,6 @@
-distanceWalked:0
-killedEnemies:0
-lookedAtLevelSelect:false
-lookedAtAchievements:false
-lookedAtOptions:false
-unlockeds:{'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false'}
+distanceWalked:11760.603
+killedEnemies:3
+lookedAtLevelSelect:true
+lookedAtAchievements:true
+lookedAtOptions:true
+unlockeds:{'true', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'true', 'true', 'false', 'true', 'true'}

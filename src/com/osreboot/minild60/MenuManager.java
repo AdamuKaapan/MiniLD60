@@ -15,6 +15,7 @@ import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
+import com.osreboot.ridhvl.menu.component.HvlButton.OnClickedCommand;
 import com.osreboot.ridhvl.menu.component.HvlCheckbox;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.menu.component.HvlListBox;
@@ -95,13 +96,16 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		mainPlay.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				AchievementManager.lookedAtLevelSelect = true;
 				HvlMenu.setCurrent(levels);
 			}
-		};
+			
+		});
 		mainPlay.setTextScale(0.3f);
 		mainArranger.add(mainPlay);
 
@@ -115,47 +119,22 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
-
+		};
+		mainAchievements.setClickedCommand(new OnClickedCommand() {
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				AchievementManager.lookedAtAchievements = true;
 				achievementArranger.remove(achievementsList);
 				achievementArranger.remove(achievementDescriptionLabel);
 				achievementArranger.remove(achievementBack);
 
-				// HvlSlider achievementSlider = new HvlSlider(0, 0,
-				// Display.getWidth() / 8, Display.getHeight() / 2,
-				// SliderDirection.VERTICAL, 64, 64, 0,
-				// new
-				// HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI,
-				// 5)), new HvlTextureDrawable(TextureManager.getResource(
-				// TextureSeries.UI, 4)));
-				// achievementSlider.setHandleStartOffset(64);
-				// achievementSlider.setHandleEndOffset(64);
 				HvlSlider achievementSlider = new HvlSlider.Builder().setWidth(Display.getWidth() / 8).setHeight(Display.getHeight() / 2)
 						.setDirection(SliderDirection.VERTICAL).setHandleWidth(64).setHandleHeight(64).setValue(0.0f)
 						.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 						.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 						.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
 						.build();
-
-				// achievementsList = new HvlListBox(0, 0, Display.getWidth() /
-				// 4 * 3, Display.getHeight() / 2, achievementSlider, new
-				// HvlButton(0, 0, 0, 0,
-				// new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-				// Color.transparent)), new
-				// HvlTextureDrawable(HvlTextureUtil.getColoredRect(1,
-				// 1, Color.transparent))),
-				// new HvlButton(0, 0, 0, 0, new
-				// HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-				// Color.transparent)), new HvlTextureDrawable(
-				// HvlTextureUtil.getColoredRect(1, 1, Color.transparent))),
-				// font, new HvlTextureDrawable(TextureManager.getResource(
-				// TextureSeries.UI, 12)), new
-				// HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI,
-				// 13)), 64, 5) {
-				// };
-				// achievementsList.setTextScale(0.15f);
+				
 				achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
 						.setFont(font).setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
 						.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
@@ -170,7 +149,7 @@ public class MenuManager {
 				}
 				HvlMenu.setCurrent(achievements);
 			}
-		};
+		});
 		mainAchievements.setTextScale(0.3f);
 		mainArranger.add(mainAchievements);
 
@@ -183,14 +162,17 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		mainOptions.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				AchievementManager.lookedAtOptions = true;
 				loadOptions();
 				HvlMenu.setCurrent(options);
 			}
-		};
+			
+		});
 		mainOptions.setTextScale(0.3f);
 		mainArranger.add(mainOptions);
 
@@ -203,12 +185,14 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		mainQuit.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				System.exit(0);
 			}
-		};
+		});
 		mainQuit.setTextScale(0.3f);
 		mainArranger.add(mainQuit);
 		/* END MAIN MENU */
@@ -268,9 +252,11 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		levelPlay.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				if (AchievementManager.getNumberUnlocked() >= (levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList
 						.getSelectedIndex())).getRequiredAchievements()) {
 					Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
@@ -279,7 +265,7 @@ public class MenuManager {
 					Game.reset();
 				}
 			}
-		};
+		});
 		levelPlay.setTextScale(0.3f);
 		levelArranger.add(levelPlay);
 
@@ -292,12 +278,15 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		levelBack.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlMenu.setCurrent(main);
 			}
-		};
+			
+		});
 		levelBack.setTextScale(0.3f);
 		levelArranger.add(levelBack);
 		/* END LEVEL SELECT */
@@ -376,12 +365,14 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		achievementBack.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlMenu.setCurrent(main);
 			}
-		};
+		});
 		achievementBack.setTextScale(0.3f);
 		achievementArranger.add(achievementBack);
 		/* END ACHIEVEMENTS */
@@ -469,12 +460,15 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		optionsSave.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				saveOptions();
 			}
-		};
+			
+		});
 		optionsSave.setTextScale(0.3f);
 		optionsArranger.add(optionsSave);
 
@@ -487,13 +481,16 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		optionsBack.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
 				HvlMenu.setCurrent(main);
 			}
-		};
+			
+		});
 		optionsBack.setTextScale(0.3f);
 		optionsArranger.add(optionsBack);
 		/* END OPTIONS */
@@ -523,12 +520,14 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		pausedResume.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlMenu.setCurrent(game);
 			}
-		};
+		});
 		pausedResume.setTextScale(0.3f);
 		pausedArranger.add(pausedResume);
 
@@ -541,12 +540,14 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		pausedQuit.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlMenu.setCurrent(main);
 			}
-		};
+		});
 		pausedQuit.setTextScale(0.3f);
 		pausedArranger.add(pausedQuit);
 		/* END PAUSED */
@@ -586,12 +587,15 @@ public class MenuManager {
 				super.draw(delta);
 				postDrawButtonFeatures(this, delta);
 			}
+		};
+		winQuit.setClickedCommand(new OnClickedCommand() {
 
 			@Override
-			public void onTriggered() {
+			public void run(HvlButton arg0) {
 				HvlMenu.setCurrent(levels);
 			}
-		};
+			
+		});
 		winQuit.setTextScale(0.3f);
 		winArranger.add(winQuit);
 		/* END WIN */

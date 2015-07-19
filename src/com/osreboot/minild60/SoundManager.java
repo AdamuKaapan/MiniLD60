@@ -7,9 +7,9 @@ import com.osreboot.ridhvl.loader.HvlSoundLoader;
 
 public class SoundManager {
 
-	private static HvlSoundLoader menuLoader = new HvlSoundLoader(10);
-	private static HvlSoundLoader songLoader = new HvlSoundLoader(10);
-	private static HvlSoundLoader sfxLoader = new HvlSoundLoader(10);
+	private static HvlSoundLoader menuLoader = new HvlSoundLoader();
+	private static HvlSoundLoader songLoader = new HvlSoundLoader();
+	private static HvlSoundLoader sfxLoader = new HvlSoundLoader();
 	
 	public enum SoundSeries{
 		MENU,

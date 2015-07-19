@@ -6,8 +6,8 @@ import com.osreboot.ridhvl.loader.HvlTextureLoader;
 
 public class TextureManager {
 
-	private static HvlTextureLoader uiLoader = new HvlTextureLoader(20);
-	private static HvlTextureLoader playLoader = new HvlTextureLoader(10);
+	private static HvlTextureLoader uiLoader = new HvlTextureLoader();
+	private static HvlTextureLoader playLoader = new HvlTextureLoader();
 	
 	public enum TextureSeries{
 		UI,
