@@ -10,6 +10,7 @@ import com.osreboot.minild60.TextureManager.TextureSeries;
 import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlTextureUtil;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.menu.HvlCompMethodOverride;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
@@ -23,6 +24,7 @@ import com.osreboot.ridhvl.menu.component.HvlSlider;
 import com.osreboot.ridhvl.menu.component.HvlSlider.SliderDirection;
 import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextButton;
+import com.osreboot.ridhvl.menu.component.collection.HvlTextCheckbox;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
@@ -33,6 +35,8 @@ import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 public class MenuManager {
 
 	public static HvlFontPainter2D font;
+
+	private static HvlCompMethodOverride buttonDrawOverride;
 
 	public static HvlMenu main, levels, game, achievements, options, paused, win, splash;
 	private static HvlArrangerBox mainArranger, levelArranger, achievementArranger, optionsArranger, pausedArranger, winArranger;
@@ -47,6 +51,16 @@ public class MenuManager {
 	private static HvlShader textPost;
 
 	public static void initialize() {
+		buttonDrawOverride = new HvlCompMethodOverride() {
+			@Override
+			public void run(HvlComponent comp, float delta) {
+				preDrawButtonFeatures(comp, delta);
+				comp.draw(delta);
+				postDrawButtonFeatures(comp, delta);
+			}
+
+		};
+
 		font = new HvlFontPainter2D(TextureManager.getResource(TextureSeries.UI, 2), HvlFontUtil.DEFAULT, 2048, 2048, 192, 256, 10);
 
 		textFrame = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
@@ -87,110 +101,85 @@ public class MenuManager {
 		mainArranger.add(mainTitle);
 
 		mainArranger.add(getBlankSpace());
-		// TODO: Replace with a builder and move event to update loop
-		mainPlay = new HvlTextButton(Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "play", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		mainPlay.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				AchievementManager.lookedAtLevelSelect = true;
-				HvlMenu.setCurrent(levels);
-			}
-			
-		});
+		mainPlay = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("play").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
+					@Override
+					public void run(HvlButton arg0) {
+						AchievementManager.lookedAtLevelSelect = true;
+						HvlMenu.setCurrent(levels);
+					}
+
+				}).build();
 		mainArranger.add(mainPlay);
 
 		mainArranger.add(getBlankSpace());
-		// TODO: Replace with a builder and move event to update loop
-		mainAchievements = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "achievements", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		mainAchievements.setClickedCommand(new OnClickedCommand() {
-			@Override
-			public void run(HvlButton arg0) {
-				AchievementManager.lookedAtAchievements = true;
-				achievementArranger.remove(achievementsList);
-				achievementArranger.remove(achievementDescriptionLabel);
-				achievementArranger.remove(achievementBack);
 
-				HvlSlider achievementSlider = new HvlSlider.Builder().setWidth(Display.getWidth() / 8).setHeight(Display.getHeight() / 2)
-						.setDirection(SliderDirection.VERTICAL).setHandleWidth(64).setHandleHeight(64).setValue(0.0f)
-						.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
-						.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
-						.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
-						.setTextureDirection(SliderDirection.VERTICAL)
-						.build();
-				
-				achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
-						.setFont(font).setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
-						.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
-						.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).setItemHeight(64).setMaxVisibleItems(5).build();
-				
-				achievementArranger.add(achievementsList);
-				achievementArranger.add(achievementDescriptionLabel);
-				achievementArranger.add(achievementBack);
+		mainAchievements = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("achievements").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride)
+				.setClickedCommand(new OnClickedCommand() {
+					@Override
+					public void run(HvlButton arg0) {
+						AchievementManager.lookedAtAchievements = true;
+						achievementArranger.remove(achievementsList);
+						achievementArranger.remove(achievementDescriptionLabel);
+						achievementArranger.remove(achievementBack);
 
-				for (Achievement a : AchievementManager.getUnlockedAchievements()) {
-					achievementsList.addItem(a);
-				}
-				HvlMenu.setCurrent(achievements);
-			}
-		});
+						HvlSlider achievementSlider = new HvlSlider.Builder().setWidth(Display.getWidth() / 8).setHeight(Display.getHeight() / 2)
+								.setDirection(SliderDirection.VERTICAL).setHandleWidth(64).setHandleHeight(64).setValue(0.0f)
+								.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
+								.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
+								.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64)
+								.setHandleEndOffset(64).setTextureDirection(SliderDirection.VERTICAL).build();
+
+						achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2)
+								.setScrollBar(achievementSlider).setFont(font)
+								.setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
+								.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
+								.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f)
+								.setItemHeight(64).setMaxVisibleItems(5).build();
+
+						achievementArranger.add(achievementsList);
+						achievementArranger.add(achievementDescriptionLabel);
+						achievementArranger.add(achievementBack);
+
+						for (Achievement a : AchievementManager.getUnlockedAchievements()) {
+							achievementsList.addItem(a);
+						}
+						HvlMenu.setCurrent(achievements);
+					}
+				}).build();
 		mainArranger.add(mainAchievements);
 
 		mainArranger.add(getBlankSpace());
-		mainOptions = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "options", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		mainOptions.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				AchievementManager.lookedAtOptions = true;
-				loadOptions();
-				HvlMenu.setCurrent(options);
-			}
-			
-		});
+		mainOptions = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("options").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
+
+					@Override
+					public void run(HvlButton arg0) {
+						AchievementManager.lookedAtOptions = true;
+						loadOptions();
+						HvlMenu.setCurrent(options);
+					}
+
+				}).build();
 		mainArranger.add(mainOptions);
 
 		mainArranger.add(getBlankSpace());
-		mainQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "quit", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		mainQuit.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				System.exit(0);
-			}
-		});
+		mainQuit = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("quit").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
+
+					@Override
+					public void run(HvlButton arg0) {
+						System.exit(0);
+					}
+				}).build();
 		mainArranger.add(mainQuit);
 		/* END MAIN MENU */
 
@@ -211,14 +200,16 @@ public class MenuManager {
 		levelArranger.add(levelTitle);
 
 		levelArranger.add(getBlankSpace(Display.getHeight() / 64));
-		HvlLabel levelAchCount = new HvlLabel(0, 0, font, "you have ." + "( achievements", Color.red, 0.25f) {
-			@Override
-			public void draw(float delta) {
-				super.setText("you have " + AchievementManager.getNumberUnlocked() + " achievements");
-				super.draw(delta);
-			}
-		};
-		levelAchCount.setScale(0.1f);
+		HvlLabel levelAchCount = new HvlLabel.Builder().setFont(font).setText("you have ." + "( achievements").setColor(Color.red).setScale(0.1f)
+				.setDrawOverride(new HvlCompMethodOverride() {
+
+					@Override
+					public void run(HvlComponent calling, float delta) {
+						HvlLabel label = (HvlLabel) calling;
+						label.setText("you have " + AchievementManager.getNumberUnlocked() + " achievements");
+						label.draw(delta);
+					}
+				}).build();
 		levelArranger.add(levelAchCount);
 
 		HvlSlider levelSlider = new HvlSlider.Builder().setWidth(Display.getWidth() / 8).setHeight(Display.getHeight() / 2)
@@ -229,11 +220,11 @@ public class MenuManager {
 				.setTextureDirection(SliderDirection.VERTICAL).build();
 
 		levelArranger.add(getBlankSpace(Display.getHeight() / 64));
-		levelList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(levelSlider)
-				.setFont(font).setItemBackgroundOff(new
-		 HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12))).setItemBackgroundHover(new
-		 HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12))).setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI,
-					 13))).setItemHeight(64).setMaxVisibleItems(5).setTextScale(0.25f).build();
+		levelList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(levelSlider).setFont(font)
+				.setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
+				.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
+				.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setItemHeight(64).setMaxVisibleItems(5)
+				.setTextScale(0.25f).build();
 		for (Level level : Level.levels) {
 			levelList.addItem(Level.levels.indexOf(level)
 					+ (level.getRequiredAchievements() - AchievementManager.getNumberUnlocked() > 0 ? " .req "
@@ -242,49 +233,34 @@ public class MenuManager {
 		levelArranger.add(levelList);
 
 		levelArranger.add(getBlankSpace());
-		levelPlay = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "play", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		levelPlay.setClickedCommand(new OnClickedCommand() {
+		levelPlay = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("play").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				if (AchievementManager.getNumberUnlocked() >= (levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList
-						.getSelectedIndex())).getRequiredAchievements()) {
-					Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
-					HvlMenu.setCurrent(game);
-					Game.initialize();
-					Game.reset();
-				}
-			}
-		});
+					@Override
+					public void run(HvlButton arg0) {
+						if (AchievementManager.getNumberUnlocked() >= (levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList
+								.getSelectedIndex())).getRequiredAchievements()) {
+							Game.currentLevel = levelList.getSelectedIndex() == -1 ? Level.levels.get(0) : Level.levels.get(levelList.getSelectedIndex());
+							HvlMenu.setCurrent(game);
+							Game.initialize();
+							Game.reset();
+						}
+					}
+				}).build();
 		levelArranger.add(levelPlay);
 
 		levelArranger.add(getBlankSpace());
-		levelBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		levelBack.setClickedCommand(new OnClickedCommand() {
+		levelBack = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("back").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlMenu.setCurrent(main);
-			}
-			
-		});
-		levelBack.setTextScale(0.3f);
+					@Override
+					public void run(HvlButton arg0) {
+						HvlMenu.setCurrent(main);
+					}
+
+				}).build();
 		levelArranger.add(levelBack);
 		/* END LEVEL SELECT */
 
@@ -302,8 +278,8 @@ public class MenuManager {
 			}
 		};
 
-		achievementArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL).setAlign(0.5f)
-				.build();
+		achievementArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL)
+				.setAlign(0.5f).build();
 		achievements.add(achievementArranger);
 
 		achievementTitle = new HvlLabel.Builder().setFont(font).setText("achievements").setColor(Color.red).setScale(0.25f).build();
@@ -316,61 +292,31 @@ public class MenuManager {
 				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
 				.setTextureDirection(SliderDirection.VERTICAL).build();
 
-		// achievementsList = new HvlListBox(0, 0, Display.getWidth() / 4 * 3,
-		// Display.getHeight() / 2, achievementSlider, new HvlButton(0, 0, 0, 0,
-		// new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-		// Color.transparent)), new
-		// HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-		// Color.transparent))), new HvlButton(0, 0, 0, 0, new
-		// HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-		// Color.transparent)),
-		// new HvlTextureDrawable(HvlTextureUtil.getColoredRect(1, 1,
-		// Color.transparent))), font, new
-		// HvlTextureDrawable(TextureManager.getResource(
-		// TextureSeries.UI, 12)), new
-		// HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13)),
-		// 64, 5) {
-		// @Override
-		// public void onSelectionChanged(int indexArg, Object selArg) {
-		// if (selArg == null)
-		// return;
-		//
-		// Achievement ach = (Achievement) selArg;
-		// achievementDescriptionLabel.setText(ach.getDescription().toLowerCase());
-		// }
-		// };
-		// achievementsList.setTextScale(0.25f);
 		achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
 				.setFont(font).setItemBackgroundOff(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
 				.setItemBackgroundHover(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 12)))
-				.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).setItemHeight(64).setMaxVisibleItems(5).build();
-		
-		achievementArranger.add(achievementsList);
+				.setItemBackgroundOn(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 13))).setTextScale(0.15f).setItemHeight(64)
+				.setMaxVisibleItems(5).build();
 
 		for (Achievement a : AchievementManager.getUnlockedAchievements()) {
 			achievementsList.addItem(a);
 		}
 
+		achievementArranger.add(achievementsList);
+
 		achievementDescriptionLabel = new HvlLabel.Builder().setFont(font).setText("").setColor(Color.white).setScale(0.2f).build();
 		achievementArranger.add(achievementDescriptionLabel);
 
 		achievementArranger.add(getBlankSpace());
-		achievementBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		achievementBack.setClickedCommand(new OnClickedCommand() {
+		achievementBack = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("back").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlMenu.setCurrent(main);
-			}
-		});
+					@Override
+					public void run(HvlButton arg0) {
+						HvlMenu.setCurrent(main);
+					}
+				}).build();
 		achievementArranger.add(achievementBack);
 		/* END ACHIEVEMENTS */
 
@@ -391,13 +337,16 @@ public class MenuManager {
 		optionsArranger.add(optionsTitle);
 
 		optionsArranger.add(getBlankSpace());
-		optionsVolumeIndicator = new HvlLabel(0, 0, font, "music volume ", Color.red, 0.25f) {
-			@Override
-			public void draw(float delta) {
-				setText("music volume " + (int) (optionsVolume.getValue() * 100));
-				super.draw(delta);
-			}
-		};
+
+		optionsVolumeIndicator = new HvlLabel.Builder().setFont(font).setText("music volume ").setColor(Color.red).setScale(0.25f)
+				.setDrawOverride(new HvlCompMethodOverride() {
+					@Override
+					public void run(HvlComponent calling, float delta) {
+						HvlLabel label = (HvlLabel) calling;
+						label.setText("music volume " + (int) (optionsVolume.getValue() * 100));
+						label.draw(delta);
+					}
+				}).build();
 		optionsArranger.add(optionsVolumeIndicator);
 
 		optionsVolume = new HvlSlider.Builder().setWidth(Display.getWidth() / 2).setHeight(Display.getHeight() / 8).setDirection(SliderDirection.HORIZONTAL)
@@ -409,13 +358,15 @@ public class MenuManager {
 		optionsArranger.add(optionsVolume);
 
 		optionsArranger.add(getBlankSpace());
-		optionsSoundIndicator = new HvlLabel(0, 0, font, "effects volume ", Color.red, 0.25f) {
-			@Override
-			public void draw(float delta) {
-				setText("effects volume " + (int) (optionsSound.getValue() * 100));
-				super.draw(delta);
-			}
-		};
+		optionsSoundIndicator = new HvlLabel.Builder().setFont(font).setText("effects volume ").setColor(Color.red).setScale(0.25f)
+				.setDrawOverride(new HvlCompMethodOverride() {
+					@Override
+					public void run(HvlComponent calling, float delta) {
+						HvlLabel label = (HvlLabel) calling;
+						label.setText("effects volume " + (int) (optionsSound.getValue() * 100));
+						label.draw(delta);
+					}
+				}).build();
 		optionsArranger.add(optionsSoundIndicator);
 
 		optionsSound = new HvlSlider.Builder().setWidth(Display.getWidth() / 2).setHeight(Display.getHeight() / 8).setDirection(SliderDirection.HORIZONTAL)
@@ -428,56 +379,43 @@ public class MenuManager {
 
 		optionsArranger.add(new HvlSpacer(Display.getWidth(), (Display.getHeight() / 16) + 32));
 
-		optionsLasers = new HvlCheckbox(Display.getWidth() / 8 * 7, Display.getHeight() / 8 * 5, 32, 32, false, new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 11)), new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10))) {
-			@Override
-			public void draw(float delta) {
-				font.drawWord("show laser .shader bugs(", super.getX() - Display.getWidth() / 8 * 6, super.getY() - Display.getHeight() / 64, 0.2f, Color.red);
-				super.draw(delta);
-			}
-		};
-		optionsLasers.setChecked(OptionsConfig.linesVisible);
+		optionsLasers = new HvlTextCheckbox.Builder().setX(Display.getWidth() / 8 /*
+																				 * *
+																				 * 7
+																				 */).setY(Display.getHeight() / 8 * 5).setWidth(32).setHeight(32)
+				.setOffDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11)))
+				.setOffHoverDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 11)))
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10)))
+				.setOnHoverDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 10))).setFont(font).setColor(Color.red).setScale(0.2f)
+				.setText("show laser .shader bugs(").setSpacing(16f).setChecked(OptionsConfig.linesVisible).build();
 		options.add(optionsLasers);
 
 		optionsArranger.add(getBlankSpace());
-		optionsSave = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "save", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		optionsSave.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				saveOptions();
-			}
-			
-		});
+		optionsSave = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("save").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
+
+					@Override
+					public void run(HvlButton arg0) {
+						saveOptions();
+					}
+
+				}).build();
 		optionsArranger.add(optionsSave);
 
 		optionsArranger.add(getBlankSpace());
-		optionsBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		optionsBack.setClickedCommand(new OnClickedCommand() {
+		optionsBack = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("back").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
-				HvlMenu.setCurrent(main);
-			}
-			
-		});
+					@Override
+					public void run(HvlButton arg0) {
+						HvlConfigUtil.loadStaticConfig(OptionsConfig.class, "res\\options.txt");
+						HvlMenu.setCurrent(main);
+					}
+
+				}).build();
 		optionsArranger.add(optionsBack);
 		/* END OPTIONS */
 
@@ -498,42 +436,28 @@ public class MenuManager {
 		pausedArranger.add(pausedTitle);
 
 		pausedArranger.add(getBlankSpace());
-		pausedResume = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "resume", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		pausedResume.setClickedCommand(new OnClickedCommand() {
+		pausedResume = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("resume").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlMenu.setCurrent(game);
-			}
-		});
+					@Override
+					public void run(HvlButton arg0) {
+						HvlMenu.setCurrent(game);
+					}
+				}).build();
 		pausedArranger.add(pausedResume);
 
 		pausedArranger.add(getBlankSpace());
-		pausedQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "quit", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		pausedQuit.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlMenu.setCurrent(main);
-			}
-		});
-		pausedQuit.setTextScale(0.3f);
+		pausedQuit = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("quit").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride).setClickedCommand(new OnClickedCommand() {
+
+					@Override
+					public void run(HvlButton arg0) {
+						HvlMenu.setCurrent(main);
+					}
+				}).build();
 		pausedArranger.add(pausedQuit);
 		/* END PAUSED */
 
@@ -557,31 +481,25 @@ public class MenuManager {
 			}
 		};
 
-		winArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL).setAlign(0.5f).build();
+		winArranger = new HvlArrangerBox.Builder().setWidth(Display.getWidth()).setHeight(Display.getHeight()).setStyle(ArrangementStyle.VERTICAL)
+				.setAlign(0.5f).build();
 		win.add(winArranger);
 
 		winTitle = new HvlLabel.Builder().setFont(font).setText("level cleared!").setColor(Color.red).setScale(0.25f).build();
 		winArranger.add(winTitle);
 
 		winArranger.add(getBlankSpace());
-		winQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "level select", 0.3f, Color.white) {
-			@Override
-			public void draw(float delta) {
-				preDrawButtonFeatures(this, delta);
-				super.draw(delta);
-				postDrawButtonFeatures(this, delta);
-			}
-		};
-		winQuit.setClickedCommand(new OnClickedCommand() {
+		winQuit = new HvlTextButton.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 8).setOffDrawable(getButton())
+				.setOnDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 9))).setHoverDrawable(getButton()).setFont(font)
+				.setText("level select").setTextScale(0.3f).setTextColor(Color.white).setDrawOverride(buttonDrawOverride)
+				.setClickedCommand(new OnClickedCommand() {
 
-			@Override
-			public void run(HvlButton arg0) {
-				HvlMenu.setCurrent(levels);
-			}
-			
-		});
-		winQuit.setTextScale(0.3f);
+					@Override
+					public void run(HvlButton arg0) {
+						HvlMenu.setCurrent(levels);
+					}
+
+				}).build();
 		winArranger.add(winQuit);
 		/* END WIN */
 

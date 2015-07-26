@@ -7,13 +7,13 @@ uniform float playerY;
 uniform float targetX;
 uniform float targetY;
 uniform float intensity;
-float range = 200.0f;
-float playerSpill = 25f;
+float range = 200.0;
+float playerSpill = 25.0;
 
 void main(){
 	float offset = 0.0;
 	for(int i = 0; i < 10; i++){
-		if(!(xcoords[i] == 0.0 && ycoords[i] == 0.0)){
+		if(!(xcoords[i] == 0 && ycoords[i] == 0)){
 			float dist = distance( vec2(float(xcoords[i]),float(ycoords[i])), vec2(gl_TexCoord[0].x*1280.0,(1.0 - gl_TexCoord[0].y)*720.0) );
 			if(dist < range){
 				offset = 
@@ -28,14 +28,14 @@ void main(){
 	float offset2 = 0.0;
 	float lineDist = distance( vec2(playerX, playerY), vec2(gl_TexCoord[0].x*1280.0,(1.0 - gl_TexCoord[0].y)*720.0) );
 	float targetDist = distance( vec2(playerX, playerY), vec2(targetX, targetY) );
-	float fragDist = 0.0f;
+	float fragDist = 0.0;
 	for(float i = 0.0; i < targetDist; i += 5.0){
 		fragDist = distance(
 				vec2( mix(playerX, targetX, i/targetDist), mix(playerY, targetY, i/targetDist) ),
 				vec2( gl_TexCoord[0].x*1280.0, (1.0 - gl_TexCoord[0].y)*720.0 )
 				);
 			if(fragDist < playerSpill) offset2 += ((fragDist/playerSpill)/(targetDist/5.0)) * 
-			max(min(sin(-time*16.0 + (lineDist/5f)), 1.0), 0.0) * (1.0 - (lineDist/targetDist));
+			max(min(sin(-time*16.0 + (lineDist/5.0)), 1.0), 0.0) * (1.0 - (lineDist/targetDist));
 	}
 	offset2 *= intensity * 0.5;
 	vec4 color = texture2D(texture1, vec2(gl_TexCoord[0].x, gl_TexCoord[0].y + (offset2/8.0) + (offset/128.0)));
