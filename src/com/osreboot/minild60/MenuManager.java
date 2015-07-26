@@ -88,8 +88,8 @@ public class MenuManager {
 
 		mainArranger.add(getBlankSpace());
 		// TODO: Replace with a builder and move event to update loop
-		mainPlay = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "play") {
+		mainPlay = new HvlTextButton(Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
+				TextureSeries.UI, 9)), font, "play", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -106,13 +106,12 @@ public class MenuManager {
 			}
 			
 		});
-		mainPlay.setTextScale(0.3f);
 		mainArranger.add(mainPlay);
 
 		mainArranger.add(getBlankSpace());
 		// TODO: Replace with a builder and move event to update loop
 		mainAchievements = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "achievements") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "achievements", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -133,6 +132,7 @@ public class MenuManager {
 						.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 						.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 						.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
+						.setTextureDirection(SliderDirection.VERTICAL)
 						.build();
 				
 				achievementsList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(achievementSlider)
@@ -150,12 +150,11 @@ public class MenuManager {
 				HvlMenu.setCurrent(achievements);
 			}
 		});
-		mainAchievements.setTextScale(0.3f);
 		mainArranger.add(mainAchievements);
 
 		mainArranger.add(getBlankSpace());
 		mainOptions = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "options") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "options", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -173,12 +172,11 @@ public class MenuManager {
 			}
 			
 		});
-		mainOptions.setTextScale(0.3f);
 		mainArranger.add(mainOptions);
 
 		mainArranger.add(getBlankSpace());
 		mainQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "quit") {
+				TextureSeries.UI, 9)), font, "quit", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -193,7 +191,6 @@ public class MenuManager {
 				System.exit(0);
 			}
 		});
-		mainQuit.setTextScale(0.3f);
 		mainArranger.add(mainQuit);
 		/* END MAIN MENU */
 
@@ -228,7 +225,8 @@ public class MenuManager {
 				.setDirection(SliderDirection.VERTICAL).setHandleWidth(64).setHandleHeight(64)
 				.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 				.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
-				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64).build();
+				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
+				.setTextureDirection(SliderDirection.VERTICAL).build();
 
 		levelArranger.add(getBlankSpace(Display.getHeight() / 64));
 		levelList = new HvlListBox.Builder().setWidth(Display.getWidth() / 4 * 3).setHeight(Display.getHeight() / 2).setScrollBar(levelSlider)
@@ -245,7 +243,7 @@ public class MenuManager {
 
 		levelArranger.add(getBlankSpace());
 		levelPlay = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "play") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "play", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -266,12 +264,11 @@ public class MenuManager {
 				}
 			}
 		});
-		levelPlay.setTextScale(0.3f);
 		levelArranger.add(levelPlay);
 
 		levelArranger.add(getBlankSpace());
 		levelBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -316,7 +313,8 @@ public class MenuManager {
 				.setDirection(SliderDirection.VERTICAL).setHandleWidth(64).setHandleHeight(64)
 				.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
 				.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 5)))
-				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64).build();
+				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 4))).setHandleStartOffset(64).setHandleEndOffset(64)
+				.setTextureDirection(SliderDirection.VERTICAL).build();
 
 		// achievementsList = new HvlListBox(0, 0, Display.getWidth() / 4 * 3,
 		// Display.getHeight() / 2, achievementSlider, new HvlButton(0, 0, 0, 0,
@@ -358,7 +356,7 @@ public class MenuManager {
 
 		achievementArranger.add(getBlankSpace());
 		achievementBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -373,7 +371,6 @@ public class MenuManager {
 				HvlMenu.setCurrent(main);
 			}
 		});
-		achievementBack.setTextScale(0.3f);
 		achievementArranger.add(achievementBack);
 		/* END ACHIEVEMENTS */
 
@@ -408,7 +405,7 @@ public class MenuManager {
 				.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)))
 				.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)))
 				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 8))).setHandleStartOffset(64).setHandleEndOffset(64)
-				.setSnapInterval(0.01f).setValue(OptionsConfig.volume).build();
+				.setSnapInterval(0.01f).setValue(OptionsConfig.volume).setTextureDirection(SliderDirection.HORIZONTAL).build();
 		optionsArranger.add(optionsVolume);
 
 		optionsArranger.add(getBlankSpace());
@@ -421,21 +418,12 @@ public class MenuManager {
 		};
 		optionsArranger.add(optionsSoundIndicator);
 
-		// optionsSound = new HvlSlider(0, 0, Display.getWidth() / 2,
-		// Display.getHeight() / 8, SliderDirection.HORIZONTAL, 64, 64, 1, new
-		// HvlTextureDrawable(
-		// TextureManager.getResource(TextureSeries.UI, 7)), new
-		// HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 8)));
-		// optionsSound.setHandleStartOffset(64);
-		// optionsSound.setHandleEndOffset(64);
-		// optionsSound.setSnapInterval(0.01f);
-		// optionsSound.setValue(OptionsConfig.sound);
 		optionsSound = new HvlSlider.Builder().setWidth(Display.getWidth() / 2).setHeight(Display.getHeight() / 8).setDirection(SliderDirection.HORIZONTAL)
 				.setHandleWidth(64).setHandleHeight(64).setValue(1.0f)
 				.setHandleDownDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)))
 				.setHandleUpDrawable(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 7)))
 				.setBackground(new HvlTextureDrawable(TextureManager.getResource(TextureSeries.UI, 8))).setHandleStartOffset(64).setHandleEndOffset(64)
-				.setSnapInterval(0.01f).setValue(OptionsConfig.sound).build();
+				.setSnapInterval(0.01f).setValue(OptionsConfig.sound).setTextureDirection(SliderDirection.HORIZONTAL).build();
 		optionsArranger.add(optionsSound);
 
 		optionsArranger.add(new HvlSpacer(Display.getWidth(), (Display.getHeight() / 16) + 32));
@@ -453,7 +441,7 @@ public class MenuManager {
 
 		optionsArranger.add(getBlankSpace());
 		optionsSave = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "save") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "save", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -469,12 +457,11 @@ public class MenuManager {
 			}
 			
 		});
-		optionsSave.setTextScale(0.3f);
 		optionsArranger.add(optionsSave);
 
 		optionsArranger.add(getBlankSpace());
 		optionsBack = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "back") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "back", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -491,7 +478,6 @@ public class MenuManager {
 			}
 			
 		});
-		optionsBack.setTextScale(0.3f);
 		optionsArranger.add(optionsBack);
 		/* END OPTIONS */
 
@@ -513,7 +499,7 @@ public class MenuManager {
 
 		pausedArranger.add(getBlankSpace());
 		pausedResume = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "resume") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "resume", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -528,12 +514,11 @@ public class MenuManager {
 				HvlMenu.setCurrent(game);
 			}
 		});
-		pausedResume.setTextScale(0.3f);
 		pausedArranger.add(pausedResume);
 
 		pausedArranger.add(getBlankSpace());
 		pausedQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(
-				TextureManager.getResource(TextureSeries.UI, 9)), font, "quit") {
+				TextureManager.getResource(TextureSeries.UI, 9)), font, "quit", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
@@ -580,7 +565,7 @@ public class MenuManager {
 
 		winArranger.add(getBlankSpace());
 		winQuit = new HvlTextButton(0, 0, Display.getWidth() / 4 * 3, Display.getHeight() / 8, getButton(), new HvlTextureDrawable(TextureManager.getResource(
-				TextureSeries.UI, 9)), font, "level select") {
+				TextureSeries.UI, 9)), font, "level select", 0.3f, Color.white) {
 			@Override
 			public void draw(float delta) {
 				preDrawButtonFeatures(this, delta);
